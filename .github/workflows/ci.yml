@@ -1,0 +1,19 @@
+name: robot_ci
+
+on: 
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  ci:
+    runs-on: ubuntu-22.04
+    steps:
+      uses: wpilib/roborio-cross-ubuntu
+      run: |
+        echo "Hello World"
