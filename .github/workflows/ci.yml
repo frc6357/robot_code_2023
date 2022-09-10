@@ -14,6 +14,6 @@ jobs:
   ci:
     runs-on: ubuntu-22.04
     steps:
-      - uses: wpilib/roborio-cross-ubuntu
+      - uses: docker://wpilib/roborio-cross-ubuntu
       - run: |
           echo "Hello World"
