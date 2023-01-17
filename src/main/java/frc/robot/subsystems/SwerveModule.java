@@ -41,7 +41,6 @@ public class SwerveModule {
    *
    * @param driveMotorChannel The channel of the drive motor.
    * @param turningMotorChannel The channel of the turning motor.
-   * @param driveEncoderChannels The channels of the drive encoder.
    * @param turningEncoderChannels The channels of the turning encoder.
    * @param driveEncoderReversed Whether the drive encoder is reversed.
    * @param turningEncoderReversed Whether the turning encoder is reversed.
@@ -49,7 +48,6 @@ public class SwerveModule {
   public SwerveModule(
       int driveMotorChannel,
       int turningMotorChannel,
-      int driveEncoderChannel,
       int turningEncoderChannel,
       boolean driveEncoderReversed,
       boolean turningEncoderReversed) {
@@ -64,7 +62,7 @@ public class SwerveModule {
     // resolution.
 
     // Set whether drive encoder should be reversed or not
-    m_driveMotor.setInverted(driveEncoderReversed);;
+    m_driveMotor.setInverted(driveEncoderReversed);
 
     // Set whether turning encoder should be reversed or not
     // TODO: Find out if CanCoder needs to be reversed/if it can be reversed
