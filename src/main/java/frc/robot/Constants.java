@@ -21,6 +21,9 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final int kPigeon2CANId = 0;
+
     public static final class DriveConstants {
         public static final int kFrontLeftDriveMotorPort = 10;
         public static final int kRearLeftDriveMotorPort = 11;
