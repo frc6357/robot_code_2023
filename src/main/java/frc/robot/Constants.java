@@ -48,13 +48,13 @@ public final class Constants {
         public static final boolean kRearRightDriveEncoderReversed = false;
 
         /** Offset for CANcoders in degrees */
-        public static final double kFrontLeftAngleOffset = 0.0;
+        public static final double kFrontLeftAngleOffset = -147.8;
         /** Offset for CANcoders in degrees */
-        public static final double kRearLeftAngleOffset = 0.0;
+        public static final double kRearLeftAngleOffset = -198.8;
         /** Offset for CANcoders in degrees */
-        public static final double kFrontRightAngleOffset = 0.0;
+        public static final double kFrontRightAngleOffset = -2.8;
         /** Offset for CANcoders in degrees */
-        public static final double kRearRightAngleOffset = 0.0;
+        public static final double kRearRightAngleOffset = -337.9;
 
         /** Distance between centers of right and left wheels on robot */
         public static final double kTrackWidth = 0.60325;
