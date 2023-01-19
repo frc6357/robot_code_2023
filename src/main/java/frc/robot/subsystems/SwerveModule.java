@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -22,7 +21,7 @@ public class SwerveModule {
 
     private final MotorEncoder m_driveEncoder;
     private final SK_CANCoder m_turningEncoder;
-    private double m_turningEndoderOffset;
+    private double m_turningEncoderOffset;
 
     private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
 
@@ -52,13 +51,13 @@ public class SwerveModule {
             boolean turningEncoderReversed,
             double turningEncoderOffset) {
                 
+        m_turningEncoderOffset = turningEncoderOffset;
         m_driveMotor = new WPI_TalonFX(driveMotorChannel);
         m_turningMotor = new WPI_TalonFX(turningMotorChannel);
 
         m_driveEncoder = new MotorEncoder(m_driveMotor, ModuleConstants.kDriveEncoderDistancePerPulse,
                 driveEncoderReversed);
-        m_turningEncoder = new SK_CANCoder(turningEncoderChannel, turningEncoderOffset);
-        m_turningEndoderOffset = turningEncoderOffset;
+        m_turningEncoder = new SK_CANCoder(turningEncoderChannel, m_turningEncoderOffset);
 
         // Set the distance per pulse for the drive encoder. We can simply use the
         // distance traveled for one rotation of the wheel divided by the encoder
@@ -66,9 +65,6 @@ public class SwerveModule {
 
         // Set whether drive encoder should be reversed or not
         m_driveMotor.setInverted(driveEncoderReversed);
-
-        // Set whether turning encoder should be reversed or not
-        // TODO: Find out if CanCoder needs to be reversed/if it can be reversed
 
         // Limit the PID Controller's input range between -pi and pi and set the input
         // to be continuous.
