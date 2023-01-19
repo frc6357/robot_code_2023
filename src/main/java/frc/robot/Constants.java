@@ -99,6 +99,14 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+
+        public static final int kVelocityXPort = 0;
+        public static final int kVelocityYPort = 1;
+        public static final int kVelocityOmegaPort = 4;
+
+        public static final double kDriveGain = 0.8;
+        public static final double kRotationGain = 0.8;
+        public static final double kJoystickDeadband = 0.1;
     }
 
     public static final class AutoConstants {

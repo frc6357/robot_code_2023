@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -66,9 +67,9 @@ public class SwerveModule {
         // Set whether drive encoder should be reversed or not
         m_driveMotor.setInverted(driveEncoderReversed);
 
-        // Limit the PID Controller's input range between -pi and pi and set the input
+        // Limit the PID Controller's input range between 0 and 360 and set the input
         // to be continuous.
-        m_turningPIDController.enableContinuousInput(-180, 180);
+        m_turningPIDController.enableContinuousInput(0, 360);
     }
 
     /**
@@ -109,16 +110,15 @@ public class SwerveModule {
 
         // Calculate the turning motor output from the turning PID controller.
         final double turnOutput = m_turningPIDController.calculate(
-                m_turningEncoder.getAbsolutePosition(), state.angle.getDegrees());
+                m_turningEncoder.getAbsolutePosition(), MathUtil.inputModulus(state.angle.getDegrees(), 0, 360));
 
         // Calculate the turning motor output from the turning PID controller.
         m_driveMotor.set(driveOutput);
         m_turningMotor.set(turnOutput);
     }
 
-    /** Zeroes all the SwerveModule encoders. */
+    /** Zeroes the drive encoders. */
     public void resetEncoders() {
         m_driveEncoder.resetEncoder();
-        m_turningEncoder.setPosition(0);
     }
 }
