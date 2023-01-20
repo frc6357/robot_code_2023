@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utils.SK_ADIS16470_IMU;
@@ -81,6 +82,16 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
         });
+
+    SmartDashboard.putNumber("FrontLeftAngle", m_frontLeft.getState().angle.getDegrees());
+    SmartDashboard.putNumber("FrontRightAngle", m_frontRight.getState().angle.getDegrees());
+    SmartDashboard.putNumber("BackLeftAngle", m_rearLeft.getState().angle.getDegrees());
+    SmartDashboard.putNumber("BackRightAngle", m_rearRight.getState().angle.getDegrees());
+
+    SmartDashboard.putNumber("FrontLeftSpeed", m_frontLeft.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("FrontRightSpeed", m_frontRight.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("BackLeftSpeed", m_rearLeft.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("BackRightSpeed", m_rearRight.getState().speedMetersPerSecond);
   }
 
   /**
@@ -125,6 +136,10 @@ public class DriveSubsystem extends SubsystemBase {
                 : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    SmartDashboard.putNumber("FrontLeftDesiredAngle", swerveModuleStates[0].angle.getDegrees());
+    SmartDashboard.putNumber("FrontRightDesiredAngle", swerveModuleStates[1].angle.getDegrees());
+    SmartDashboard.putNumber("BackLeftDesiredAngle", swerveModuleStates[2].angle.getDegrees());
+    SmartDashboard.putNumber("BackRightDesiredAngle", swerveModuleStates[3].angle.getDegrees());
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);

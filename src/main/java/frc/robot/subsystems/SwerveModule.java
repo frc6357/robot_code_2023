@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -24,13 +25,14 @@ public class SwerveModule {
     private final SK_CANCoder m_turningEncoder;
     private double m_turningEncoderOffset;
 
-    private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
+    private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0,
+            0);
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
     private final ProfiledPIDController m_turningPIDController = new ProfiledPIDController(
             ModuleConstants.kPModuleTurningController,
-            0,
-            0,
+            ModuleConstants.kIModuleTurningController,
+            ModuleConstants.kDModuleTurningController,
             new TrapezoidProfile.Constraints(
                     ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond,
                     ModuleConstants.kMaxModuleAngularAccelerationDegreesPerSecondSquared));
@@ -51,10 +53,15 @@ public class SwerveModule {
             boolean driveEncoderReversed,
             boolean turningEncoderReversed,
             double turningEncoderOffset) {
-                
+
         m_turningEncoderOffset = turningEncoderOffset;
         m_driveMotor = new WPI_TalonFX(driveMotorChannel);
         m_turningMotor = new WPI_TalonFX(turningMotorChannel);
+        m_turningMotor.setNeutralMode(NeutralMode.Brake);
+        m_turningMotor.configSupplyCurrentLimit(
+            new SupplyCurrentLimitConfiguration(true, 20.0, 20.0, 0.1));
+        m_turningMotor.enableVoltageCompensation(true);
+        m_turningMotor.configVoltageCompSaturation(12.0);
 
         m_driveEncoder = new MotorEncoder(m_driveMotor, ModuleConstants.kDriveEncoderDistancePerPulse,
                 driveEncoderReversed);
@@ -67,9 +74,9 @@ public class SwerveModule {
         // Set whether drive encoder should be reversed or not
         m_driveMotor.setInverted(driveEncoderReversed);
 
-        // Limit the PID Controller's input range between 0 and 360 and set the input
+        // Limit the PID Controller's input range between -180 and 180 and set the input
         // to be continuous.
-        m_turningPIDController.enableContinuousInput(0, 360);
+        m_turningPIDController.enableContinuousInput(-180, 180);
     }
 
     /**
@@ -100,9 +107,10 @@ public class SwerveModule {
      * @param desiredState Desired state with speed and angle.
      */
     public void setDesiredState(SwerveModuleState desiredState) {
+        SwerveModuleState state = desiredState;
         // Optimize the reference state to avoid spinning further than 90 degrees
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState,
-                m_turningEncoder.getRotation2d());
+        // SwerveModuleState state = SwerveModuleState.optimize(desiredState,
+        //         m_turningEncoder.getRotation2d());
 
         // Calculate the drive output from the drive PID controller.
         final double driveOutput = m_drivePIDController.calculate(m_driveEncoder.getVelocityMeters(),
@@ -110,7 +118,7 @@ public class SwerveModule {
 
         // Calculate the turning motor output from the turning PID controller.
         final double turnOutput = m_turningPIDController.calculate(
-                m_turningEncoder.getAbsolutePosition(), MathUtil.inputModulus(state.angle.getDegrees(), 0, 360));
+                m_turningEncoder.getAbsolutePosition(), state.angle.getDegrees());
 
         // Calculate the turning motor output from the turning PID controller.
         m_driveMotor.set(driveOutput);

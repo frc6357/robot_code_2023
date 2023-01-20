@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredJoystick;
@@ -47,17 +48,20 @@ public class RobotContainer {
 
         // Configure default commands
         m_robotDrive.setDefaultCommand(
-                // The left stick controls translation of the robot.
-                // Turning is controlled by the X axis of the right stick.
-                new RunCommand(
-                        () -> m_robotDrive.drive(
-                                // Left X Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityXPort),
-                                // Left Y Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityYPort),
-                                // Right X Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityOmegaPort),
-                                false),
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            new RunCommand(
+                    () -> m_robotDrive.drive(
+                        // Left X Axis
+                        m_driverController.getFilteredAxis(
+                                OIConstants.kVelocityYPort),
+                        // Left Y Axis
+                        m_driverController.getFilteredAxis(
+                                OIConstants.kVelocityXPort),
+                        // Right X Axis
+                        m_driverController.getFilteredAxis(
+                                OIConstants.kVelocityOmegaPort),
+                        false),
                         m_robotDrive));
     }
 
@@ -73,13 +77,17 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         m_driverController.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
+                        DriveConstants.kMaxSpeedMetersPerSecond, false));
 
         m_driverController.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
+                        DriveConstants.kMaxSpeedMetersPerSecond, false));
 
         m_driverController.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, false));
+                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
+                        Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond),
+                        false));
     }
 
     /**

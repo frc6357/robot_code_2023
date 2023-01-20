@@ -92,9 +92,13 @@ public final class Constants {
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
 
-        public static final double kPModuleTurningController = 0.001;
+        public static final double kPModuleTurningController = 0.002;
+        public static final double kIModuleTurningController = 0.0;
+        public static final double kDModuleTurningController = 0.0;
 
-        public static final double kPModuleDriveController = 0.001;
+        public static final double kPModuleDriveController = 0.0;
+        public static final double kIModuleDriveController = 0.0;
+        public static final double kDModuleDriveController = 0.0;
     }
 
     public static final class OIConstants {
