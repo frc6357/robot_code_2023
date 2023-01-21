@@ -8,9 +8,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.filters.CubicDeadbandFilter;
+
 
 /**
  * This sample program shows how to control a motor using a joystick. In the operator control part
@@ -23,18 +25,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * to the Dashboard.
  */
 public class Robot extends TimedRobot {
-  private static final int kMotorPort = 0;
+  private static final int kMotorPort = 40;
   private static final int kJoystickPort = 0;
 
   private CANSparkMax m_motor;
-  private Joystick m_joystick;
+  private FilteredJoystick m_joystick;
   private RelativeEncoder m_encoder;
 
   @Override
   public void robotInit() {
     m_motor = new CANSparkMax(kMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
-    m_joystick = new Joystick(kJoystickPort);
+    m_joystick = new FilteredJoystick(kJoystickPort);
+    m_joystick.setFilter(1, new CubicDeadbandFilter(1.0, 0.1, 1.0, true));
     m_encoder = m_motor.getEncoder();
+    final JoystickButton xButton = new JoystickButton(m_joystick,Constants.xButton);
+    final JoystickButton yButton = new JoystickButton(m_joystick,Constants.yButton);
+    
   }
 
   /*
@@ -51,6 +57,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_motor.set(m_joystick.getY());
+    m_motor.set(Constants.Constant_Speed);
+    //TODO - add start/stop button for setting motor speed
   }
 }
