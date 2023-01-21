@@ -42,10 +42,10 @@ public final class Constants {
         public static final boolean kFrontRightTurnMotorReversed = true;
         public static final boolean kRearRightTurnMotorReversed = true;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = false;
-        public static final boolean kRearLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = false;
-        public static final boolean kRearRightDriveEncoderReversed = false;
+        public static final boolean kFrontLeftDriveMotorReversed = true;
+        public static final boolean kRearLeftDriveEncoderReversed = true;
+        public static final boolean kFrontRightDriveEncoderReversed = true;
+        public static final boolean kRearRightDriveMotorReversed = true;
 
         /** Offset for CANcoders in degrees */
         public static final double kFrontLeftAngleOffset = -147.8;
@@ -92,11 +92,14 @@ public final class Constants {
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
 
-        public static final double kPModuleTurningController = 0.015;
-        public static final double kIModuleTurningController = 0.001;
-        public static final double kDModuleTurningController = 0.0001;
+        public static final double kPModuleTurningController = 0.012;
+        public static final double kIModuleTurningController = 0.00;
+        // public static final double kIModuleTurningController = 0.001;
+        public static final double kDModuleTurningController = 0.00;
+        // public static final double kDModuleTurningController = 0.00005;
+        public static final double kInegratorResetValue = 10;
 
-        public static final double kPModuleDriveController = 0.001;
+        public static final double kPModuleDriveController = 0.3;
 
         public static final double kPIDAngleDeadband = 0.01;
     }

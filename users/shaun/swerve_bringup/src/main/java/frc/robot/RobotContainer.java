@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.FilteredJoystick;
@@ -73,13 +74,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         m_driverController.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, false));
 
         m_driverController.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, true));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         m_driverController.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, false));
+                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
     }
 
     /**
