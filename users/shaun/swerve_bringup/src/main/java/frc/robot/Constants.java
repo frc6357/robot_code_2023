@@ -37,10 +37,10 @@ public final class Constants {
         public static final int kFrontRightTurningEncoderPorts = 32;
         public static final int kRearRightTurningEncoderPorts = 33;
 
-        public static final boolean kFrontLeftTurningEncoderReversed = false;
-        public static final boolean kRearLeftTurningEncoderReversed = false;
-        public static final boolean kFrontRightTurningEncoderReversed = false;
-        public static final boolean kRearRightTurningEncoderReversed = false;
+        public static final boolean kFrontLeftTurnMotorReversed = true;
+        public static final boolean kRearLeftTurnMotorReversed = true;
+        public static final boolean kFrontRightTurnMotorReversed = true;
+        public static final boolean kRearRightTurnMotorReversed = true;
 
         public static final boolean kFrontLeftDriveEncoderReversed = false;
         public static final boolean kRearLeftDriveEncoderReversed = false;
@@ -92,7 +92,9 @@ public final class Constants {
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
 
-        public static final double kPModuleTurningController = 0.0006;
+        public static final double kPModuleTurningController = 0.015;
+        public static final double kIModuleTurningController = 0.001;
+        public static final double kDModuleTurningController = 0.0001;
 
         public static final double kPModuleDriveController = 0.001;
 
