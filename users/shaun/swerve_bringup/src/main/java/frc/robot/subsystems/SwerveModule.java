@@ -64,16 +64,14 @@ public class SwerveModule {
         m_driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
         m_turnMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10);
 
-        m_turningPIDController.setIntegratorRange(-100, 100);
+        // System.out.println("CANCoder SensorData");
+        // System.out.println(m_turnEncoder.getStatusFramePeriod(CANCoderStatusFrame.SensorData));
 
-        System.out.println("CANCoder SensorData");
-        System.out.println(m_turnEncoder.getStatusFramePeriod(CANCoderStatusFrame.SensorData));
+        // System.out.println("Drive Motor General");
+        // System.out.println(m_driveMotor.getStatusFramePeriod(StatusFrameEnhanced.Status_1_General));
 
-        System.out.println("Drive Motor General");
-        System.out.println(m_driveMotor.getStatusFramePeriod(StatusFrameEnhanced.Status_1_General));
-
-        System.out.println("Turn Motor General");
-        System.out.println(m_turnMotor.getStatusFramePeriod(StatusFrameEnhanced.Status_1_General));
+        // System.out.println("Turn Motor General");
+        // System.out.println(m_turnMotor.getStatusFramePeriod(StatusFrameEnhanced.Status_1_General));
 
         // Set the distance per pulse for the drive encoder. We can simply use the
         // distance traveled for one rotation of the wheel divided by the encoder
@@ -125,8 +123,8 @@ public class SwerveModule {
 
     public void setDrive(SwerveModuleState desiredState) {
         // Calculate the drive output from the drive PID controller.
-        final double driveOutput = m_drivePIDController.calculate(m_driveEncoder.getVelocityMeters(),
-                desiredState.speedMetersPerSecond);
+        // final double driveOutput = m_drivePIDController.calculate(m_driveEncoder.getVelocityMeters(),
+        //         desiredState.speedMetersPerSecond);
 
         m_driveMotor.set(desiredState.speedMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond);
     }
@@ -137,14 +135,8 @@ public class SwerveModule {
         double setpoint = MathUtil.inputModulus(desiredPosition, 0, 360);
         setpoint = setpoint == 360.0 ? 0.0 : setpoint;
 
-        // if(Math.abs(m_turningPIDController.getSetpoint().position - setpoint) >=
-        // ModuleConstants.kInegratorResetValue)
-        // {
-        // m_turningPIDController.reset(TrapezoidProfile.State.)
-        // }
-
-        SmartDashboard.putNumber("Angle before Wrap", desiredPosition);
-        SmartDashboard.putNumber("Setpoint", setpoint);
+        // SmartDashboard.putNumber("Angle before Wrap", desiredPosition);
+        // SmartDashboard.putNumber("Setpoint", setpoint);
 
         // Calculate the turning motor output from the turning PID controller.
         double turnOutput = m_turningPIDController.calculate(
@@ -153,7 +145,7 @@ public class SwerveModule {
         turnOutput = (Math.abs(turnOutput) < ModuleConstants.kPIDAngleDeadband) ? 0.0 : turnOutput;
 
         m_turnMotor.set(turnOutput);
-        SmartDashboard.putNumber("PID for Turn", turnOutput);
+        // SmartDashboard.putNumber("PID for Turn", turnOutput);
     }
 
     /** Zeroes the drive encoders. */

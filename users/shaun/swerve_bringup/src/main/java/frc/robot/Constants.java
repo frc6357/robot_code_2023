@@ -111,9 +111,12 @@ public final class Constants {
         public static final int kVelocityYPort = 1;
         public static final int kVelocityOmegaPort = 4;
 
-        public static final double kDriveGain = 0.8;
-        public static final double kRotationGain = 0.8;
-        public static final double kJoystickDeadband = 0.1;
+        public static final int kResetGyro = 4;
+        public static final int kRobotCentricMode = 5;
+
+        public static final double kDriveGain = 0.95;
+        public static final double kRotationGain = 0.95;
+        public static final double kJoystickDeadband = 0.05;
     }
 
     public static final class AutoConstants {
