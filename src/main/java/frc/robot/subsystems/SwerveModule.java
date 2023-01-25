@@ -37,11 +37,11 @@ public class SwerveModule {
     /**
      * Constructs a SwerveModule.
      *
-     * @param driveMotorChannel      The channel of the drive motor.
-     * @param turningMotorChannel    The channel of the turning motor.
+     * @param driveMotorChannel     The channel of the drive motor.
+     * @param turningMotorChannel   The channel of the turning motor.
      * @param turningEncoderChannel The channel of the turning encoder.
-     * @param driveMotorReversed   Whether the drive motor is reversed.
-     * @param turnMotorReversed      Whether the turning motor is reversed.
+     * @param driveMotorReversed    Whether the drive motor is reversed.
+     * @param turnMotorReversed     Whether the turning motor is reversed.
      */
     public SwerveModule(
             int driveMotorChannel,
@@ -114,8 +114,7 @@ public class SwerveModule {
      */
     public void setDesiredState(SwerveModuleState desiredState) {
         // Optimize the reference state to avoid spinning further than 90 degrees
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState,
-        m_turnEncoder.getRotation2d());
+        SwerveModuleState state = SwerveModuleState.optimize(desiredState, m_turnEncoder.getRotation2d());
 
         setDrive(state);
         setAngle(state);
@@ -123,8 +122,9 @@ public class SwerveModule {
 
     public void setDrive(SwerveModuleState desiredState) {
         // Calculate the drive output from the drive PID controller.
-        // final double driveOutput = m_drivePIDController.calculate(m_driveEncoder.getVelocityMeters(),
-        //         desiredState.speedMetersPerSecond);
+        // final double driveOutput =
+        // m_drivePIDController.calculate(m_driveEncoder.getVelocityMeters(),
+        // desiredState.speedMetersPerSecond);
 
         m_driveMotor.set(desiredState.speedMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond);
     }

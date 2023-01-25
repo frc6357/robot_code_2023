@@ -4,28 +4,19 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.AutoTools.SK23AutoGenerator;
+import frc.robot.bindings.CommandBinder;
+import frc.robot.bindings.SK23DriveBinder;
+import frc.robot.subsystems.SK23Drive;
+import frc.robot.commands.DoNothingCommand;
 import frc.robot.utils.FilteredJoystick;
-import frc.robot.utils.filters.CubicDeadbandFilter;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,15 +25,22 @@ import frc.robot.utils.filters.CubicDeadbandFilter;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
     // The robot's subsystems
-    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final SK23Drive m_robotDrive = new SK23Drive();
+
+    // The class used to create all PathPlanner Autos
+    private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
 
     // The driver's controller
-    private final FilteredJoystick m_driverController = new FilteredJoystick(OIConstants.kDriverControllerPort);
+    private final FilteredJoystick driveController = new FilteredJoystick(OIConstants.kDriverControllerPort);
+    private final FilteredJoystick operatorController = new FilteredJoystick(OIConstants.kOperatorControllerPort);
 
-    // Driver button commands
-    private final JoystickButton resetGyro = new JoystickButton(m_driverController, OIConstants.kResetGyro);
-    private final JoystickButton robotCentric = new JoystickButton(m_driverController, OIConstants.kRobotCentricMode);
+    // The list containing all the command binding classes
+    private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
+
+    // An option box on shuffleboard to choose the auto path
+    SendableChooser<Command> autoCommandSelector = new SendableChooser<Command>();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -50,44 +48,34 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-
-        // Configure default commands
-        m_robotDrive.setDefaultCommand(
-                // The left stick controls translation of the robot.
-                // Turning is controlled by the X axis of the right stick.
-                new RunCommand(
-                        () -> m_robotDrive.drive(
-                                // Left Y Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityYPort),
-                                // Left X Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityXPort),
-                                // Right X Axis
-                                m_driverController.getFilteredAxis(OIConstants.kVelocityOmegaPort),
-                                !robotCentric.getAsBoolean()),
-                        m_robotDrive));
+        configureAutos();
     }
 
     /**
      * Use this method to define your button->command mappings. Buttons can be
-     * created by
-     * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
-     * subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link FilteredJoystick}), and then
-     * calling passing it to a
+     * created by instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of
+     * its subclasses ({@link edu.wpi.first.wpilibj.Joystick} or
+     * {@link FilteredJoystick}), and then calling passing it to a
      * {@link JoystickButton}.
      */
     private void configureButtonBindings() {
+        // Adding all the binding classes to the list
+        buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
 
-        m_driverController.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
+        // Traversing through all the binding classes to actually bind the buttons
+        for (CommandBinder subsystemGroup : buttonBinders) {
+            subsystemGroup.bindButtons();
+        }
 
-        m_driverController.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
+    }
 
-        m_driverController.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
-
-        resetGyro.onTrue(new InstantCommand(m_robotDrive::zeroHeading));
+    /**
+     * Displays all the auto paths that can be run to the ShuffleBoard window
+     */
+    private void configureAutos()
+    {
+        autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
+        autoGenerator.displayPossibleAutos(autoCommandSelector);
     }
 
     /**
@@ -96,43 +84,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // Create config for trajectory
-        TrajectoryConfig config = new TrajectoryConfig(
-                AutoConstants.kMaxSpeedMetersPerSecond,
-                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                // Add kinematics to ensure max speed is actually obeyed
-                .setKinematics(DriveConstants.kDriveKinematics);
-
-        // An example trajectory to follow. All units in meters.
-        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(3, 0, new Rotation2d(0)),
-                config);
-
-        var thetaController = new ProfiledPIDController(
-                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                exampleTrajectory,
-                m_robotDrive::getPose, // Functional interface to feed supplier
-                DriveConstants.kDriveKinematics,
-
-                // Position controllers
-                new PIDController(AutoConstants.kPXController, 0, 0),
-                new PIDController(AutoConstants.kPYController, 0, 0),
-                thetaController,
-                m_robotDrive::setModuleStates,
-                m_robotDrive);
-
-        // Reset odometry to the starting pose of the trajectory.
-        m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-        // Run path following command, then stop at the end.
-        return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+        return autoCommandSelector.getSelected();
     }
 }

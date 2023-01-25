@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.auto.PIDConstants;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -89,8 +92,8 @@ public final class Constants {
         public static final int kEncoderCPR = 2048;
         public static final double kWheelDiameterMeters = 0.1016002032;
         public static final double kDriveGearRatio = 6.75;
-        public static final double kDriveEncoderDistancePerPulse =
-                (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
+        public static final double kDriveEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI)
+                / (kDriveGearRatio * (double) kEncoderCPR);
 
         public static final double kPModuleTurningController = 0.012;
         public static final double kIModuleTurningController = 0.00;
@@ -106,6 +109,7 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
 
         public static final int kVelocityXPort = 0;
         public static final int kVelocityYPort = 1;
@@ -120,14 +124,18 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
+        public static final String kSplineDirectory = "pathplanner";
+
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final PathConstraints kPathConstraints = new PathConstraints(kMaxSpeedMetersPerSecond,
+                kMaxAccelerationMetersPerSecondSquared);
+
         public static final double kMaxAngularSpeedDegreesPerSecond = 180;
         public static final double kMaxAngularSpeedDegreesPerSecondSquared = 180;
 
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(0.25, 0, 0);
+        public static final PIDConstants kRotationPIDConstants = new PIDConstants(0.012, 0, 0);
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
