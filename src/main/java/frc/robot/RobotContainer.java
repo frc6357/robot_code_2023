@@ -22,7 +22,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 
@@ -34,7 +34,7 @@ import frc.robot.utils.filters.CubicDeadbandFilter;
  */
 public class RobotContainer {
     // The robot's subsystems
-    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    private final SK23Drive m_robotDrive = new SK23Drive();
 
     // The driver's controller
     FilteredJoystick m_driverController = new FilteredJoystick(OIConstants.kDriverControllerPort);
@@ -48,20 +48,17 @@ public class RobotContainer {
 
         // Configure default commands
         m_robotDrive.setDefaultCommand(
-            // The left stick controls translation of the robot.
-            // Turning is controlled by the X axis of the right stick.
-            new RunCommand(
-                    () -> m_robotDrive.drive(
-                        // Left X Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityYPort),
-                        // Left Y Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityXPort),
-                        // Right X Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityOmegaPort),
-                        false),
+                // The left stick controls translation of the robot.
+                // Turning is controlled by the X axis of the right stick.
+                new RunCommand(
+                        () -> m_robotDrive.drive(
+                                // Left X Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityXPort),
+                                // Left Y Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityYPort),
+                                // Right X Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityOmegaPort),
+                                false),
                         m_robotDrive));
     }
 
@@ -77,17 +74,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         m_driverController.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, false));
 
         m_driverController.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         m_driverController.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
-                        Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond),
-                        false));
+                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
     }
 
     /**

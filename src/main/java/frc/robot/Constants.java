@@ -37,15 +37,15 @@ public final class Constants {
         public static final int kFrontRightTurningEncoderPorts = 32;
         public static final int kRearRightTurningEncoderPorts = 33;
 
-        public static final boolean kFrontLeftTurningEncoderReversed = false;
-        public static final boolean kRearLeftTurningEncoderReversed = false;
-        public static final boolean kFrontRightTurningEncoderReversed = false;
-        public static final boolean kRearRightTurningEncoderReversed = false;
+        public static final boolean kFrontLeftTurnMotorReversed = true;
+        public static final boolean kRearLeftTurnMotorReversed = true;
+        public static final boolean kFrontRightTurnMotorReversed = true;
+        public static final boolean kRearRightTurnMotorReversed = true;
 
-        public static final boolean kFrontLeftDriveEncoderReversed = false;
-        public static final boolean kRearLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = false;
-        public static final boolean kRearRightDriveEncoderReversed = false;
+        public static final boolean kFrontLeftDriveMotorReversed = true;
+        public static final boolean kRearLeftDriveEncoderReversed = true;
+        public static final boolean kFrontRightDriveEncoderReversed = true;
+        public static final boolean kRearRightDriveMotorReversed = true;
 
         /** Offset for CANcoders in degrees */
         public static final double kFrontLeftAngleOffset = -147.8;
@@ -92,13 +92,16 @@ public final class Constants {
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
 
-        public static final double kPModuleTurningController = 0.002;
-        public static final double kIModuleTurningController = 0.0;
-        public static final double kDModuleTurningController = 0.0;
+        public static final double kPModuleTurningController = 0.012;
+        public static final double kIModuleTurningController = 0.00;
+        // public static final double kIModuleTurningController = 0.001;
+        public static final double kDModuleTurningController = 0.00;
+        // public static final double kDModuleTurningController = 0.00005;
+        public static final double kInegratorResetValue = 10;
 
-        public static final double kPModuleDriveController = 0.0;
-        public static final double kIModuleDriveController = 0.0;
-        public static final double kDModuleDriveController = 0.0;
+        public static final double kPModuleDriveController = 0.3;
+
+        public static final double kPIDAngleDeadband = 0.01;
     }
 
     public static final class OIConstants {

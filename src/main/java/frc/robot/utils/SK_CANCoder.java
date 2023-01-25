@@ -19,7 +19,7 @@ public class SK_CANCoder extends WPI_CANCoder{
 
         this.offsetDegrees = offsetDegrees;
         CANCoderConfiguration config = new CANCoderConfiguration();
-        config.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
+        config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         config.unitString = "deg";
         config.sensorDirection = false; //Counter clockwise positive
