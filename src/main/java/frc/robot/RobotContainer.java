@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,7 +38,11 @@ public class RobotContainer {
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
     // The driver's controller
-    FilteredJoystick m_driverController = new FilteredJoystick(OIConstants.kDriverControllerPort);
+    private final FilteredJoystick m_driverController = new FilteredJoystick(OIConstants.kDriverControllerPort);
+
+    // Driver button commands
+    private final JoystickButton resetGyro = new JoystickButton(m_driverController, OIConstants.kResetGyro);
+    private final JoystickButton robotCentric = new JoystickButton(m_driverController, OIConstants.kRobotCentricMode);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,20 +53,17 @@ public class RobotContainer {
 
         // Configure default commands
         m_robotDrive.setDefaultCommand(
-            // The left stick controls translation of the robot.
-            // Turning is controlled by the X axis of the right stick.
-            new RunCommand(
-                    () -> m_robotDrive.drive(
-                        // Left X Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityYPort),
-                        // Left Y Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityXPort),
-                        // Right X Axis
-                        m_driverController.getFilteredAxis(
-                                OIConstants.kVelocityOmegaPort),
-                        false),
+                // The left stick controls translation of the robot.
+                // Turning is controlled by the X axis of the right stick.
+                new RunCommand(
+                        () -> m_robotDrive.drive(
+                                // Left Y Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityYPort),
+                                // Left X Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityXPort),
+                                // Right X Axis
+                                m_driverController.getFilteredAxis(OIConstants.kVelocityOmegaPort),
+                                !robotCentric.getAsBoolean()),
                         m_robotDrive));
     }
 
@@ -77,17 +79,15 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         m_driverController.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         m_driverController.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, false));
+                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         m_driverController.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
-                        Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond),
-                        false));
+                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband, Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
+
+        resetGyro.onTrue(new InstantCommand(m_robotDrive::zeroHeading));
     }
 
     /**
