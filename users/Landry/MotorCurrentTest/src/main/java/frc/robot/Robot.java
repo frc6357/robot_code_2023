@@ -1,6 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
@@ -10,19 +7,13 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.filters.CubicDeadbandFilter;
 
-
 /**
- * This sample program shows how to control a motor using a joystick. In the operator control part
- * of the program, the joystick is read and the value is written to the motor.
- *
- * <p>Joystick analog values range from -1 to 1 and motor controller inputs also range from -1 to 1
- * making it easy to work together.
- *
- * <p>In addition, the encoder value of an encoder connected to ports 0 and 1 is consistently sent
- * to the Dashboard.
+ * This program allows you to control a singular motor and graph
+ * the correlation between the current and the velocity in order
+ * to determine the force exerted on the motor through the use of
+ * current.
  */
 public class Robot extends TimedRobot {
   private static final int kMotorPort = 40;
@@ -38,9 +29,7 @@ public class Robot extends TimedRobot {
     m_joystick = new FilteredJoystick(kJoystickPort);
     m_joystick.setFilter(1, new CubicDeadbandFilter(1.0, 0.1, 1.0, true));
     m_encoder = m_motor.getEncoder();
-    final JoystickButton xButton = new JoystickButton(m_joystick,Constants.xButton);
-    final JoystickButton yButton = new JoystickButton(m_joystick,Constants.yButton);
-    
+
   }
 
   /*
@@ -52,12 +41,18 @@ public class Robot extends TimedRobot {
     double motor_velocity = m_encoder.getVelocity();
     SmartDashboard.putNumber("Velocity", motor_velocity);
     double motor_current = m_motor.getOutputCurrent();
+    Globals.averageCurrent = (Globals.averageCurrent + motor_current) / 2;
+    SmartDashboard.putNumber("Average Current", Globals.averageCurrent);
     SmartDashboard.putNumber("Current", motor_current);
   }
 
   @Override
   public void teleopPeriodic() {
-    m_motor.set(Constants.Constant_Speed);
-    //TODO - add start/stop button for setting motor speed
+    if (m_joystick.getRawButtonPressed(Constants.xButton)) {
+      m_motor.set(Constants.Constant_Speed);// When pressed the motor turns on
+    }
+    if (m_joystick.getRawButtonPressed(Constants.yButton)) {
+      m_motor.set(0.0); // When released the motor turns off
+    }
   }
 }
