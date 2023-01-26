@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
-import frc.robot.subsystems.SK23Drive;
 import frc.robot.commands.DoNothingCommand;
+import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.FilteredJoystick;
 
 /*
@@ -76,6 +77,7 @@ public class RobotContainer {
     {
         autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
         autoGenerator.displayPossibleAutos(autoCommandSelector);
+        SmartDashboard.putData("Auto Chooser", autoCommandSelector);
     }
 
     /**
