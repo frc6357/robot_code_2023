@@ -7,7 +7,7 @@ import frc.robot.Ports.LowArmPorts;
 
 public class SK23LowArmPneumatic extends SK23LowArm {
     final DoubleSolenoid extendArm = new DoubleSolenoid(LowArmConstants.kModuleType,
-            LowArmPorts.PneumaticForwardChannel, LowArmPorts.PneumaticReverseChannel);
+            LowArmPorts.kPneumaticForwardChannel, LowArmPorts.kPneumaticReverseChannel);
 
     public SK23LowArmPneumatic() {
     }

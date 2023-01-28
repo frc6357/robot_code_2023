@@ -32,5 +32,9 @@ public final class Constants {
       public static final double kDegreesPerPulse = 0.0;
 
       public static final PneumaticsModuleType kModuleType = PneumaticsModuleType.CTREPCM;
+
+      public static final double kMotorSpeed = 0.0;
+
+      public static final double kMaxHeight = 0.0;
   }
 }
