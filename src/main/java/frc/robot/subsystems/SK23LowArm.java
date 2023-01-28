@@ -16,12 +16,14 @@ import frc.robot.Ports.LowArmPorts;
 public abstract class SK23LowArm extends Arm {
     private CANSparkMax mainMotor = new CANSparkMax(LowArmPorts.kMainMotor, MotorType.kBrushless);
     private RelativeEncoder mainEncoder = mainMotor.getEncoder();
-    private CANSparkMax followerMotor = new CANSparkMax(0, MotorType.kBrushless);
+    private CANSparkMax followerMotor = new CANSparkMax(LowArmPorts.kFollowerMotor, MotorType.kBrushless);
     private MotorControllerGroup motors = new MotorControllerGroup(mainMotor, followerMotor);
     
   /** Creates a new ExampleSubsystem. */
   public SK23LowArm() {
-    mainMotor.getEncoder().setPosition(LowArmConstants.kArmPositionOffsetDegrees);
+    mainEncoder.setPosition(LowArmConstants.kArmPositionOffsetDegrees);
+    mainEncoder.setPositionConversionFactor(LowArmConstants.kDegreesPerPulse);
+    mainEncoder.setVelocityConversionFactor(LowArmConstants.kDegreesPerPulse);
   }
 
   @Override

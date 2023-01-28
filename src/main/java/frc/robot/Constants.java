@@ -26,5 +26,7 @@ public final class Constants {
   }
   public static class LowArmConstants{
       public static final double kArmPositionOffsetDegrees = 0.0;  
+
+      public static final double kDegreesPerPulse = 0.0;
   }
 }
