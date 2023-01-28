@@ -18,4 +18,5 @@ jobs:
     steps:
       - uses: docker://wpilib/roborio-cross-ubuntu:2022-20.04
       - run: |
+          gradle init
           gradle build
