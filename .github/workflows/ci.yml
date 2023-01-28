@@ -23,4 +23,4 @@ jobs:
       - name: Gradle Build
         run: |
           pwd && ls -al
-          gradlew build
+          chmod +x gradlew && ./gradlew build
