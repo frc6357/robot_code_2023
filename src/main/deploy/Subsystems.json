@@ -1,0 +1,6 @@
+{
+    "rotateArm"     : false,
+    "extendArm"     : false,
+    "intake"        : false,
+    "vision"        : false
+}
