@@ -11,4 +11,9 @@ public class Ports {
         public static final int kMainMotor = 0;
         public static final int kFollowerMotor = 0;
     }
+    public class LowArmPorts
+    {
+        public static final int kMainMotor = 0;
+        public static final int kFollowerMotor = 0;
+    }
 }
