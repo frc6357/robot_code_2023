@@ -15,5 +15,8 @@ public class Ports {
     {
         public static final int kMainMotor = 0;
         public static final int kFollowerMotor = 0;
+        
+        public static final int PneumaticForwardChannel = 0;
+        public static final int PneumaticReverseChannel = 0;
     }
 }

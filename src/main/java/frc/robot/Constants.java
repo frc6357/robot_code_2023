@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -28,5 +30,7 @@ public final class Constants {
       public static final double kArmPositionOffsetDegrees = 0.0;  
 
       public static final double kDegreesPerPulse = 0.0;
+
+      public static final PneumaticsModuleType kModuleType = PneumaticsModuleType.CTREPCM;
   }
 }
