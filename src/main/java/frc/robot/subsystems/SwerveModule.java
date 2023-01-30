@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
@@ -53,6 +54,7 @@ public class SwerveModule {
 
         m_turningEncoderOffset = turningEncoderOffset;
         m_driveMotor = new WPI_TalonFX(driveMotorChannel);
+        m_driveMotor.setNeutralMode(NeutralMode.Brake);
         m_turnMotor = new WPI_TalonFX(turningMotorChannel);
         m_turnMotor.setInverted(turnMotorReversed);
 
