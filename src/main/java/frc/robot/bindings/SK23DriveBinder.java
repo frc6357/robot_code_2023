@@ -7,8 +7,8 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.CubicDeadbandFilter;
+import frc.robot.utils.filters.FilteredJoystick;
 
 public class SK23DriveBinder implements CommandBinder {
     SK23Drive subsystem;

@@ -10,8 +10,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.LowArmConstants;
-import frc.robot.subsystems.general_subsystems.Arm;
 import frc.robot.Ports.LowArmPorts;
+import frc.robot.subsystems.superclasses.Arm;
 
 public abstract class SK23LowArm extends Arm {
     private CANSparkMax mainMotor = new CANSparkMax(LowArmPorts.kMainMotor, MotorType.kBrushless);

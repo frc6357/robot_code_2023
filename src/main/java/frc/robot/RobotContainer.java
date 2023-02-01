@@ -17,7 +17,7 @@ import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.utils.FilteredJoystick;
+import frc.robot.utils.filters.FilteredJoystick;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -73,8 +73,7 @@ public class RobotContainer {
     /**
      * Displays all the auto paths that can be run to the ShuffleBoard window
      */
-    private void configureAutos()
-    {
+    private void configureAutos() {
         autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
         autoGenerator.displayPossibleAutos(autoCommandSelector);
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);

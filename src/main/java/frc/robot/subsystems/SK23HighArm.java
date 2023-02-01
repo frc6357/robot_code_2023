@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.HighArmConstants;
 import frc.robot.Ports.HighArmPorts;
-import frc.robot.subsystems.general_subsystems.Arm;
+import frc.robot.subsystems.superclasses.Arm;
 
 /**
  * A version of the arm subsystem in which the pivot point of the arm is located

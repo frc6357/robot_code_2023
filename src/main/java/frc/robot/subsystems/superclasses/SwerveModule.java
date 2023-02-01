@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.superclasses;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -13,11 +13,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.utils.MotorEncoder;
-import frc.robot.utils.SK_CANCoder;
+import frc.robot.utils.wrappers.SK_CANCoder;
 
 public class SwerveModule {
     private final WPI_TalonFX m_driveMotor;
@@ -30,10 +29,7 @@ public class SwerveModule {
     private final PIDController m_drivePIDController = new PIDController(ModuleConstants.kPModuleDriveController, 0, 0);
 
     // Using a PIDController to allow for smooth turning
-    private final PIDController m_turningPIDController = new PIDController(
-            ModuleConstants.kPModuleTurningController,
-            ModuleConstants.kIModuleTurningController,
-            ModuleConstants.kDModuleTurningController);
+    private final PIDController m_turnPIDController = new PIDController(ModuleConstants.kPModuleTurningController, 0, 0);
 
     /**
      * Constructs a SwerveModule.
@@ -84,7 +80,7 @@ public class SwerveModule {
 
         // Limit the PID Controller's input range between 0 and 360 and set the input
         // to be continuous.
-        m_turningPIDController.enableContinuousInput(0, 360);
+        m_turnPIDController.enableContinuousInput(0, 360);
     }
 
     /**
@@ -141,7 +137,7 @@ public class SwerveModule {
         // SmartDashboard.putNumber("Setpoint", setpoint);
 
         // Calculate the turning motor output from the turning PID controller.
-        double turnOutput = m_turningPIDController.calculate(
+        double turnOutput = m_turnPIDController.calculate(
                 absolutePosition, setpoint);
 
         turnOutput = (Math.abs(turnOutput) < ModuleConstants.kPIDAngleDeadband) ? 0.0 : turnOutput;
