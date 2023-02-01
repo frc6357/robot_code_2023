@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SK23Drive;
 
 public class SK23AutoGenerator {
@@ -36,8 +37,8 @@ public class SK23AutoGenerator {
         // Create the AutoBuilder. Used to generate full auto paths using PathPlannerLib
         autoBuilder = new SwerveAutoBuilder(
                 driveSubsystem::getPose, // Pose2d supplier
-                driveSubsystem::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-                driveSubsystem.getKinematics(), // SwerveDriveKinematics
+                driveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
+                DriveConstants.kDriveKinematics, // SwerveDriveKinematics
                 AutoConstants.kTranslationPIDConstants, // PID constants to correct for translation error (used to
                                                         // create the X and Y PID controllers)
                 AutoConstants.kRotationPIDConstants, // PID constants to correct for rotation error (used to create the

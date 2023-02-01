@@ -95,10 +95,6 @@ public class SK23Drive extends SubsystemBase {
         return m_odometry.getPoseMeters();
     }
 
-    public void resetPose(Pose2d pose) {
-        m_odometry.resetPosition(m_gyro.getRotation2d(), getModuleStates(), pose);
-    }
-
     /**
      * Resets the odometry to the specified pose.
      *
@@ -202,9 +198,5 @@ public class SK23Drive extends SubsystemBase {
      */
     public double getTurnRate() {
         return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-    }
-
-    public SwerveDriveKinematics getKinematics() {
-        return DriveConstants.kDriveKinematics;
     }
 }
