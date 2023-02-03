@@ -49,13 +49,19 @@ public class SwerveModule {
             double turningEncoderOffset) {
 
         m_turningEncoderOffset = turningEncoderOffset;
+
         m_driveMotor = new WPI_TalonFX(driveMotorChannel);
+        // Set drive motor to brake mode
         m_driveMotor.setNeutralMode(NeutralMode.Brake);
+        // Set whether drive encoder should be reversed or not
+        m_driveMotor.setInverted(driveMotorReversed);
+
         m_turnMotor = new WPI_TalonFX(turningMotorChannel);
+        // Set whether turn encoder should be reversed or not
         m_turnMotor.setInverted(turnMotorReversed);
 
-        m_driveEncoder = new MotorEncoder(m_driveMotor, ModuleConstants.kDriveEncoderDistancePerPulse,
-                driveMotorReversed);
+        // Encoder should never be inverted. Inversion should be left to the motor.
+        m_driveEncoder = new MotorEncoder(m_driveMotor, ModuleConstants.kDriveEncoderDistancePerPulse, false);
         m_turnEncoder = new SK_CANCoder(turningEncoderChannel, m_turningEncoderOffset);
 
         m_turnEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
@@ -75,8 +81,6 @@ public class SwerveModule {
         // distance traveled for one rotation of the wheel divided by the encoder
         // resolution.
 
-        // Set whether drive encoder should be reversed or not
-        m_driveMotor.setInverted(driveMotorReversed);
 
         // Limit the PID Controller's input range between 0 and 360 and set the input
         // to be continuous.

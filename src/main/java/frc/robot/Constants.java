@@ -58,14 +58,14 @@ public final class Constants {
         // Whether or not the drive motors need to be reversed. Positive input should
         // cause the robot to go into the positive x or y direction as outlined by the
         // FIELD coordinate system
-        public static final boolean kFrontLeftDriveMotorReversed = true;
-        public static final boolean kRearLeftDriveEncoderReversed = true;
+        public static final boolean kFrontLeftDriveMotorReversed = false;
+        public static final boolean kRearLeftDriveEncoderReversed = false;
         public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kRearRightDriveMotorReversed = true;
 
         // Offset for the CANCoders in Degrees
-        public static final double kFrontLeftAngleOffset = -147.8;
-        public static final double kRearLeftAngleOffset = -198.8;
+        public static final double kFrontLeftAngleOffset = -327.8;
+        public static final double kRearLeftAngleOffset = -18.8;
         public static final double kFrontRightAngleOffset = -2.8;
         public static final double kRearRightAngleOffset = -337.9;
 
@@ -86,10 +86,10 @@ public final class Constants {
 
         /** The default state of the swerve drive to allow for maximum defense */
         public static final SwerveModuleState[] kDefenseState = {
-                new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(315)) };
+            new SwerveModuleState(0, Rotation2d.fromDegrees(315)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(315)) };
 
         // Characterization constants as determined by the SysID tool.
         // TODO: Characterize the robot to find these values.
@@ -144,8 +144,8 @@ public final class Constants {
         public static final String kSplineDirectory = "pathplanner";
 
         // Autonomous translation constraints
-        public static final double kMaxSpeedMetersPerSecond = 3;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+        public static final double kMaxSpeedMetersPerSecond = 1.5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0.75;
         public static final PathConstraints kPathConstraints = new PathConstraints(kMaxSpeedMetersPerSecond,
                 kMaxAccelerationMetersPerSecondSquared);
 

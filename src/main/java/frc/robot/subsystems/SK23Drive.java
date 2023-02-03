@@ -158,7 +158,7 @@ public class SK23Drive extends SubsystemBase {
         m_rearRight.setDesiredState(desiredStates[3]);
     }
 
-    public SwerveModulePosition[] getModuleStates() {
+    public SwerveModulePosition[] getModulePositions() {
         return new SwerveModulePosition[] {
                 m_frontLeft.getPosition(),
                 m_frontRight.getPosition(),
