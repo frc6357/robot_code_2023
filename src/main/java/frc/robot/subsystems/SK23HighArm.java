@@ -23,6 +23,12 @@ public class SK23HighArm extends Arm {
     private CANSparkMax followerMotor = new CANSparkMax(HighArmPorts.kFollowerMotor, MotorType.kBrushless);
     private MotorControllerGroup motors = new MotorControllerGroup(mainMotor, followerMotor);
 
+    // TODO: The encoder in the NEO is relative rather than absolute so you need to
+    // have a reference that you know represents a specific arm angle. This allows you
+    // to set the zero point and remove encoder drift as the class is used. Think about
+    // supporting a limit switch or other sensor that lets you know when the arm is at
+    // the zero position.
+    
     /**
      * Creates a new High Pivot arm using Neo Brushless Motors.
      */

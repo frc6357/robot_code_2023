@@ -7,6 +7,10 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.LowArmConstants;
 import frc.robot.Ports.LowArmPorts;
 
+//
+// TODO: What is this class for? Add a comment describing what it is so that people
+// picking up the code can understand what it's for.
+//
 
 public class SK23LowArmMotor extends SK23LowArm {
 

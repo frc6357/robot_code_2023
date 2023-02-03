@@ -13,6 +13,10 @@ import frc.robot.Constants.LowArmConstants;
 import frc.robot.Ports.LowArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
 
+//
+// TODO: What is this class for? Add a comment describing what it is so that people
+// picking up the code can understand what it's for.
+//
 public abstract class SK23LowArm extends Arm {
     private CANSparkMax mainMotor = new CANSparkMax(LowArmPorts.kMainMotor, MotorType.kBrushless);
     private RelativeEncoder mainEncoder = mainMotor.getEncoder();
