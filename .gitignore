@@ -155,7 +155,6 @@ gradle-app.setting
 # DO NOT REMOVE .classpath and .project
 .classpath
 .project
-.settings/org.eclipse.buildship.core.prefs
 bin/
 
 # Simulation GUI and other tools window save file
