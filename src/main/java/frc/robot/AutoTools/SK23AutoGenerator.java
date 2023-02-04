@@ -3,7 +3,7 @@ package frc.robot.AutoTools;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.function.BiConsumer;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -11,7 +11,6 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -55,17 +54,12 @@ public class SK23AutoGenerator {
 
     /**
      * Finds all the files in the pathplanner folder in the deploy directory and
-     * creates auto commands from all present files
-     * 
-     * @return A list containing the auto name as shown in the pathplanner tool and
-     *         the auto command connected to that auto name
+     * creates auto commands from all present files. Displays the found paths as desired by
+     * the function
      */
-    private Map<String, Command> getAllPathCommands() {
-        Map<String, Command> commandList = new HashMap<String, Command>();
-
+    public void displayAllPathCommands(BiConsumer<String, Command> displayMethod) {
         File deployDirectory = Filesystem.getDeployDirectory();
         File pathDirectory = new File(deployDirectory, AutoConstants.kSplineDirectory);
-        String autoName;
 
         // Gets all the files from the directory holding all the auto paths
         File[] pathNames = pathDirectory.listFiles();
@@ -76,32 +70,17 @@ public class SK23AutoGenerator {
             if (pathname.getName().contains(".path")) {
 
                 // Get the name of the path
-                autoName = pathname.getName().replace(".path", "");
+                String autoName = pathname.getName().replace(".path", "");
 
                 // Create the command if possible
                 try {
                     final List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(autoName,
                             AutoConstants.kPathConstraints);
-                    commandList.put(autoName, autoBuilder.fullAuto(trajectory));
+                    displayMethod.accept(autoName, autoBuilder.fullAuto(trajectory));
                 } catch (Exception e) {
                     DriverStation.reportWarning(autoName + "Could not be generated", true);
                 }
             }
-        }
-        return commandList;
-    }
-
-    /**
-     * Adds all the options to the shuffleboard using the auto name and command.
-     * 
-     * @param displayMethod
-     *                      The Shuffleboard chooser required to add the options for
-     *                      the paths
-     */
-    public void displayPossibleAutos(SendableChooser<Command> displayMethod) {
-        Map<String, Command> commandList = getAllPathCommands();
-        for (String autoName : commandList.keySet()) {
-            displayMethod.addOption(autoName, commandList.get(autoName));
         }
     }
 
