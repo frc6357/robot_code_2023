@@ -17,6 +17,12 @@ public class SK23LowArmMotor extends SK23LowArm {
     private CANSparkMax extendArm = new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
     private RelativeEncoder extendArmEncoder = extendArm.getEncoder();
 
+    public SK23LowArmMotor()
+    {
+        extendArmEncoder.setPositionConversionFactor(LowArmConstants.kExtensionDistancePerPulse);
+        extendArmEncoder.setVelocityConversionFactor(LowArmConstants.kExtensionDistancePerPulse);
+    }
+
     @Override
     public void extendArm(boolean extend) {
         extendArm.set(LowArmConstants.kMotorSpeed);
@@ -28,11 +34,7 @@ public class SK23LowArmMotor extends SK23LowArm {
 
     @Override
     public boolean isArmExtended() {
-        if (extendArmEncoder.getPosition() >= LowArmConstants.kMaxHeight)
-        {
-            return true;
-        }
-        return false;
+        return (extendArmEncoder.getPosition() >= LowArmConstants.kMaxHeight);
     }
     
 }
