@@ -26,6 +26,13 @@ public abstract class Arm extends SubsystemBase
      * @param extend
      *            Whether or not the arm should be extended
      */
+
+    public enum armState
+    {
+        EXTEND, 
+        RETRACT
+    }
+
     public abstract void extendArm(boolean extend);
 
     /**
