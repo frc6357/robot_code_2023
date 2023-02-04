@@ -12,9 +12,10 @@ import frc.robot.Ports.LowArmPorts;
 // picking up the code can understand what it's for.
 //
 
-public class SK23LowArmMotor extends SK23LowArm {
+public class SK23LowArmMotor extends SK23LowArm
+{
 
-    private CANSparkMax extendArm = new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
+    private CANSparkMax     extendArm = new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
     private RelativeEncoder extendArmEncoder = extendArm.getEncoder();
 
     public SK23LowArmMotor()
@@ -24,7 +25,8 @@ public class SK23LowArmMotor extends SK23LowArm {
     }
 
     @Override
-    public void extendArm(boolean extend) {
+    public void extendArm(boolean extend)
+    {
         extendArm.set(LowArmConstants.kMotorSpeed);
         if (extendArmEncoder.getPosition() >= LowArmConstants.kMaxHeight)
         {
@@ -33,8 +35,9 @@ public class SK23LowArmMotor extends SK23LowArm {
     }
 
     @Override
-    public boolean isArmExtended() {
+    public boolean isArmExtended()
+    {
         return (extendArmEncoder.getPosition() >= LowArmConstants.kMaxHeight);
     }
-    
+
 }

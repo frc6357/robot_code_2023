@@ -10,23 +10,25 @@ import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.FilteredJoystick;
 
-public class SK23DriveBinder implements CommandBinder {
+public class SK23DriveBinder implements CommandBinder
+{
     SK23Drive subsystem;
 
     // Driver button commands
     private final JoystickButton resetGyro;
     private final JoystickButton robotCentric;
-    FilteredJoystick controller;
+    FilteredJoystick             controller;
 
     /**
      * The class that is used to bind all the commands for the drive subsystem
      * 
      * @param controller
-     *                   The contoller that the commands are being bound to
+     *            The contoller that the commands are being bound to
      * @param subsystem
-     *                   The required drive subsystem for the commands
+     *            The required drive subsystem for the commands
      */
-    public SK23DriveBinder(FilteredJoystick controller, SK23Drive subsystem) {
+    public SK23DriveBinder(FilteredJoystick controller, SK23Drive subsystem)
+    {
         this.controller = controller;
         this.subsystem = subsystem;
 
@@ -35,33 +37,32 @@ public class SK23DriveBinder implements CommandBinder {
 
     }
 
-    public void bindButtons() {
+    public void bindButtons()
+    {
         controller.setFilter(OIConstants.kVelocityXPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, true));
+            new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
+                DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         controller.setFilter(OIConstants.kVelocityYPort,
-                new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
-                        DriveConstants.kMaxSpeedMetersPerSecond, true));
+            new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
+                DriveConstants.kMaxSpeedMetersPerSecond, true));
 
         controller.setFilter(OIConstants.kVelocityOmegaPort,
-                new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
-                        Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
+            new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
+                Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
 
         resetGyro.onTrue(new InstantCommand(subsystem::zeroHeading));
 
         subsystem.setDefaultCommand(
-                // The left stick controls translation of the robot.
-                // Turning is controlled by the X axis of the right stick.
-                new RunCommand(
-                        () -> subsystem.drive(
-                                // Left Y Axis
-                                controller.getFilteredAxis(OIConstants.kVelocityYPort),
-                                // Left X Axis
-                                controller.getFilteredAxis(OIConstants.kVelocityXPort),
-                                // Right X Axis
-                                controller.getFilteredAxis(OIConstants.kVelocityOmegaPort),
-                                !robotCentric.getAsBoolean()),
-                        subsystem));
+            // The left stick controls translation of the robot.
+            // Turning is controlled by the X axis of the right stick.
+            new RunCommand(() -> subsystem.drive(
+                // Left Y Axis
+                controller.getFilteredAxis(OIConstants.kVelocityYPort),
+                // Left X Axis
+                controller.getFilteredAxis(OIConstants.kVelocityXPort),
+                // Right X Axis
+                controller.getFilteredAxis(OIConstants.kVelocityOmegaPort),
+                !robotCentric.getAsBoolean()), subsystem));
     }
 }

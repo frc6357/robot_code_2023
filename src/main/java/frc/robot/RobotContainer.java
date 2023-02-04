@@ -25,7 +25,8 @@ import frc.robot.utils.filters.FilteredJoystick;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer
+{
 
     // The robot's subsystems
     private final SK23Drive m_robotDrive = new SK23Drive();
@@ -46,25 +47,27 @@ public class RobotContainer {
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
-    public RobotContainer() {
+    public RobotContainer()
+    {
         // Configure the button bindings
         configureButtonBindings();
         configureAutos();
     }
 
     /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of
-     * its subclasses ({@link edu.wpi.first.wpilibj.Joystick} or
-     * {@link FilteredJoystick}), and then calling passing it to a
-     * {@link JoystickButton}.
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link FilteredJoystick}), and then
+     * calling passing it to a {@link JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureButtonBindings()
+    {
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
 
         // Traversing through all the binding classes to actually bind the buttons
-        for (CommandBinder subsystemGroup : buttonBinders) {
+        for (CommandBinder subsystemGroup : buttonBinders)
+        {
             subsystemGroup.bindButtons();
         }
 
@@ -73,7 +76,8 @@ public class RobotContainer {
     /**
      * Displays all the auto paths that can be run to the ShuffleBoard window
      */
-    private void configureAutos() {
+    private void configureAutos()
+    {
         autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
         autoGenerator.displayAllPathCommands((name, command) -> autoCommandSelector.addOption(name, command));
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
@@ -84,7 +88,8 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
+    public Command getAutonomousCommand()
+    {
         return autoCommandSelector.getSelected();
     }
 }

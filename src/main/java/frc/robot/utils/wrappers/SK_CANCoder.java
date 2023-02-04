@@ -6,15 +6,18 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+
 /**
- *  Java class that wraps WPI_CANCoder to allow offsetDegrees as parameter that changes 
+ * Java class that wraps WPI_CANCoder to allow offsetDegrees as parameter that changes
  * position to an offset position.
  */
-public class SK_CANCoder extends WPI_CANCoder{
+public class SK_CANCoder extends WPI_CANCoder
+{
 
     private double offsetDegrees;
 
-    public SK_CANCoder(int deviceNumber, double offsetDegrees)  {
+    public SK_CANCoder(int deviceNumber, double offsetDegrees)
+    {
         super(deviceNumber);
 
         this.offsetDegrees = offsetDegrees;
@@ -34,7 +37,8 @@ public class SK_CANCoder extends WPI_CANCoder{
      * 
      * @return calculated Rotation2d (CCW+)
      */
-    public Rotation2d getRotation2d() {
+    public Rotation2d getRotation2d()
+    {
         return Rotation2d.fromDegrees(getAbsolutePosition());
     }
 }

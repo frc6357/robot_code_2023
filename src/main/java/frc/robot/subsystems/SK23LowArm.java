@@ -17,32 +17,36 @@ import frc.robot.subsystems.superclasses.Arm;
 // TODO: What is this class for? Add a comment describing what it is so that people
 // picking up the code can understand what it's for.
 //
-public abstract class SK23LowArm extends Arm {
+public abstract class SK23LowArm extends Arm
+{
     private CANSparkMax mainMotor = new CANSparkMax(LowArmPorts.kMainMotor, MotorType.kBrushless);
     private RelativeEncoder mainEncoder = mainMotor.getEncoder();
     private CANSparkMax followerMotor = new CANSparkMax(LowArmPorts.kFollowerMotor, MotorType.kBrushless);
     private MotorControllerGroup motors = new MotorControllerGroup(mainMotor, followerMotor);
     
-  /** Creates a new ExampleSubsystem. */
-  public SK23LowArm() {
-    mainEncoder.setPosition(LowArmConstants.kArmPositionOffsetDegrees);
-    mainEncoder.setPositionConversionFactor(LowArmConstants.kDegreesPerPulse);
-    mainEncoder.setVelocityConversionFactor(LowArmConstants.kDegreesPerPulse);
-  }
+    /** Creates a new ExampleSubsystem. */
+    public SK23LowArm()
+    {
+        mainEncoder.setPosition(LowArmConstants.kArmPositionOffsetDegrees);
+        mainEncoder.setPositionConversionFactor(LowArmConstants.kDegreesPerPulse);
+        mainEncoder.setVelocityConversionFactor(LowArmConstants.kDegreesPerPulse);
+    }
 
-  @Override
-  public void setRotationSpeed(double speed) {
-      motors.set(speed);
-  }
+    @Override
+    public void setRotationSpeed(double speed)
+    {
+        motors.set(speed);
+    }
 
-  @Override
-  public double getPosition() {
-      return mainEncoder.getPosition();
-  }
+    @Override
+    public double getPosition()
+    {
+        return mainEncoder.getPosition();
+    }
 
-  @Override
-  public abstract void extendArm(boolean extend);
+    @Override
+    public abstract void extendArm(boolean extend);
 
-  @Override
-  public abstract boolean isArmExtended();
+    @Override
+    public abstract boolean isArmExtended();
 }

@@ -11,12 +11,12 @@ import frc.robot.Ports.HighArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
 
 /**
- * A version of the arm subsystem in which the pivot point of the arm is located
- * at a relatively high point. This causes the only motion of the arm to be a
- * rotational motion controlled by N motors. This arm will rotate to set
- * positions to score the game piece.
+ * A version of the arm subsystem in which the pivot point of the arm is located at a
+ * relatively high point. This causes the only motion of the arm to be a rotational motion
+ * controlled by N motors. This arm will rotate to set positions to score the game piece.
  */
-public class SK23HighArm extends Arm {
+public class SK23HighArm extends Arm
+{
 
     private CANSparkMax mainMotor = new CANSparkMax(HighArmPorts.kMainMotor, MotorType.kBrushless);
     private RelativeEncoder mainEncoder = mainMotor.getEncoder();
@@ -32,29 +32,34 @@ public class SK23HighArm extends Arm {
     /**
      * Creates a new High Pivot arm using Neo Brushless Motors.
      */
-    public SK23HighArm() {
+    public SK23HighArm()
+    {
         mainEncoder.setPosition(HighArmConstants.kArmPositionOffsetDegrees);
         mainEncoder.setPositionConversionFactor(HighArmConstants.kDegreesPerPulse);
         mainEncoder.setVelocityConversionFactor(HighArmConstants.kDegreesPerPulse);
     }
 
     @Override
-    public void setRotationSpeed(double speed) {
+    public void setRotationSpeed(double speed)
+    {
         motors.set(speed);
     }
 
     @Override
-    public double getPosition() {
+    public double getPosition()
+    {
         return mainEncoder.getPosition();
     }
 
     @Override
-    public void extendArm(boolean extend) {
+    public void extendArm(boolean extend)
+    {
         DriverStation.reportWarning("High Arm cannot extend", true);
     }
 
     @Override
-    public boolean isArmExtended() {
+    public boolean isArmExtended()
+    {
         DriverStation.reportWarning("High Arm cannot extend", true);
         return false;
     }

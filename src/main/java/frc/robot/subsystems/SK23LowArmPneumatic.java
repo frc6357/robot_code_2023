@@ -10,19 +10,21 @@ import frc.robot.Ports.LowArmPorts;
 // picking up the code can understand what it's for.
 //
 
-public class SK23LowArmPneumatic extends SK23LowArm {
+public class SK23LowArmPneumatic extends SK23LowArm
+{
     final DoubleSolenoid extendArm = new DoubleSolenoid(LowArmConstants.kModuleType,
-            LowArmPorts.kPneumaticForwardChannel, LowArmPorts.kPneumaticReverseChannel);
+        LowArmPorts.kPneumaticForwardChannel, LowArmPorts.kPneumaticReverseChannel);
 
-    public SK23LowArmPneumatic() {
-    }
+    public SK23LowArmPneumatic() {}
 
-    public void extendArm(boolean extend) {
+    public void extendArm(boolean extend)
+    {
         extendArm.set(extend ? Value.kForward : Value.kReverse);
     }
 
     @Override
-    public boolean isArmExtended() {
+    public boolean isArmExtended()
+    {
         return extendArm.get() == Value.kForward;
     }
 }

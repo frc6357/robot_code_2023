@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -16,7 +18,12 @@ import frc.robot.Ports.DrivePorts;
 import frc.robot.subsystems.superclasses.SwerveModule;
 import frc.robot.utils.wrappers.SK_ADIS16470_IMU;
 
-public class SK23Drive extends SubsystemBase {
+/**
+ * A class that represents the swerve drive on the robot. Used to drive the robot in both
+ * autonomous and telop mode
+ */
+public class SK23Drive extends SubsystemBase
+{
     // Robot swerve modules
     private final SwerveModule m_frontLeft = new SwerveModule(
             DrivePorts.kFrontLeftDriveMotorPort,
@@ -54,32 +61,22 @@ public class SK23Drive extends SubsystemBase {
     private final SK_ADIS16470_IMU m_gyro = new SK_ADIS16470_IMU();
 
     // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-            DriveConstants.kDriveKinematics,
-            m_gyro.getRotation2d(),
-            new SwerveModulePosition[] {
-                    m_frontLeft.getPosition(),
-                    m_frontRight.getPosition(),
-                    m_rearLeft.getPosition(),
-                    m_rearRight.getPosition() });
+    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+        m_gyro.getRotation2d(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
+            m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
     /** Creates a new DriveSubsystem. */
-    public SK23Drive() {
-    }
+    public SK23Drive() {}
 
     @Override
-    public void periodic() {
+    public void periodic()
+    {
         // SmartDashboard.putNumber("CANCoder Angle",
         // m_frontLeft.getPosition().angle.getDegrees());
         // Update the odometry in the periodic block
-        m_odometry.update(
-                m_gyro.getRotation2d(),
-                new SwerveModulePosition[] {
-                        m_frontLeft.getPosition(),
-                        m_frontRight.getPosition(),
-                        m_rearLeft.getPosition(),
-                        m_rearRight.getPosition()
-                });
+        m_odometry.update(m_gyro.getRotation2d(),
+            new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
+                m_rearLeft.getPosition(), m_rearRight.getPosition()});
     }
 
     /**
@@ -87,70 +84,76 @@ public class SK23Drive extends SubsystemBase {
      *
      * @return The pose.
      */
-    public Pose2d getPose() {
+    public Pose2d getPose()
+    {
         return m_odometry.getPoseMeters();
     }
 
     /**
      * Resets the odometry to the specified pose.
      *
-     * @param pose The pose to which to set the odometry.
+     * @param pose
+     *            The pose to which to set the odometry.
      */
-    public void resetOdometry(Pose2d pose) {
+    public void resetOdometry(Pose2d pose)
+    {
         m_odometry.resetPosition(
-                m_gyro.getRotation2d(),
-                new SwerveModulePosition[] {
-                        m_frontLeft.getPosition(),
-                        m_frontRight.getPosition(),
-                        m_rearLeft.getPosition(),
-                        m_rearRight.getPosition()
-                },
-                pose);
+            m_gyro.getRotation2d(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
+                m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()},
+            pose);
     }
 
     /**
      * Method to drive the robot using joystick info.
      *
-     * @param xSpeed        Speed of the robot in the x direction (forward).
-     * @param ySpeed        Speed of the robot in the y direction (sideways).
-     * @param rot           Angular rate of the robot.
-     * @param fieldRelative Whether the provided x and y speeds are relative to the
-     *                      field.
+     * @param xSpeed
+     *            Speed of the robot in the x direction (forward).
+     * @param ySpeed
+     *            Speed of the robot in the y direction (sideways).
+     * @param rot
+     *            Angular rate of the robot.
+     * @param fieldRelative
+     *            Whether the provided x and y speeds are relative to the field.
      */
-    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative)
+    {
 
         SwerveModuleState[] swerveModuleStates;
 
-        if ((xSpeed == 0.0) && (ySpeed == 0.0) && (rot == 0.0)) {
+        // Set the robot to defense mode if no input is received.
+        // When driving, if in field relative mode, use the gyro to rotate the speeds
+        // otherwise use robot centric drive
+        if ((xSpeed == 0.0) && (ySpeed == 0.0) && (rot == 0.0))
+        {
             swerveModuleStates = DriveConstants.kDefenseState;
-        } else {
-
-            swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-                    fieldRelative
-                            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d())
-                            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        }
+        else if (fieldRelative)
+        {
+            swerveModuleStates =
+                DriveConstants.kDriveKinematics.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d()));
+        }
+        else
+        {
+            swerveModuleStates =
+                DriveConstants.kDriveKinematics.toSwerveModuleStates(
+                        new ChassisSpeeds(xSpeed, ySpeed, rot));
         }
 
-        SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-
-        // SmartDashboard.putNumber("Desired Angle",
-        // swerveModuleStates[0].angle.getDegrees());
-
-        m_frontLeft.setDesiredState(swerveModuleStates[0]);
-        m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_rearLeft.setDesiredState(swerveModuleStates[2]);
-        m_rearRight.setDesiredState(swerveModuleStates[3]);
+        setModuleStates(swerveModuleStates);
     }
 
     /**
      * Sets the swerve ModuleStates.
      *
-     * @param desiredStates The desired SwerveModule states.
+     * @param desiredStates
+     *            The desired SwerveModule states.
      */
-    public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(
-                desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    public void setModuleStates(SwerveModuleState[] desiredStates)
+    {
+        // Ensure desired motor speeds do not exceed max motor speed
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
+            DriveConstants.kMaxSpeedMetersPerSecond);
 
         m_frontLeft.setDesiredState(desiredStates[0]);
         m_frontRight.setDesiredState(desiredStates[1]);
@@ -158,16 +161,15 @@ public class SK23Drive extends SubsystemBase {
         m_rearRight.setDesiredState(desiredStates[3]);
     }
 
-    public SwerveModulePosition[] getModulePositions() {
-        return new SwerveModulePosition[] {
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_rearLeft.getPosition(),
-                m_rearRight.getPosition() };
+    public SwerveModulePosition[] getModulePositions()
+    {
+        return new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
+            m_rearLeft.getPosition(), m_rearRight.getPosition()};
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
-    public void resetEncoders() {
+    public void resetEncoders()
+    {
         m_frontLeft.resetEncoders();
         m_rearLeft.resetEncoders();
         m_frontRight.resetEncoders();
@@ -175,7 +177,8 @@ public class SK23Drive extends SubsystemBase {
     }
 
     /** Zeroes the heading of the robot. */
-    public void zeroHeading() {
+    public void zeroHeading()
+    {
         m_gyro.reset();
     }
 
@@ -184,7 +187,8 @@ public class SK23Drive extends SubsystemBase {
      *
      * @return the robot's heading in degrees, from -180 to 180
      */
-    public double getHeading() {
+    public double getHeading()
+    {
         return m_gyro.getRotation2d().getDegrees();
     }
 
@@ -193,7 +197,8 @@ public class SK23Drive extends SubsystemBase {
      *
      * @return The turn rate of the robot, in degrees per second
      */
-    public double getTurnRate() {
+    public double getTurnRate()
+    {
         return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
 }
