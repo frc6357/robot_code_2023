@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
@@ -117,10 +118,14 @@ public final class Constants
 
         // Module Characteristics
         public static final int    kEncoderCPR                   = 2048;
-        public static final double kWheelDiameterMeters          = 0.1016002032;
+        public static final int    kDegreesPerRevolution         = 360;
+        public static final double kWheelDiameterMeters          = Units.inchesToMeters(4.0);
         public static final double kDriveGearRatio               = 6.75;
+        public static final double kTurnGearRatio                = 150.0 / 7.0;
         public static final double kDriveEncoderDistancePerPulse =
                 (kWheelDiameterMeters * Math.PI) / (kDriveGearRatio * (double) kEncoderCPR);
+        public static final double kTurnEncoderDistancePerPulse  =
+                kDegreesPerRevolution / (kTurnGearRatio * (double) kEncoderCPR);
 
     }
 
