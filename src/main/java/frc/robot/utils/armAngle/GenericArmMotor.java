@@ -8,18 +8,29 @@ public abstract class GenericArmMotor
     /**
      * Resets position of encoder to 0.0
      */
-    public abstract void reset();
+    public abstract void resetEncoder();
 
     /**
-     * Returns the value of digital input sensor that is used for resetting the arm.
+     * @return Returns the value of the sensor that is used for locating the lower limit
+     *         of the arm.
      */
-    public abstract boolean getResetDIO();
+    public abstract boolean isLowerReached();
 
     /**
-     * Returns the value of digital input sensor that is used for locating the limit of
-     * the arm.
+     * @return Returns true if the lower sensor is present
      */
-    public abstract boolean getLimitDIO();
+    public abstract boolean isLowerAvailable();
+
+    /**
+     * @return Returns the value of the sensor that is used for locating the upper limit
+     *         of the arm.
+     */
+    public abstract boolean isUpperReached();
+
+    /**
+     * @return Returns true if the lower sensor is present
+     */
+    public abstract boolean isUpperAvailable();
 
     /**
      * Stops motor movement. Motor can be moved again by calling set without having to
@@ -33,5 +44,9 @@ public abstract class GenericArmMotor
      * @param degrees
      *            Degree to which the arm should be set
      */
-    public abstract void setAngle(int degrees);
+    public abstract double getSetPoint();
+
+    public abstract double getCurrentAngle();
+
+    public abstract void setAngle(double degrees);
 }

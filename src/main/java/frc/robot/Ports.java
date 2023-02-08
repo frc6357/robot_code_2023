@@ -2,6 +2,12 @@ package frc.robot;
 
 public class Ports
 {
+    public class ArmPorts
+    {
+        public static final int kMainMotor = 0;
+        public static final int kResetSwitch = 0;
+        public static final int kLimitSwitch = 0;
+    }
     public class OperatorPorts
     {
         public static final int kDriverControllerPort = 0;
