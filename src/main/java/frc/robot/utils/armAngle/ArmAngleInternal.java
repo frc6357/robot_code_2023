@@ -14,7 +14,7 @@ public class ArmAngleInternal
      * Enumerated Value that determines the motor type that is used for the arm
      */
 
-    public enum AngleMotorType
+    public static enum AngleMotorType
     {
         /**
          * CAN Spark Max motor
@@ -162,8 +162,7 @@ public class ArmAngleInternal
     }
 
     /**
-     * 
-     * @return Returns the current setpoint the arm is attempting to reach
+     * @return Returns the current setpoint that the arm is attempting to reach
      */
     public double getSetPoint()
     {
@@ -171,8 +170,7 @@ public class ArmAngleInternal
     }
 
     /**
-     * 
-     * @return Returns the current angle the arm is at in this moment of time
+     * @return Returns the angle that the arm is currently at
      */
     public double getCurrentAngle()
     {

@@ -15,8 +15,6 @@ public class SK23LowArmPneumatic extends SK23LowArm
     final DoubleSolenoid extendArm = new DoubleSolenoid(LowArmConstants.kModuleType,
         LowArmPorts.kPneumaticForwardChannel, LowArmPorts.kPneumaticReverseChannel);
 
-    public SK23LowArmPneumatic() {}
-
     public void extendArm(boolean extend)
     {
         extendArm.set(extend ? Value.kForward : Value.kReverse);

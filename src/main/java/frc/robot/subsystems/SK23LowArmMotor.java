@@ -15,11 +15,13 @@ import frc.robot.Ports.LowArmPorts;
 public class SK23LowArmMotor extends SK23LowArm
 {
 
-    private CANSparkMax     extendArm = new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
+    private CANSparkMax     extendArm        =
+            new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
     private RelativeEncoder extendArmEncoder = extendArm.getEncoder();
 
     public SK23LowArmMotor()
     {
+        super();
         extendArmEncoder.setPositionConversionFactor(LowArmConstants.kExtensionDistancePerPulse);
         extendArmEncoder.setVelocityConversionFactor(LowArmConstants.kExtensionDistancePerPulse);
     }
