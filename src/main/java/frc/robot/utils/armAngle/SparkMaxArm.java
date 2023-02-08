@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class SparkMaxArm extends GenericArmMotor
 {
-    boolean               lowerPresent;
-    boolean               upperPresent;
+    boolean               isLowerPresent;
+    boolean               isUpperPresent;
     double                setPoint;
     CANSparkMax           motor;
     RelativeEncoder       encoder;
     SparkMaxPIDController pidController;
-    int                   rotationRatio;
+    double                   rotationRatio;
     DigitalInput          UpperSensor;
     DigitalInput          LowerSensor;
 
@@ -31,34 +31,34 @@ public class SparkMaxArm extends GenericArmMotor
      *            Can ID of the motor used
      * @param rotationRatio
      *            Ratio of wheel rotations to degree (rotations/degree)
-     * @param p
+     * @param Kp
      *            Value for proportional gain constant in PID controller
-     * @param i
+     * @param Ki
      *            Value for integral gain constant in PID controller
-     * @param d
+     * @param Kd
      *            Value for derivative gain constant in PID controller
-     * @param LowerSensor
+     * @param LowerSensorID
      *            ID for digital input sensor that determines reset point of arm
-     * @param UpperSensor
+     * @param UpperSensorID
      *            ID for digital input sensor that determines max limit point of arm
      */
-    public SparkMaxArm(int CanID, int rotationRatio, int p, int i, int d, int LowerSensor,
-        int UpperSensor)
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd, 
+        int LowerSensorID,int UpperSensorID)
     {
         this.rotationRatio = rotationRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
         encoder = motor.getEncoder();
 
         pidController = motor.getPIDController();
-        pidController.setP(p);
-        pidController.setI(i);
-        pidController.setD(d);
+        pidController.setP(Kp);
+        pidController.setI(Ki);
+        pidController.setD(Kd);
 
-        this.LowerSensor = new DigitalInput(LowerSensor);
-        lowerPresent = true;
-        this.UpperSensor = new DigitalInput(UpperSensor);
-        upperPresent = true;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets 1 native unit of encoder to 1 degree
+        this.LowerSensor = new DigitalInput(LowerSensorID);
+        isLowerPresent = true;
+        this.UpperSensor = new DigitalInput(UpperSensorID);
+        isUpperPresent = true;
+        encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
@@ -70,30 +70,30 @@ public class SparkMaxArm extends GenericArmMotor
      *            Can ID of the motor used
      * @param rotationRatio
      *            Ratio of wheel rotations to degree (rotations/degree)
-     * @param p
+     * @param Kp
      *            Value for proportional gain constant in PID controller
-     * @param i
+     * @param Ki
      *            Value for integral gain constant in PID controller
-     * @param d
+     * @param Kd
      *            Value for derivative gain constant in PID controller
-     * @param LowerSensor
+     * @param LowerSensorID
      *            ID for digital input sensor that determines reset point of arm
      */
-    public SparkMaxArm(int CanID, int rotationRatio, int p, int i, int d, int LowerSensor)
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd, int LowerSensorID)
     {
         this.rotationRatio = rotationRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
         encoder = motor.getEncoder();
 
         pidController = motor.getPIDController();
-        pidController.setP(p);
-        pidController.setI(i);
-        pidController.setD(d);
+        pidController.setP(Kp);
+        pidController.setI(Ki);
+        pidController.setD(Kd);
 
-        this.LowerSensor = new DigitalInput(LowerSensor);
-        lowerPresent = true;
-        upperPresent = false;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets 1 native unit of encoder to 1 degree
+        this.LowerSensor = new DigitalInput(LowerSensorID);
+        isLowerPresent = true;
+        isUpperPresent = false;
+        encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
@@ -112,7 +112,7 @@ public class SparkMaxArm extends GenericArmMotor
      * @param d
      *            Value for derivative gain constant in PID controller
      */
-    public SparkMaxArm(int CanID, int rotationRatio, int p, int i, int d)
+    public SparkMaxArm(int CanID, double rotationRatio, double p, double i, double d)
     {
         this.rotationRatio = rotationRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -123,9 +123,9 @@ public class SparkMaxArm extends GenericArmMotor
         pidController.setI(i);
         pidController.setD(d);
 
-        lowerPresent = false;
-        upperPresent = false;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets 1 native unit of encoder to 1 degree
+        isLowerPresent = false;
+        isUpperPresent = false;
+        encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
@@ -138,7 +138,7 @@ public class SparkMaxArm extends GenericArmMotor
 
     public boolean isLowerAvailable()
     {
-        return lowerPresent;
+        return isLowerPresent;
     }
 
     public boolean isLowerReached()
@@ -148,7 +148,7 @@ public class SparkMaxArm extends GenericArmMotor
 
     public boolean isUpperAvailable()
     {
-        return upperPresent;
+        return isUpperPresent;
     }
 
     public boolean isUpperReached()
