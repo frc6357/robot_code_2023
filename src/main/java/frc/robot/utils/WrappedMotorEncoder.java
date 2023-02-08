@@ -3,6 +3,7 @@ package frc.robot.utils;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 /**
  * This is a wrapper class used to make the Falcon500 (TalonFX) CAN encoders provide the
@@ -36,8 +37,10 @@ public class WrappedMotorEncoder
      * @param degreesOffset
      *            Indicates the initial absolute position of the motor
      */
-    public WrappedMotorEncoder(WPI_TalonFX selectedMotorEncoder, double degreesPerPulse, double degreesOffset)
+    public WrappedMotorEncoder(WPI_TalonFX selectedMotorEncoder, double degreesPerPulse,
+        double degreesOffset)
     {
+        selectedMotorEncoder.setSelectedSensorPosition(0);
         underlyingMotor = selectedMotorEncoder;
         this.degreesPerPulse = degreesPerPulse;
         this.degreesOffset = degreesOffset;
@@ -73,7 +76,8 @@ public class WrappedMotorEncoder
      */
     public double getPositionDegrees()
     {
-        return MathUtil.inputModulus((getPositionPulses() * degreesPerPulse + degreesOffset), 0, 360);
+        return MathUtil.inputModulus((getPositionPulses() * degreesPerPulse + degreesOffset), 0,
+            360);
     }
 
     /**
@@ -82,7 +86,7 @@ public class WrappedMotorEncoder
      * 
      * @return The current velocity of the motor in meters
      */
-    public double getVelocityMeters()
+    public double getVelocityDegrees()
     {
         // Multiplies by ten to convert from m/100ms to m/sec
         return getVelocityPulses() * degreesPerPulse * 10;
@@ -91,6 +95,16 @@ public class WrappedMotorEncoder
     public double getPulsePositionFromDesiredAngle(double angle)
     {
         double offset = MathUtil.inputModulus(angle - getPositionDegrees(), 0, 360);
-        return offset / degreesPerPulse;
+        double absoluteDistance = Math.abs(offset);
+        if(absoluteDistance > 90)
+        {
+            offset = (360-absoluteDistance) * -Math.signum(offset);
+        }
+        return getPositionPulses() + offset / degreesPerPulse;
+    }
+
+    public Rotation2d getRotation2d()
+    {
+        return Rotation2d.fromDegrees(getPositionDegrees());
     }
 }

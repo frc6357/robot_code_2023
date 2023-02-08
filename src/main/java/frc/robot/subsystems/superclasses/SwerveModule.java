@@ -89,7 +89,7 @@ public class SwerveModule
     public SwerveModuleState getState()
     {
         return new SwerveModuleState(m_driveEncoder.getVelocityMeters(),
-            m_CANEncoder.getRotation2d());
+            m_turnEncoder.getRotation2d());
     }
 
     /**
@@ -100,7 +100,7 @@ public class SwerveModule
     public SwerveModulePosition getPosition()
     {
         return new SwerveModulePosition(m_driveEncoder.getPositionMeters(),
-            m_CANEncoder.getRotation2d());
+            m_turnEncoder.getRotation2d());
     }
 
     /**
@@ -115,7 +115,7 @@ public class SwerveModule
         SwerveModuleState state =
                 SwerveModuleState.optimize(desiredState, m_CANEncoder.getRotation2d());
 
-        // setDrive(state);
+        setDrive(state);
         setAngle(state);
     }
 
@@ -144,10 +144,5 @@ public class SwerveModule
     {
         m_driveMotor.set(0.0);
         m_turnMotor.set(0.0);
-    }
-
-    public void setP(double p)
-    {
-        m_turnMotor.config_kP(0, p);
     }
 }

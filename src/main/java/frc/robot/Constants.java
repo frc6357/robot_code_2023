@@ -113,8 +113,8 @@ public final class Constants
 
         // PID Constants
         public static final double kPModuleTurningController = 0.012;
-        public static final double kPModuleDriveController   = 0.3;
-        public static final double kPIDAngleDeadband         = 0.01;
+        public static final double kPModuleDriveController   = 0.2;
+        public static final double kPIDAngleDeadband         = 0.05;
 
         // Module Characteristics
         public static final int    kEncoderCPR                   = 2048;

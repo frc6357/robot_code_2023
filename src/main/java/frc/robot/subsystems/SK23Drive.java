@@ -10,7 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Ports.DrivePorts;
@@ -76,12 +75,6 @@ public class SK23Drive extends SubsystemBase
         m_odometry.update(m_gyro.getRotation2d(),
             new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
                 m_rearLeft.getPosition(), m_rearRight.getPosition()});
-
-        double p = SmartDashboard.getNumber("P Value", 0.0);
-        m_frontLeft.setP(p);
-        m_frontRight.setP(p);
-        m_rearLeft.setP(p);
-        m_rearRight.setP(p);
     }
 
     /**
