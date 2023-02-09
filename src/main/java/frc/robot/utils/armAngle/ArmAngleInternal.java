@@ -119,6 +119,18 @@ public class ArmAngleInternal
     }
 
     /**
+     * Adds a new motor that follows the actions of the lead motor
+     * 
+     * @param CanID
+     *            CanID for the follower motor
+     */
+
+    public void addFollowerMotor(int CanID)
+    {
+        motor.addFollowerMotor(CanID);
+    }
+
+    /**
      * @return Returns the value of digital input sensor that is used for location the
      *         lower limit of the arm.
      */

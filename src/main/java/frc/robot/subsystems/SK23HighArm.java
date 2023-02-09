@@ -28,8 +28,8 @@ public class SK23HighArm extends Arm
     public SK23HighArm()
     {
         angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
-            kRotationRatio, ArmPorts.kResetSwitch, ArmPorts.kLimitSwitch, kArmMotorP, kArmMotorI,
-            kArmMotorD);
+            kRotationRatio, kArmMotorP, kArmMotorI, kArmMotorD, ArmPorts.kResetSwitch,
+            ArmPorts.kLimitSwitch);
     }
 
     public void setArmAngle(ArmAngleEnum angle)

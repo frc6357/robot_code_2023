@@ -1,5 +1,7 @@
 package frc.robot.utils.armAngle;
 
+import java.util.ArrayList;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -14,15 +16,19 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class SparkMaxArm extends GenericArmMotor
 {
-    boolean               isLowerPresent;
-    boolean               isUpperPresent;
-    double                setPoint;
-    CANSparkMax           motor;
-    RelativeEncoder       encoder;
-    SparkMaxPIDController pidController;
-    double                   rotationRatio;
-    DigitalInput          UpperSensor;
-    DigitalInput          LowerSensor;
+    private ArrayList<SparkMaxArm> armArray = new ArrayList<SparkMaxArm>();
+    double                         Kp;
+    double                         Ki;
+    double                         Kd;
+    boolean                        isLowerPresent;
+    boolean                        isUpperPresent;
+    double                         setPoint;
+    CANSparkMax                    motor;
+    RelativeEncoder                encoder;
+    SparkMaxPIDController          pidController;
+    double                         rotationRatio;
+    DigitalInput                   UpperSensor;
+    DigitalInput                   LowerSensor;
 
     /**
      * Creates a new CAN Spark Max arm
@@ -42,12 +48,16 @@ public class SparkMaxArm extends GenericArmMotor
      * @param UpperSensorID
      *            ID for digital input sensor that determines max limit point of arm
      */
-    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd, 
-        int LowerSensorID,int UpperSensorID)
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
+        int LowerSensorID, int UpperSensorID)
     {
         this.rotationRatio = rotationRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
         encoder = motor.getEncoder();
+
+        this.Kp = Kp;
+        this.Ki = Ki;
+        this.Kd = Kd;
 
         pidController = motor.getPIDController();
         pidController.setP(Kp);
@@ -61,6 +71,8 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        armArray.add(this);
     }
 
     /**
@@ -79,7 +91,8 @@ public class SparkMaxArm extends GenericArmMotor
      * @param LowerSensorID
      *            ID for digital input sensor that determines reset point of arm
      */
-    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd, int LowerSensorID)
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
+        int LowerSensorID)
     {
         this.rotationRatio = rotationRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -96,6 +109,7 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        armArray.add(this);
     }
 
     /**
@@ -112,6 +126,7 @@ public class SparkMaxArm extends GenericArmMotor
      * @param d
      *            Value for derivative gain constant in PID controller
      */
+
     public SparkMaxArm(int CanID, double rotationRatio, double p, double i, double d)
     {
         this.rotationRatio = rotationRatio;
@@ -128,12 +143,21 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        armArray.add(this);
     }
 
     public void resetEncoder()
     {
-        encoder.setPosition(0.0); //Reset Position of encoder is 0.0
+        for (SparkMaxArm arm : armArray)
+        {
+            arm.encoder.setPosition(0.0); //Reset Position of encoder is 0.0
+        }
+    }
 
+    public void addFollowerMotor(int CanID)
+    {
+        SparkMaxArm followerMotor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd);
+        armArray.add(followerMotor);
     }
 
     public boolean isLowerAvailable()
@@ -158,7 +182,10 @@ public class SparkMaxArm extends GenericArmMotor
 
     public void stop()
     {
-        motor.stopMotor();
+        for (SparkMaxArm arm : armArray)
+        {
+            arm.motor.stopMotor();
+        }
     }
 
     public double getCurrentAngle()
@@ -174,6 +201,10 @@ public class SparkMaxArm extends GenericArmMotor
     public void setAngle(double degrees)
     {
         setPoint = degrees;
-        pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
+        for (SparkMaxArm arm : armArray)
+        {
+            arm.pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
+        }
+
     }
 }
