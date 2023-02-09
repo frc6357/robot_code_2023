@@ -112,7 +112,7 @@ public final class Constants
         public static final double kMaxModuleAngularAccelerationDegreesPerSecondSquared = 360;
 
         // PID Constants
-        public static final double kPModuleTurningController = 0.25;
+        public static final double kPModuleTurningController = 0.012;
         public static final double kPModuleDriveController   = 0.2;
         public static final double kPIDAngleDeadband         = 0.01;
 
