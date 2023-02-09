@@ -1,7 +1,5 @@
 package frc.robot.utils.armAngle;
 
-import java.util.ArrayList;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -16,19 +14,18 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class SparkMaxArm extends GenericArmMotor
 {
-    private ArrayList<SparkMaxArm> armArray = new ArrayList<SparkMaxArm>();
-    double                         Kp;
-    double                         Ki;
-    double                         Kd;
-    boolean                        isLowerPresent;
-    boolean                        isUpperPresent;
-    double                         setPoint;
-    CANSparkMax                    motor;
-    RelativeEncoder                encoder;
-    SparkMaxPIDController          pidController;
-    double                         rotationRatio;
-    DigitalInput                   UpperSensor;
-    DigitalInput                   LowerSensor;
+    double                Kp;
+    double                Ki;
+    double                Kd;
+    boolean               isLowerPresent;
+    boolean               isUpperPresent;
+    double                setPoint;
+    CANSparkMax           motor;
+    RelativeEncoder       encoder;
+    SparkMaxPIDController pidController;
+    double                rotationRatio;
+    DigitalInput          UpperSensor;
+    DigitalInput          LowerSensor;
 
     /**
      * Creates a new CAN Spark Max arm
@@ -71,8 +68,6 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
-        armArray.add(this);
     }
 
     /**
@@ -109,7 +104,6 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        armArray.add(this);
     }
 
     /**
@@ -143,21 +137,20 @@ public class SparkMaxArm extends GenericArmMotor
         encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        armArray.add(this);
     }
 
     public void resetEncoder()
     {
-        for (SparkMaxArm arm : armArray)
-        {
-            arm.encoder.setPosition(0.0); //Reset Position of encoder is 0.0
-        }
+        encoder.setPosition(0.0); //Reset Position of encoder is 0.0
+
     }
 
     public void addFollowerMotor(int CanID)
     {
-        SparkMaxArm followerMotor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd);
-        armArray.add(followerMotor);
+        try (CANSparkMax followerMotor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
+        {
+            followerMotor.follow(motor);
+        }
     }
 
     public boolean isLowerAvailable()
@@ -182,10 +175,7 @@ public class SparkMaxArm extends GenericArmMotor
 
     public void stop()
     {
-        for (SparkMaxArm arm : armArray)
-        {
-            arm.motor.stopMotor();
-        }
+        motor.stopMotor();
     }
 
     public double getCurrentAngle()
@@ -201,10 +191,6 @@ public class SparkMaxArm extends GenericArmMotor
     public void setAngle(double degrees)
     {
         setPoint = degrees;
-        for (SparkMaxArm arm : armArray)
-        {
-            arm.pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
-        }
-
+        pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
     }
 }

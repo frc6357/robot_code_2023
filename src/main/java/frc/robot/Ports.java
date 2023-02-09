@@ -5,8 +5,8 @@ public class Ports
     public class ArmPorts
     {
         public static final int kMainMotor = 0;
-        public static final int kResetSwitch = 0;
-        public static final int kLimitSwitch = 0;
+        public static final int kLowerSwitch = 0;
+        public static final int kUpperSwitch = 0;
     }
     public class OperatorPorts
     {

@@ -27,7 +27,7 @@ public abstract class SK23LowArm extends Arm
     public SK23LowArm()
     {
         angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
-            kRotationRatio, ArmPorts.kResetSwitch, ArmPorts.kLimitSwitch, kArmMotorP, kArmMotorI,
+            kRotationRatio, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch, kArmMotorP, kArmMotorI,
             kArmMotorD);
     }
 
