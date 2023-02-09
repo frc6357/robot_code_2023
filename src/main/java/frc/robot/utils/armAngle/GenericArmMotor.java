@@ -11,14 +11,6 @@ public abstract class GenericArmMotor
     public abstract void resetEncoder();
 
     /**
-     * Adds a new motor that follows the actions of the lead motor
-     * 
-     * @param CanID
-     *            CanID for the follower motor
-     */
-    public abstract void addFollowerMotor(int CanID);
-
-    /**
      * @return Returns the value of the sensor that is used for locating the lower limit
      *         of the arm.
      */
@@ -47,22 +39,14 @@ public abstract class GenericArmMotor
     public abstract void stop();
 
     /**
-     * 
-     * @return Returns the current setpoint the arm is attempting to reach
-     */
-    public abstract double getSetPoint();
-
-    /**
-     * 
-     * @return Returns the current angle the arm is at in this moment of time
-     */
-    public abstract double getCurrentAngle();
-
-    /**
      * Sets the angle of the arm to specified degrees
      * 
      * @param degrees
      *            Degree to which the arm should be set
      */
+    public abstract double getSetPoint();
+
+    public abstract double getCurrentAngle();
+
     public abstract void setAngle(double degrees);
 }

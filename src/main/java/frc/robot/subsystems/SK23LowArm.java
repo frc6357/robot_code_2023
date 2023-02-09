@@ -1,69 +1,47 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
-import frc.robot.Ports.ArmPorts;
-import frc.robot.subsystems.superclasses.Arm;
-import frc.robot.utils.armAngle.ArmAngleInternal;
-import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-/**
- * A class that represents the arm of the robot. Capable of moving the arm to a specified
- * angle and reading the current angle of the arm.
- */
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.robot.Constants.LowArmConstants;
+import frc.robot.Ports.LowArmPorts;
+import frc.robot.subsystems.superclasses.Arm;
+
+//
+// TODO: What is this class for? Add a comment describing what it is so that people
+// picking up the code can understand what it's for.
+//
 public abstract class SK23LowArm extends Arm
 {
-    public static final int kRotationRatio = 0;
-    public static final int kArmMotorP     = 0;
-    public static final int kArmMotorI     = 0;
-    public static final int kArmMotorD     = 0;
-
-    public static final int kHighCube = 0;
-    public static final int kMidCube  = 0;
-    public static final int kLowCube  = 0;
-    public static final int kHighCone = 0;
-    public static final int kLowCone  = 0;
-
-    ArmAngleInternal angleMotor;
-
+    private CANSparkMax mainMotor = new CANSparkMax(LowArmPorts.kMainMotor, MotorType.kBrushless);
+    private RelativeEncoder mainEncoder = mainMotor.getEncoder();
+    private CANSparkMax followerMotor = new CANSparkMax(LowArmPorts.kFollowerMotor, MotorType.kBrushless);
+    private MotorControllerGroup motors = new MotorControllerGroup(mainMotor, followerMotor);
+    
+    /** Creates a new ExampleSubsystem. */
     public SK23LowArm()
     {
-        angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
-            kRotationRatio, ArmPorts.kResetSwitch, ArmPorts.kLimitSwitch, kArmMotorP, kArmMotorI,
-            kArmMotorD);
-    }
-
-    public void setArmAngle(ArmAngleEnum angle)
-    {
-        switch (angle)
-        {
-            case HighCube:
-                angleMotor.setAngle(kHighCube);
-                break;
-            case MidCube:
-                angleMotor.setAngle(kMidCube);
-                break;
-            case LowCube:
-                angleMotor.setAngle(kLowCube);
-                break;
-            case HighCone:
-                angleMotor.setAngle(kHighCone);
-                break;
-            case LowCone:
-                angleMotor.setAngle(kLowCone);
-                break;
-
-        }
+        mainEncoder.setPosition(LowArmConstants.kArmPositionOffsetDegrees);
+        mainEncoder.setPositionConversionFactor(LowArmConstants.kDegreesPerPulse);
+        mainEncoder.setVelocityConversionFactor(LowArmConstants.kDegreesPerPulse);
     }
 
     @Override
-    public double getCurrentAngle()
+    public void setRotationSpeed(double speed)
     {
-        return angleMotor.getCurrentAngle();
+        motors.set(speed);
     }
 
     @Override
-    public double getSetPoint()
+    public double getPosition()
     {
-        return angleMotor.getSetPoint();
+        return mainEncoder.getPosition();
     }
 
     @Override
