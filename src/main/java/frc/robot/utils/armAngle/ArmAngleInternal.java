@@ -14,7 +14,7 @@ public class ArmAngleInternal
      * Enumerated Value that determines the motor type that is used for the arm
      */
 
-    public enum AngleMotorType
+    public static enum AngleMotorType
     {
         /**
          * CAN Spark Max motor
@@ -37,18 +37,19 @@ public class ArmAngleInternal
      *            Value for integral gain constant in PID controller
      * @param Kd
      *            Value for derivative gain constant in PID controller
-     * @param lowerSensor
+     * @param lowerSensorID
      *            ID for digital input sensor that determines lower limit of arm
-     * @param upperSensor
+     * @param upperSensorID
      *            ID for digital input sensor that determines upper limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, int rotationRatio, int Kp, int Ki,
-        int Kd, int lowerSensor, int upperSensor)
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+        double Ki, double Kd, int lowerSensorID, int upperSensorID)
     {
         switch (motorType)
         {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, rotationRatio, lowerSensor, upperSensor, Kp, Ki, Kd);
+                motor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd, lowerSensorID,
+                    upperSensorID);
                 break;
         }
     }
@@ -68,16 +69,16 @@ public class ArmAngleInternal
      *            Value for integral gain constant in PID controller
      * @param Kd
      *            Value for derivative gain constant in PID controller
-     * @param lowerSensor
+     * @param lowerSensorID
      *            ID for digital input sensor that determines lower limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, int rotationRatio, int Kp, int Ki,
-        int Kd, int lowerSensor)
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+        double Ki, double Kd, int lowerSensorID)
     {
         switch (motorType)
         {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, rotationRatio, lowerSensor, Kp, Ki, Kd);
+                motor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd, lowerSensorID);
                 break;
         }
     }
@@ -98,8 +99,8 @@ public class ArmAngleInternal
      * @param Kd
      *            Value for derivative gain constant in PID controller
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, int rotationRatio, int Kp, int Ki,
-        int Kd)
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+        double Ki, double Kd)
     {
         switch (motorType)
         {
@@ -118,12 +119,32 @@ public class ArmAngleInternal
     }
 
     /**
+     * Adds a new motor that follows the actions of the lead motor
+     * 
+     * @param CanID
+     *            CanID for the follower motor
+     */
+
+    public void addFollowerMotor(int CanID)
+    {
+        motor.addFollowerMotor(CanID);
+    }
+
+    /**
      * @return Returns the value of digital input sensor that is used for location the
      *         lower limit of the arm.
      */
     public boolean isLowerReached()
     {
         return motor.isLowerReached();
+    }
+
+    /**
+     * @return Returns true if the lower sensor is present
+     */
+    public boolean isLowerAvailable()
+    {
+        return motor.isLowerAvailable();
     }
 
     /**
@@ -136,6 +157,14 @@ public class ArmAngleInternal
     }
 
     /**
+     * @return Returns true if the upper sensor is present
+     */
+    public boolean isUpperAvailable()
+    {
+        return motor.isUpperAvailable();
+    }
+
+    /**
      * Stops motor movement. Motor can be moved again by calling set without having to
      * re-enable the motor.
      */
@@ -145,22 +174,28 @@ public class ArmAngleInternal
     }
 
     /**
-     * Sets the angle of the arm to specified degrees, starting at 0 at the lower point
-     * and increasing towards upper point
-     * 
-     * @param degrees
-     *            Degree to which the arm should be set
+     * @return Returns the current setpoint that the arm is attempting to reach
      */
     public double getSetPoint()
     {
         return motor.getSetPoint();
     }
 
+    /**
+     * @return Returns the angle that the arm is currently at
+     */
     public double getCurrentAngle()
     {
         return motor.getCurrentAngle();
     }
 
+    /**
+     * Sets the angle of the arm to specified degrees, starting at 0 at the lower point
+     * and increasing towards upper point
+     * 
+     * @param degrees
+     *            Degree to which the arm should be set
+     */
     public void setAngle(int degrees)
     {
         motor.setAngle(degrees);
