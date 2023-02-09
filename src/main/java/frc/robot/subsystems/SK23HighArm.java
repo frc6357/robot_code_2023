@@ -1,54 +1,70 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import frc.robot.Constants.HighArmConstants;
-import frc.robot.Ports.HighArmPorts;
+import frc.robot.Ports.ArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
+import frc.robot.utils.armAngle.ArmAngleInternal;
+import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 /**
- * A version of the arm subsystem in which the pivot point of the arm is located at a
- * relatively high point. This causes the only motion of the arm to be a rotational motion
- * controlled by N motors. This arm will rotate to set positions to score the game piece.
+ * A class that represents the arm of the robot. Capable of moving the arm to a specified
+ * angle and reading the current angle of the arm.
  */
 public class SK23HighArm extends Arm
 {
+    public static final int kRotationRatio = 0;
+    public static final int kArmMotorP     = 0;
+    public static final int kArmMotorI     = 0;
+    public static final int kArmMotorD     = 0;
 
-    private CANSparkMax mainMotor = new CANSparkMax(HighArmPorts.kMainMotor, MotorType.kBrushless);
-    private RelativeEncoder mainEncoder = mainMotor.getEncoder();
-    private CANSparkMax followerMotor = new CANSparkMax(HighArmPorts.kFollowerMotor, MotorType.kBrushless);
-    private MotorControllerGroup motors = new MotorControllerGroup(mainMotor, followerMotor);
+    public static final int kHighCube = 0;
+    public static final int kMidCube  = 0;
+    public static final int kLowCube  = 0;
+    public static final int kHighCone = 0;
+    public static final int kLowCone  = 0;
 
-    // TODO: The encoder in the NEO is relative rather than absolute so you need to
-    // have a reference that you know represents a specific arm angle. This allows you
-    // to set the zero point and remove encoder drift as the class is used. Think about
-    // supporting a limit switch or other sensor that lets you know when the arm is at
-    // the zero position.
-    
-    /**
-     * Creates a new High Pivot arm using Neo Brushless Motors.
-     */
+    ArmAngleInternal angleMotor;
+
     public SK23HighArm()
     {
-        mainEncoder.setPosition(HighArmConstants.kArmPositionOffsetDegrees);
-        mainEncoder.setPositionConversionFactor(HighArmConstants.kDegreesPerPulse);
-        mainEncoder.setVelocityConversionFactor(HighArmConstants.kDegreesPerPulse);
+        angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+            kRotationRatio, kArmMotorP, kArmMotorI, kArmMotorD, ArmPorts.kResetSwitch,
+            ArmPorts.kLimitSwitch);
+    }
+
+    public void setArmAngle(ArmAngleEnum angle)
+    {
+        switch (angle)
+        {
+            case HighCube:
+                angleMotor.setAngle(kHighCube);
+                break;
+            case MidCube:
+                angleMotor.setAngle(kMidCube);
+                break;
+            case LowCube:
+                angleMotor.setAngle(kLowCube);
+                break;
+            case HighCone:
+                angleMotor.setAngle(kHighCone);
+                break;
+            case LowCone:
+                angleMotor.setAngle(kLowCone);
+                break;
+
+        }
     }
 
     @Override
-    public void setRotationSpeed(double speed)
+    public double getCurrentAngle()
     {
-        motors.set(speed);
+        return angleMotor.getCurrentAngle();
     }
 
     @Override
-    public double getPosition()
+    public double getSetPoint()
     {
-        return mainEncoder.getPosition();
+        return angleMotor.getSetPoint();
     }
 
     @Override
