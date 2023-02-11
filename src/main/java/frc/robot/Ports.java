@@ -4,13 +4,15 @@ public class Ports
 {
     public class ArmPorts
     {
-        public static final int kMainMotor = 0;
+        public static final int kMainMotor   = 0;
         public static final int kLowerSwitch = 0;
         public static final int kUpperSwitch = 0;
     }
+
     public class OperatorPorts
     {
-        public static final int kDriverControllerPort = 0;
+        public static final int kDriverControllerPort   = 0;
+        public static final int kOperatorControllerPort = 1;
     }
 
     public class HighArmPorts

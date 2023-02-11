@@ -131,10 +131,6 @@ public final class Constants
 
     public static final class OIConstants
     {
-        // Controller ports
-        public static final int kDriverControllerPort   = 0;
-        public static final int kOperatorControllerPort = 1;
-
         // Axes for driving
         public static final int kVelocityXPort     = 0;
         public static final int kVelocityYPort     = 1;
