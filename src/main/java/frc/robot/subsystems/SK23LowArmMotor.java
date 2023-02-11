@@ -18,7 +18,7 @@ public class SK23LowArmMotor extends SK23LowArm
 {
 
     private CANSparkMax     extendArm        =
-            new CANSparkMax(LowArmPorts.kExtensionMotor, MotorType.kBrushless);
+            new CANSparkMax(LowArmPorts.kExtensionMotor.ID, MotorType.kBrushless);
     private RelativeEncoder extendArmEncoder = extendArm.getEncoder();
 
     public SK23LowArmMotor()

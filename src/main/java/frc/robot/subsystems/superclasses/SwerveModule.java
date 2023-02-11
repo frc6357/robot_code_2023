@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.utils.CANPort;
 import frc.robot.utils.MotorEncoder;
 import frc.robot.utils.WrappedMotorEncoder;
 import frc.robot.utils.wrappers.SK_CANCoder;
@@ -48,13 +49,13 @@ public class SwerveModule
      * @param turnMotorReversed
      *            Whether the turning motor is reversed.
      */
-    public SwerveModule(int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel,
+    public SwerveModule(CANPort driveMotorChannel, CANPort turningMotorChannel, CANPort turningEncoderChannel,
         boolean driveMotorReversed, boolean turnMotorReversed, double turningEncoderOffset)
     {
 
         m_turningEncoderOffset = turningEncoderOffset;
 
-        m_driveMotor = new WPI_TalonFX(driveMotorChannel);
+        m_driveMotor = new WPI_TalonFX(driveMotorChannel.ID, driveMotorChannel.bus);
         m_driveMotor.configFactoryDefault();
         m_driveMotor.setNeutralMode(NeutralMode.Brake);     // Set drive motor to brake mode
         m_driveMotor.setInverted(driveMotorReversed);       // Set whether drive encoder should be reversed or not
@@ -62,13 +63,13 @@ public class SwerveModule
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.slot0.kP = ModuleConstants.kPModuleTurningController;
         config.neutralDeadband = ModuleConstants.kPIDAngleDeadband;
-        m_turnMotor = new WPI_TalonFX(turningMotorChannel);
+        m_turnMotor = new WPI_TalonFX(turningMotorChannel.ID, turningMotorChannel.bus);
         m_turnMotor.configFactoryDefault();
         m_turnMotor.configAllSettings(config);
         m_turnMotor.setInverted(turnMotorReversed);         // Set whether turn encoder should be reversed or not
         m_turnMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-        m_CANEncoder = new SK_CANCoder(turningEncoderChannel, m_turningEncoderOffset);
+        m_CANEncoder = new SK_CANCoder(turningMotorChannel, m_turningEncoderOffset);
         // Encoder should never be inverted. Inversion should be left to the motor.
         m_driveEncoder = new MotorEncoder(m_driveMotor,
             ModuleConstants.kDriveEncoderDistancePerPulse, false);

@@ -1,61 +1,64 @@
 package frc.robot;
 
+import frc.robot.utils.CANPort;
+
 public class Ports
 {
-    public class IntakePorts
+    public static class ArmPorts
     {
-
+        private static final String busName      = "";
+        public static final CANPort kMainMotor   = new CANPort(0, busName);
+        public static final int     kLowerSwitch = 0;
+        public static final int     kUpperSwitch = 0;
     }
 
-    public class ArmPorts
-    {
-        public static final int kMainMotor   = 0;
-        public static final int kLowerSwitch = 0;
-        public static final int kUpperSwitch = 0;
-    }
-
-    public class OperatorPorts
+    public static class OperatorPorts
     {
         public static final int kDriverControllerPort   = 0;
         public static final int kOperatorControllerPort = 1;
     }
 
-    public class HighArmPorts
+    public static class HighArmPorts
     {
-        public static final int kMainMotor     = 0;
-        public static final int kFollowerMotor = 0;
+        private static final String busName        = "";
+        public static final CANPort kMainMotor     = new CANPort(0, busName);
+        public static final CANPort kFollowerMotor = new CANPort(0, busName);
     }
 
-    public class LowArmPorts
+    public static class LowArmPorts
     {
-        public static final int kMainMotor     = 0;
-        public static final int kFollowerMotor = 0;
+        private static final String busName = "";
+
+        public static final CANPort kMainMotor     = new CANPort(0, busName);
+        public static final CANPort kFollowerMotor = new CANPort(0, busName);
 
         public static final int kPneumaticForwardChannel = 0;
         public static final int kPneumaticReverseChannel = 0;
 
-        public static final int kExtensionMotor = 0;
+        public static final CANPort kExtensionMotor = new CANPort(0, busName);
 
     }
 
-    public class DrivePorts
+    public static class DrivePorts
     {
+        private static final String busName = "";
+
         // CAN IDs for the drive motors on the swerve module
-        public static final int kFrontLeftDriveMotorPort  = 10;
-        public static final int kRearLeftDriveMotorPort   = 11;
-        public static final int kFrontRightDriveMotorPort = 12;
-        public static final int kRearRightDriveMotorPort  = 13;
+        public static final CANPort kFrontLeftDriveMotorPort  = new CANPort(10, busName);
+        public static final CANPort kRearLeftDriveMotorPort   = new CANPort(11, busName);
+        public static final CANPort kFrontRightDriveMotorPort = new CANPort(12, busName);
+        public static final CANPort kRearRightDriveMotorPort  = new CANPort(13, busName);
 
         // CAN IDs for the turning motors on the swerve module
-        public static final int kFrontLeftTurningMotorPort  = 20;
-        public static final int kRearLeftTurningMotorPort   = 21;
-        public static final int kFrontRightTurningMotorPort = 22;
-        public static final int kRearRightTurningMotorPort  = 23;
+        public static final CANPort kFrontLeftTurningMotorPort  = new CANPort(20, busName);
+        public static final CANPort kRearLeftTurningMotorPort   = new CANPort(21, busName);
+        public static final CANPort kFrontRightTurningMotorPort = new CANPort(22, busName);
+        public static final CANPort kRearRightTurningMotorPort  = new CANPort(23, busName);
 
         // CAN IDs for the CANCoders
-        public static final int kFrontLeftTurningEncoderPort  = 30;
-        public static final int kRearLeftTurningEncoderPort   = 31;
-        public static final int kFrontRightTurningEncoderPort = 32;
-        public static final int kRearRightTurningEncoderPort  = 33;
+        public static final CANPort kFrontLeftTurningEncoderPort  = new CANPort(30, busName);
+        public static final CANPort kRearLeftTurningEncoderPort   = new CANPort(31, busName);
+        public static final CANPort kFrontRightTurningEncoderPort = new CANPort(32, busName);
+        public static final CANPort kRearRightTurningEncoderPort  = new CANPort(33, busName);
     }
 }

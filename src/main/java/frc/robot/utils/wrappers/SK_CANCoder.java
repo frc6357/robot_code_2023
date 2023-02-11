@@ -6,6 +6,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.utils.CANPort;
 
 /**
  * Java class that wraps WPI_CANCoder to allow offsetDegrees as parameter that changes
@@ -16,9 +17,9 @@ public class SK_CANCoder extends WPI_CANCoder
 
     private double offsetDegrees;
 
-    public SK_CANCoder(int deviceNumber, double offsetDegrees)
+    public SK_CANCoder(CANPort deviceNumber, double offsetDegrees)
     {
-        super(deviceNumber);
+        super(deviceNumber.ID, deviceNumber.bus);
 
         this.offsetDegrees = offsetDegrees;
         CANCoderConfiguration config = new CANCoderConfiguration();

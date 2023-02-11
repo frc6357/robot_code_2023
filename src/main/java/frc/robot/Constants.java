@@ -114,7 +114,7 @@ public final class Constants
         public static final double kvVoltSecondsPerMeter        = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxSpeedMetersPerSecond = 4.5;
     }
 
     public static final class ModuleConstants
@@ -125,7 +125,7 @@ public final class Constants
 
         // PID Constants
         public static final double kPModuleTurningController = 0.25;
-        public static final double kPModuleDriveController   = 0.2;
+        public static final double kPModuleDriveController   = 0.1;
         public static final double kPIDAngleDeadband         = 0.01;
 
         // Module Characteristics
@@ -155,12 +155,14 @@ public final class Constants
         // Controller constraints
         public static final double kDriveGain        = 0.95;
         public static final double kRotationGain     = 0.95;
-        public static final double kJoystickDeadband = 0.05;
+        public static final double kJoystickDeadband = 0.01;
     }
 
     public static final class CameraConstants
     {
-        public static final int kDriverCameraFPS = 15;
+        public static final int kDriverCameraResolutionX = 640;
+        public static final int kDriverCameraResolutionY = 360;
+        public static final int kDriverCameraFPS         = 15;
     }
 
     public static final class AutoConstants

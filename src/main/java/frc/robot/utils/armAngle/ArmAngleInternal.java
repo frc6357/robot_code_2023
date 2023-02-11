@@ -1,5 +1,7 @@
 package frc.robot.utils.armAngle;
 
+import frc.robot.utils.CANPort;
+
 /**
  * Generic class to set and read the angle of an arm in degrees, with the lower point
  * starting at 0 and increasing towards the upper point. It does this using a motor that
@@ -42,7 +44,7 @@ public class ArmAngleInternal
      * @param upperSensorID
      *            ID for digital input sensor that determines upper limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
         double Ki, double Kd, int lowerSensorID, int upperSensorID)
     {
         switch (motorType)
@@ -72,7 +74,7 @@ public class ArmAngleInternal
      * @param lowerSensorID
      *            ID for digital input sensor that determines lower limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
         double Ki, double Kd, int lowerSensorID)
     {
         switch (motorType)
@@ -99,7 +101,7 @@ public class ArmAngleInternal
      * @param Kd
      *            Value for derivative gain constant in PID controller
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
         double Ki, double Kd)
     {
         switch (motorType)
