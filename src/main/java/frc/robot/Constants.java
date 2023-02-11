@@ -27,7 +27,19 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  */
 public final class Constants
 {
-    public static class OperatorConstants {}
+    public static class OperatorConstants
+    {
+    }
+
+    public static enum GamePieceEnum
+    {
+        // Represents a case where there is no game object 
+        None,
+        // Represents a Cone game object
+        Cone,
+        // Represents a Cube game object
+        Cube,
+    }
 
     public static class HighArmConstants
     {
@@ -148,7 +160,7 @@ public final class Constants
 
     public static final class CameraConstants
     {
-        public static final int kDriverCameraFPS     = 15;
+        public static final int kDriverCameraFPS = 15;
     }
 
     public static final class AutoConstants
