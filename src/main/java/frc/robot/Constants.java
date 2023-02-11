@@ -146,6 +146,11 @@ public final class Constants
         public static final double kJoystickDeadband = 0.05;
     }
 
+    public static final class CameraConstants
+    {
+        public static final int kDriverCameraFPS     = 15;
+    }
+
     public static final class AutoConstants
     {
         // Folder name for autos in deploy directors
