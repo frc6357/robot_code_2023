@@ -14,6 +14,7 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.utils.MotorEncoder;
 import frc.robot.utils.WrappedMotorEncoder;
@@ -50,20 +51,34 @@ public class SwerveModule
     public SwerveModule(int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel,
         boolean driveMotorReversed, boolean turnMotorReversed, double turningEncoderOffset)
     {
-        m_driveMotor = new WPI_TalonFX(driveMotorChannel);
-        m_turnMotor = new WPI_TalonFX(turningMotorChannel);
-
-        setStatusFramePeriods();
-        configureDriveMotor(driveMotorReversed);
-        configureTurnMotor(turnMotorReversed);
 
         m_turningEncoderOffset = turningEncoderOffset;
+
+        m_driveMotor = new WPI_TalonFX(driveMotorChannel);
+        m_driveMotor.configFactoryDefault();
+        m_driveMotor.setNeutralMode(NeutralMode.Brake);     // Set drive motor to brake mode
+        m_driveMotor.setInverted(driveMotorReversed);       // Set whether drive encoder should be reversed or not
+
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.slot0.kP = ModuleConstants.kPModuleTurningController;
+        config.neutralDeadband = ModuleConstants.kPIDAngleDeadband;
+        m_turnMotor = new WPI_TalonFX(turningMotorChannel);
+        m_turnMotor.configFactoryDefault();
+        m_turnMotor.configAllSettings(config);
+        m_turnMotor.setInverted(turnMotorReversed);         // Set whether turn encoder should be reversed or not
+        m_turnMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+
         m_CANEncoder = new SK_CANCoder(turningEncoderChannel, m_turningEncoderOffset);
         // Encoder should never be inverted. Inversion should be left to the motor.
         m_driveEncoder = new MotorEncoder(m_driveMotor,
             ModuleConstants.kDriveEncoderDistancePerPulse, false);
         m_turnEncoder = new WrappedMotorEncoder(m_turnMotor,
             ModuleConstants.kTurnEncoderDistancePerPulse, m_CANEncoder.getAbsolutePosition());
+
+        // Setting the update speeds of the motors and CANCoders
+        m_CANEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
+        m_driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10);
+        m_turnMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10);
     }
 
     /**
@@ -73,8 +88,7 @@ public class SwerveModule
      */
     public SwerveModuleState getState()
     {
-        return new SwerveModuleState(
-            m_driveEncoder.getVelocityMeters(),
+        return new SwerveModuleState(m_driveEncoder.getVelocityMeters(),
             m_turnEncoder.getRotation2d());
     }
 
@@ -85,8 +99,7 @@ public class SwerveModule
      */
     public SwerveModulePosition getPosition()
     {
-        return new SwerveModulePosition(
-            m_driveEncoder.getPositionMeters(),
+        return new SwerveModulePosition(m_driveEncoder.getPositionMeters(),
             m_turnEncoder.getRotation2d());
     }
 
@@ -100,7 +113,7 @@ public class SwerveModule
     {
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState state =
-                SwerveModuleState.optimize(desiredState, m_turnEncoder.getRotation2d());
+                SwerveModuleState.optimize(desiredState, m_CANEncoder.getRotation2d());
 
         setDrive(state);
         setAngle(state);
@@ -108,8 +121,8 @@ public class SwerveModule
 
     public void setDrive(SwerveModuleState desiredState)
     {
-        double speed = desiredState.speedMetersPerSecond / ModuleConstants.kDriveEncoderDistancePerPulse;
-        m_driveMotor.set(ControlMode.Velocity, speed);
+        m_driveMotor
+            .set(desiredState.speedMetersPerSecond / DriveConstants.kMaxSpeedMetersPerSecond);
     }
 
     public void setAngle(SwerveModuleState desiredState)
@@ -131,37 +144,5 @@ public class SwerveModule
     {
         m_driveMotor.set(0.0);
         m_turnMotor.set(0.0);
-    }
-
-    private void configureDriveMotor(boolean driveMotorReversed)
-    {
-
-        TalonFXConfiguration config = new TalonFXConfiguration();
-        config.slot0.kP = ModuleConstants.kPModuleDriveController;
-        config.neutralDeadband = ModuleConstants.kPIDAngleDeadband;
-        m_driveMotor.configFactoryDefault();
-        m_driveMotor.configAllSettings(config);
-        m_driveMotor.setNeutralMode(NeutralMode.Brake);     // Set drive motor to brake mode
-        m_driveMotor.setInverted(driveMotorReversed);       // Set whether drive encoder should be reversed or not
-        m_driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-    }
-
-    private void configureTurnMotor(boolean turnMotorReversed)
-    {
-        TalonFXConfiguration config = new TalonFXConfiguration();
-        config.slot0.kP = ModuleConstants.kPModuleTurningController;
-        config.neutralDeadband = ModuleConstants.kPIDAngleDeadband;
-        m_turnMotor.configFactoryDefault();
-        m_turnMotor.configAllSettings(config);
-        m_turnMotor.setInverted(turnMotorReversed);         // Set whether turn encoder should be reversed or not
-        m_turnMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-    }
-
-    private void setStatusFramePeriods()
-    {
-        // Setting the update speeds of the motors and CANCoders
-        m_CANEncoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
-        m_driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10);
-        m_turnMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10);
     }
 }
