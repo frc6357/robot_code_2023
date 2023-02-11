@@ -22,11 +22,11 @@ public abstract class SK23LowArm extends Arm
     public static final int kHighCone = 0;
     public static final int kLowCone  = 0;
 
-    ArmAngleInternal angleMotor;
+    ArmAngleInternal mainMotor;
 
     public SK23LowArm()
     {
-        angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+        mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
             kRotationRatio, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch, kArmMotorP, kArmMotorI,
             kArmMotorD);
     }
@@ -36,19 +36,19 @@ public abstract class SK23LowArm extends Arm
         switch (angle)
         {
             case HighCube:
-                angleMotor.setAngle(kHighCube);
+                mainMotor.setTargetAngle(kHighCube);
                 break;
             case MidCube:
-                angleMotor.setAngle(kMidCube);
+                mainMotor.setTargetAngle(kMidCube);
                 break;
             case LowCube:
-                angleMotor.setAngle(kLowCube);
+                mainMotor.setTargetAngle(kLowCube);
                 break;
             case HighCone:
-                angleMotor.setAngle(kHighCone);
+                mainMotor.setTargetAngle(kHighCone);
                 break;
             case LowCone:
-                angleMotor.setAngle(kLowCone);
+                mainMotor.setTargetAngle(kLowCone);
                 break;
 
         }
@@ -57,13 +57,13 @@ public abstract class SK23LowArm extends Arm
     @Override
     public double getCurrentAngle()
     {
-        return angleMotor.getCurrentAngle();
+        return mainMotor.getCurrentAngle();
     }
 
     @Override
     public double getSetPoint()
     {
-        return angleMotor.getSetPoint();
+        return mainMotor.getTargetAngle();
     }
 
     @Override
@@ -71,4 +71,10 @@ public abstract class SK23LowArm extends Arm
 
     @Override
     public abstract boolean isArmExtended();
+
+    @Override
+    public void periodic()
+    {
+        mainMotor.checkLimitSensors();
+    }
 }

@@ -50,7 +50,7 @@ public abstract class GenericArmMotor
      * 
      * @return Returns the current setpoint the arm is attempting to reach
      */
-    public abstract double getSetPoint();
+    public abstract double getTargetAngle();
 
     /**
      * 
@@ -64,5 +64,5 @@ public abstract class GenericArmMotor
      * @param degrees
      *            Degree to which the arm should be set
      */
-    public abstract void setAngle(double degrees);
+    public abstract void setTargetAngle(double degrees);
 }

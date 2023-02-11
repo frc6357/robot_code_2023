@@ -147,7 +147,8 @@ public class SparkMaxArm extends GenericArmMotor
 
     public void addFollowerMotor(int CanID)
     {
-        try (CANSparkMax followerMotor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
+        try (CANSparkMax followerMotor =
+                new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
         {
             followerMotor.follow(motor);
         }
@@ -183,12 +184,12 @@ public class SparkMaxArm extends GenericArmMotor
         return encoder.getPosition();
     }
 
-    public double getSetPoint()
+    public double getTargetAngle()
     {
         return setPoint;
     }
 
-    public void setAngle(double degrees)
+    public void setTargetAngle(double degrees)
     {
         setPoint = degrees;
         pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);

@@ -23,11 +23,11 @@ public class SK23HighArm extends Arm
     public static final int kHighCone = 0;
     public static final int kLowCone  = 0;
 
-    ArmAngleInternal angleMotor;
+    ArmAngleInternal mainMotor;
 
     public SK23HighArm()
     {
-        angleMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+        mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
             kRotationRatio, kArmMotorP, kArmMotorI, kArmMotorD, ArmPorts.kLowerSwitch,
             ArmPorts.kUpperSwitch);
     }
@@ -37,19 +37,19 @@ public class SK23HighArm extends Arm
         switch (angle)
         {
             case HighCube:
-                angleMotor.setAngle(kHighCube);
+                mainMotor.setTargetAngle(kHighCube);
                 break;
             case MidCube:
-                angleMotor.setAngle(kMidCube);
+                mainMotor.setTargetAngle(kMidCube);
                 break;
             case LowCube:
-                angleMotor.setAngle(kLowCube);
+                mainMotor.setTargetAngle(kLowCube);
                 break;
             case HighCone:
-                angleMotor.setAngle(kHighCone);
+                mainMotor.setTargetAngle(kHighCone);
                 break;
             case LowCone:
-                angleMotor.setAngle(kLowCone);
+                mainMotor.setTargetAngle(kLowCone);
                 break;
 
         }
@@ -58,13 +58,13 @@ public class SK23HighArm extends Arm
     @Override
     public double getCurrentAngle()
     {
-        return angleMotor.getCurrentAngle();
+        return mainMotor.getCurrentAngle();
     }
 
     @Override
     public double getSetPoint()
     {
-        return angleMotor.getSetPoint();
+        return mainMotor.getTargetAngle();
     }
 
     @Override
@@ -78,5 +78,11 @@ public class SK23HighArm extends Arm
     {
         DriverStation.reportWarning("High Arm cannot extend", true);
         return false;
+    }
+
+    @Override
+    public void periodic()
+    {
+        mainMotor.checkLimitSensors();
     }
 }
