@@ -4,9 +4,18 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,6 +26,11 @@ import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Drive;
+import frc.robot.subsystems.SK23HighArm;
+import frc.robot.subsystems.SK23Intake;
+import frc.robot.subsystems.SK23LowArm;
+import frc.robot.subsystems.SK23LowArmMotor;
+import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
 
 /*
@@ -35,9 +49,17 @@ public class RobotContainer
     private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
 
     // The driver's controller
-    private final FilteredJoystick driveController = new FilteredJoystick(OperatorPorts.kDriverControllerPort);
-    private final FilteredJoystick operatorController = new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
+    private final FilteredJoystick driveController    =
+            new FilteredJoystick(OperatorPorts.kDriverControllerPort);
+    private final FilteredJoystick operatorController =
+            new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
+    // Initialization for optional
+    private Optional<SK23Intake>      intakeSubsystem          = Optional.empty();
+    private Optional<SK23HighArm>     highArmSubsystem         = Optional.empty();
+    private Optional<SK23LowArm>      lowArmSubsystem          = Optional.empty();
+    private Optional<SK23LowArmMotor> lowArmMotorSubsystem     = Optional.empty();
+    private Optional<SK23LowArmMotor> lowArmPneumaticSubsystem = Optional.empty();
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
@@ -52,6 +74,27 @@ public class RobotContainer
         // Configure the button bindings
         configureButtonBindings();
         configureAutos();
+
+        File deployDirectory = Filesystem.getDeployDirectory();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonFactory factory = new JsonFactory();
+
+        try
+        {
+            JsonParser parser =
+                    factory.createParser(new File(deployDirectory, Constants.SUBSYSTEMFILE));
+            SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
+
+            if (subsystems.isIntakePresent())
+            {
+                intakeSubsystem = Optional.of(new SK23Intake());
+            }
+        }
+        catch (IOException e)
+        {
+            DriverStation.reportError("Failure to read Subsystem Control File!", e.getStackTrace());
+        }
     }
 
     /**
@@ -79,7 +122,8 @@ public class RobotContainer
     private void configureAutos()
     {
         autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
-        autoGenerator.displayAllPathCommands((name, command) -> autoCommandSelector.addOption(name, command));
+        autoGenerator.displayAllPathCommands(
+            (name, command) -> autoCommandSelector.addOption(name, command));
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
     }
 

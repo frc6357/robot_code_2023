@@ -17,8 +17,8 @@ public class SubsystemControls
     /**
      * Constructs a new SubsystemControls object with the given subsystem presence.
      * 
-     * @param rotateArm
-     *            indicates if the rotating arm system is present and should be enabled
+     * @param indicates
+     *            if the rotating arm system is present and should be enabled
      * @param extendArm
      *            indicates if the arm extension system is present and should be enabled
      * @param intake
@@ -26,11 +26,11 @@ public class SubsystemControls
      * @param vision
      *            indicates if the vision system is present and should be enabled
      */
-    public SubsystemControls(
-            @JsonProperty(required = true, value = "rotateArm") boolean rotateArm,
-            @JsonProperty(required = true, value = "extendArm") boolean extendArm,
-            @JsonProperty(required = true, value = "intake")    boolean intake,
-            @JsonProperty(required = true, value = "vision")    boolean vision)
+    public SubsystemControls(@JsonProperty(required = true, value = "rotateArm")
+    boolean rotateArm, @JsonProperty(required = true, value = "extendArm")
+    boolean extendArm, @JsonProperty(required = true, value = "intake")
+    boolean intake, @JsonProperty(required = true, value = "vision")
+    boolean vision)
     {
         this.rotateArm = rotateArm;
         this.extendArm = extendArm;
