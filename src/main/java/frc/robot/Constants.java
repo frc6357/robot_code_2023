@@ -210,4 +210,6 @@ public final class Constants
                 new TrapezoidProfile.Constraints(kMaxAngularSpeedDegreesPerSecond,
                     kMaxAngularSpeedDegreesPerSecondSquared);
     }
+
+    public static final String SUBSYSTEMFILE = "Subsystems.json";
 }
