@@ -41,26 +41,27 @@ public final class Constants
         Cube,
     }
 
-    public static class HighArmConstants
-    {
-        public static final double kArmPositionOffsetDegrees = 0.0;
 
-        public static final double kDegreesPerPulse = 0.0;
-    }
+    public static class ArmConstants{
+        // High Arm Constants
+        public static final int kRotationRatio = 0;
+        public static final int kArmMotorP     = 0;
+        public static final int kArmMotorI     = 0;
+        public static final int kArmMotorD     = 0;
 
-    public static class LowArmConstants
-    {
-        public static final double kArmPositionOffsetDegrees = 0.0;
+        public static final int kHighPosition = 0;
+        public static final int kMidPosition  = 0;
+        public static final int kLowPosition  = 0;
 
-        public static final double kDegreesPerPulse = 0.0;
+        // Low Arm Constants
+        // public static final int kRotationRatio = 0;
+        // public static final int kArmMotorP     = 0;
+        // public static final int kArmMotorI     = 0;
+        // public static final int kArmMotorD     = 0;
 
-        public static final PneumaticsModuleType kModuleType = PneumaticsModuleType.REVPH;
-
-        public static final double kMotorSpeed = 0.0;
-
-        public static final double kMaxHeight = 0.0;
-
-        public static final double kExtensionDistancePerPulse = 0.0;
+        // public static final int kHighPosition = 0;
+        // public static final int kMidPosition  = 0;
+        // public static final int kLowPosition  = 0;
     }
 
     public static final class DriveConstants
