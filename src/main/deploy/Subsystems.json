@@ -1,6 +1,7 @@
 {
-    "highArm"     : false,
-    "lowArm"     : false,
+    "arm"     : false,
+    "extender"     : false,
     "intake"        : false,
     "vision"        : false
+    
 }

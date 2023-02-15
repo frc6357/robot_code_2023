@@ -25,11 +25,11 @@ import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.commands.DoNothingCommand;
+import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.subsystems.SK23HighArm;
+import frc.robot.subsystems.SK23Extender;
 import frc.robot.subsystems.SK23Intake;
-import frc.robot.subsystems.SK23LowArm;
-import frc.robot.subsystems.SK23LowArmMotor;
+import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
 
@@ -55,11 +55,12 @@ public class RobotContainer
             new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
     // Initialization for optional
-    private Optional<SK23Intake>      intakeSubsystem          = Optional.empty();
-    private Optional<SK23HighArm>     highArmSubsystem         = Optional.empty();
-    private Optional<SK23LowArm>      lowArmSubsystem          = Optional.empty();
-    private Optional<SK23LowArmMotor> lowArmMotorSubsystem     = Optional.empty();
-    private Optional<SK23LowArmMotor> lowArmPneumaticSubsystem = Optional.empty();
+    // These are currently empty and only created in the constructor
+    // based on the Subsystem.json file
+    private Optional<SK23Intake>   intakeSubsystem   = Optional.empty();
+    private Optional<SK23Vision>   visionSubsystem   = Optional.empty();
+    private Optional<SK23Arm>      armSubsystem      = Optional.empty();
+    private Optional<SK23Extender> extenderSubsystem = Optional.empty();
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
@@ -82,13 +83,28 @@ public class RobotContainer
 
         try
         {
+            // Looking for the Subsystems.json file in the deploy directory
             JsonParser parser =
                     factory.createParser(new File(deployDirectory, Constants.SUBSYSTEMFILE));
             SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
 
+            // Instantiating subsystems if they are present
+            // This is decided by looking at Subsystems.json
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem = Optional.of(new SK23Intake());
+            }
+            if (subsystems.isVisionPresent())
+            {
+                visionSubsystem = Optional.of(new SK23Vision());
+            }
+            if (subsystems.isArmPresent())
+            {
+                armSubsystem = Optional.of(new SK23Arm());
+            }
+            if (subsystems.isExtenderPresent())
+            {
+                extenderSubsystem = Optional.of(new SK23Extender());
             }
         }
         catch (IOException e)

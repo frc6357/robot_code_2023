@@ -9,57 +9,55 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SubsystemControls
 {
 
-    private final boolean rotateArm;
-    private final boolean extendArm;
+    private final boolean arm;
+    private final boolean extender;
     private final boolean intake;
     private final boolean vision;
 
     /**
      * Constructs a new SubsystemControls object with the given subsystem presence.
      * 
-     * @param indicates
-     *            if the rotating arm system is present and should be enabled
-     * @param extendArm
-     *            indicates if the arm extension system is present and should be enabled
+     * @param arm
+     *            indicates if the arm system is present and should be enabled
+     * @param extender
+     *            indicates if the extender system is present and should be enabled
      * @param intake
      *            indictes if the intake system is present and should be enabled
      * @param vision
      *            indicates if the vision system is present and should be enabled
      */
-    public SubsystemControls(@JsonProperty(required = true, value = "rotateArm")
-    boolean rotateArm, @JsonProperty(required = true, value = "extendArm")
-    boolean extendArm, @JsonProperty(required = true, value = "intake")
+    public SubsystemControls(@JsonProperty(required = true, value = "arm")
+    boolean arm, @JsonProperty(required = true, value = "extender")
+    boolean extender, @JsonProperty(required = true, value = "intake")
     boolean intake, @JsonProperty(required = true, value = "vision")
     boolean vision)
     {
-        this.rotateArm = rotateArm;
-        this.extendArm = extendArm;
+        this.arm = arm;
+        this.extender = extender;
         this.intake = intake;
         this.vision = vision;
     }
 
     /**
-     * Returns true if the rotating arm system is indicated as present and should be
-     * enabled.
+     * Returns true if the arm system is indicated as present and should be enabled.
      * 
-     * @return true if the rotating arm system is indicated as present and should be
-     *         enabled; false otherwise
+     * @return true if the arm system is indicated as present and should be enabled; false
+     *         otherwise
      */
-    public boolean isRotatingArmPresent()
+    public boolean isArmPresent()
     {
-        return rotateArm;
+        return arm;
     }
 
     /**
-     * Returns true if the extending arm system is indicated as present and should be
-     * enabled.
+     * Returns true if the extender system is indicated as present and should be enabled.
      * 
-     * @return true if the extending arm system is indicated as present and should be
-     *         enabled; false otherwise
+     * @return true if the extender system is indicated as present and should be enabled;
+     *         false otherwise
      */
-    public boolean isExtendingArmPresent()
+    public boolean isExtenderPresent()
     {
-        return extendArm;
+        return extender;
     }
 
     /**
@@ -74,9 +72,9 @@ public class SubsystemControls
     }
 
     /**
-     * Returns true if the climb system is indicated as present and should be enabled.
+     * Returns true if the vision system is indicated as present and should be enabled.
      * 
-     * @return true if the climb system is indicated as present and should be enabled;
+     * @return true if the vision system is indicated as present and should be enabled;
      *         false otherwise
      */
     public boolean isVisionPresent()
