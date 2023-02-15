@@ -12,11 +12,11 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
  */
 public class SK23Arm extends Arm
 {
-    ArmAngleInternal mainMotor;
+    ArmAngleInternal Arm;
 
     public SK23Arm()
     {
-        mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+        Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
             ArmConstants.kRotationRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
             ArmConstants.kArmMotorD, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch);
     }
@@ -26,13 +26,13 @@ public class SK23Arm extends Arm
         switch (angle)
         {
             case HighPosition:
-                mainMotor.setTargetAngle(ArmConstants.kHighPosition);
+                Arm.setTargetAngle(ArmConstants.kHighPosition);
                 break;
             case MidPosition:
-                mainMotor.setTargetAngle(ArmConstants.kMidPosition);
+                Arm.setTargetAngle(ArmConstants.kMidPosition);
                 break;
             case LowPosition:
-                mainMotor.setTargetAngle(ArmConstants.kLowPosition);
+                Arm.setTargetAngle(ArmConstants.kLowPosition);
                 break;
 
         }
@@ -41,18 +41,18 @@ public class SK23Arm extends Arm
     @Override
     public double getCurrentAngle()
     {
-        return mainMotor.getCurrentAngle();
+        return Arm.getCurrentAngle();
     }
 
     @Override
     public double getSetPoint()
     {
-        return mainMotor.getTargetAngle();
+        return Arm.getTargetAngle();
     }
 
     @Override
     public void periodic()
     {
-        mainMotor.checkLimitSensors();
+        Arm.checkLimitSensors();
     }
 }

@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ExtenderConstants;
 import frc.robot.Ports.ArmPorts;
-import frc.robot.subsystems.superclasses.Arm;
 import frc.robot.utils.armAngle.ArmAngleInternal;
 import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
@@ -12,14 +12,6 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
  */
 public class SK23Extender extends SubsystemBase
 {
-    public static final int kRotationRatio = 0;
-    public static final int kArmMotorP     = 0;
-    public static final int kArmMotorI     = 0;
-    public static final int kArmMotorD     = 0;
-
-    public static final int kHighPosition = 0;
-    public static final int kMidPosition  = 0;
-    public static final int kLowPosition  = 0;
 
     ArmAngleInternal mainMotor;
 
@@ -36,22 +28,23 @@ public class SK23Extender extends SubsystemBase
     public SK23Extender()
     {
         mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
-            kRotationRatio, kArmMotorP, kArmMotorI, kArmMotorD, ArmPorts.kLowerSwitch,
+            ExtenderConstants.kRotationRatio, ExtenderConstants.kArmMotorP,
+            ExtenderConstants.kArmMotorI, ExtenderConstants.kArmMotorD, ArmPorts.kLowerSwitch,
             ArmPorts.kUpperSwitch);
     }
 
-    public void setTargetAngle(ExtenderEnum angle)
+    public void setTargetPosition(ExtenderEnum angle)
     {
         switch (angle)
         {
             case HighPosition:
-                mainMotor.setTargetAngle(kHighPosition);
+                mainMotor.setTargetAngle(ExtenderConstants.kHighPosition);
                 break;
             case MidPosition:
-                mainMotor.setTargetAngle(kMidPosition);
+                mainMotor.setTargetAngle(ExtenderConstants.kMidPosition);
                 break;
             case LowPosition:
-                mainMotor.setTargetAngle(kLowPosition);
+                mainMotor.setTargetAngle(ExtenderConstants.kLowPosition);
                 break;
 
         }

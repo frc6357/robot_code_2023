@@ -198,7 +198,7 @@ public class ArmAngleInternal
      * @param degrees
      *            Degree to which the arm should be set
      */
-    public void setTargetAngle(int degrees)
+    public void setTargetAngle(double degrees)
     {
         motor.setTargetAngle(degrees);
     }
