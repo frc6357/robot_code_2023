@@ -176,9 +176,9 @@ public class ArmAngleInternal
     /**
      * @return Returns the current setpoint that the arm is attempting to reach
      */
-    public double getSetPoint()
+    public double getTargetAngle()
     {
-        return motor.getSetPoint();
+        return motor.getTargetAngle();
     }
 
     /**
@@ -196,9 +196,28 @@ public class ArmAngleInternal
      * @param degrees
      *            Degree to which the arm should be set
      */
-    public void setAngle(double degrees)
+    public void setTargetAngle(double degrees)
     {
-        motor.setAngle(degrees);
+        motor.setTargetAngle(degrees);
+    }
+
+    /**
+     * Checks both the upper and lower sensor, if they are present, to determine if they
+     * have been reached. If so it will stop the motor, and reset the encoder if it has
+     * reached the bottom sensor.
+     */
+    public void checkLimitSensors()
+    {
+        if (isLowerAvailable() && isLowerReached())
+        {
+            resetEncoder();
+            stop();
+        }
+
+        if (isUpperAvailable() && isUpperReached())
+        {
+            stop();
+        }
     }
 
 }

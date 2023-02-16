@@ -48,28 +48,11 @@ public class SparkMaxArm extends GenericArmMotor
     public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
         int LowerSensorID, int UpperSensorID)
     {
+        this(CanID, rotationRatio, Kp, Ki, Kd, LowerSensorID);
         this.rotationRatio = rotationRatio;
-        motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        encoder = motor.getEncoder();
 
-        this.Kp = Kp;
-        this.Ki = Ki;
-        this.Kd = Kd;
-
-        pidController = motor.getPIDController();
-        pidController.setP(Kp);
-        pidController.setI(Ki);
-        pidController.setD(Kd);
-
-        setPoint = 0.0;
-
-        this.LowerSensor = new DigitalInput(LowerSensorID);
-        isLowerPresent = true;
         this.UpperSensor = new DigitalInput(UpperSensorID);
         isUpperPresent = true;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
-
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
     /**
@@ -91,23 +74,10 @@ public class SparkMaxArm extends GenericArmMotor
     public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
         int LowerSensorID)
     {
-        this.rotationRatio = rotationRatio;
-        motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        encoder = motor.getEncoder();
-
-        pidController = motor.getPIDController();
-        pidController.setP(Kp);
-        pidController.setI(Ki);
-        pidController.setD(Kd);
-
-        setPoint = 0.0;
+        this(CanID, rotationRatio, Kp, Ki, Kd);
 
         this.LowerSensor = new DigitalInput(LowerSensorID);
         isLowerPresent = true;
-        isUpperPresent = false;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets the units of the encoder to degrees
-
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
     /**
@@ -136,8 +106,6 @@ public class SparkMaxArm extends GenericArmMotor
         pidController.setI(i);
         pidController.setD(d);
 
-        setPoint = 0.0;
-
         isLowerPresent = false;
         isUpperPresent = false;
         encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
@@ -153,7 +121,8 @@ public class SparkMaxArm extends GenericArmMotor
 
     public void addFollowerMotor(int CanID)
     {
-        try (CANSparkMax followerMotor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
+        try (CANSparkMax followerMotor =
+                new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
         {
             followerMotor.follow(motor);
         }
@@ -189,12 +158,12 @@ public class SparkMaxArm extends GenericArmMotor
         return encoder.getPosition();
     }
 
-    public double getSetPoint()
+    public double getTargetAngle()
     {
         return setPoint;
     }
 
-    public void setAngle(double degrees)
+    public void setTargetAngle(double degrees)
     {
         setPoint = degrees;
         pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);

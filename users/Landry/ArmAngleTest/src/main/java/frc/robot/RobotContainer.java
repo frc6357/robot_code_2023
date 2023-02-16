@@ -7,7 +7,6 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -15,6 +14,7 @@ import frc.robot.Ports.ControllerPorts;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23ArmBinder;
 import frc.robot.subsystems.SK23Arm;
+import frc.robot.utils.filters.FilteredJoystick;
 
 
 /*
@@ -31,8 +31,8 @@ public class RobotContainer
 
 
     // The driver's controller
-    private final Joystick driveController = new Joystick(ControllerPorts.kDriverControllerPort);
-    private final Joystick operatorController = new Joystick(ControllerPorts.kOperatorControllerPort);
+    private final FilteredJoystick driveController = new FilteredJoystick(ControllerPorts.kDriverControllerPort);
+    private final FilteredJoystick operatorController = new FilteredJoystick(ControllerPorts.kOperatorControllerPort);
 
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
