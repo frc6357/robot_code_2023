@@ -1,7 +1,5 @@
 package frc.robot.utils.armAngle;
 
-import frc.robot.utils.CANPort;
-
 /**
  * Generic class to set and read the angle of an arm in degrees, with the lower point
  * starting at 0 and increasing towards the upper point. It does this using a motor that

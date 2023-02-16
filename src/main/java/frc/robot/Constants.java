@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical
@@ -49,9 +48,10 @@ public final class Constants
         public static final double kArmMotorI     = 0;
         public static final double kArmMotorD     = 0;
 
-        public static final double kHighPosition = 0;
-        public static final double kMidPosition  = 0;
-        public static final double kLowPosition  = 0;
+        public static final double kHighPosition       = 0;
+        public static final double kMidPosition        = 0;
+        public static final double kLowPosition        = 0;
+        public static final double kSubstationPosition = 0;
 
         public static final double kJoystickRatio = 0;
 
@@ -64,6 +64,7 @@ public final class Constants
         // public static final double kHighPosition = 0;
         // public static final double kMidPosition  = 0;
         // public static final double kLowPosition  = 0;
+        //public static final double kSubstationPosition = 0;
 
         //public static final double kJoystickRatio = 0;
     }
@@ -75,9 +76,10 @@ public final class Constants
         public static final double kArmMotorI     = 0;
         public static final double kArmMotorD     = 0;
 
-        public static final double kHighPosition = 0;
-        public static final double kMidPosition  = 0;
-        public static final double kLowPosition  = 0;
+        public static final double kHighPosition       = 0;
+        public static final double kMidPosition        = 0;
+        public static final double kLowPosition        = 0;
+        public static final double kSubstationPosition = 0;
     }
 
     public static final class DriveConstants

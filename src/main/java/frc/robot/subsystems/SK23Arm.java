@@ -34,6 +34,8 @@ public class SK23Arm extends Arm
             case LowPosition:
                 Arm.setTargetAngle(ArmConstants.kLowPosition);
                 break;
+            case SubstationPosition:
+                Arm.setTargetAngle(ArmConstants.kSubstationPosition);
 
         }
     }

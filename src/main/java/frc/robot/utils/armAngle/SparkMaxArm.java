@@ -6,7 +6,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.utils.CANPort;
 
 /**
  * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an

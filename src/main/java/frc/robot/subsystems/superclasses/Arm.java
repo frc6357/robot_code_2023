@@ -11,7 +11,9 @@ public abstract class Arm extends SubsystemBase
         /** Set the angle to reach the middle cube node */
         MidPosition,
         /** Set the angle to reach the bottom cube node */
-        LowPosition
+        LowPosition,
+        /** Set the angle to reach the substation */
+        SubstationPosition
     }
 
     /**
