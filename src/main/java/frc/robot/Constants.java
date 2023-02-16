@@ -53,6 +53,8 @@ public final class Constants
         public static final double kMidPosition  = 0;
         public static final double kLowPosition  = 0;
 
+        public static final double kJoystickRatio = 0;
+
         // Low Arm Constants
         // public static final double kRotationRatio = 0;
         // public static final double kArmMotorP     = 0;
@@ -62,6 +64,8 @@ public final class Constants
         // public static final double kHighPosition = 0;
         // public static final double kMidPosition  = 0;
         // public static final double kLowPosition  = 0;
+
+        //public static final double kJoystickRatio = 0;
     }
 
     public static class ExtenderConstants

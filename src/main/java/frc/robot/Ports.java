@@ -12,7 +12,15 @@ public class Ports
     public static class ArmPorts
     {
         private static final String busName      = "";
-        public static final CANPort kMainMotor   = new CANPort(0, busName);
+        public static final CANPort kMainMotor   = new CANPort(1, busName);
+        public static final int     kLowerSwitch = 0;
+        public static final int     kUpperSwitch = 0;
+    }
+
+    public static class ExtenderPorts
+    {
+        private static final String busName      = "";
+        public static final CANPort kMainMotor   = new CANPort(1, busName);
         public static final int     kLowerSwitch = 0;
         public static final int     kUpperSwitch = 0;
     }
@@ -23,34 +31,6 @@ public class Ports
         // IDs?
         public static final int kDriverControllerPort   = 0;
         public static final int kOperatorControllerPort = 1;
-    }
-
-    // TODO: I would have only one Arm class here and include the superset of IDs
-    // required to support either the high or low variants. Having two classes 
-    // makes it likely that we'll legitimately have duplicated CAN IDs in the file
-    // and that's potentially confusing.
-    // Actually, I'm even more confused that we have 3 Arm classes already. What
-    // differentiates between ArmPorts and the two possible implementations,
-    // HighArm and LowArm? Consolidate everything under ArmPorts, I suggest.
-    public static class HighArmPorts
-    {
-        private static final String busName        = "";
-        public static final CANPort kMainMotor     = new CANPort(0, busName);
-        public static final CANPort kFollowerMotor = new CANPort(0, busName);
-    }
-
-    public static class LowArmPorts
-    {
-        private static final String busName = "";
-
-        public static final CANPort kMainMotor     = new CANPort(0, busName);
-        public static final CANPort kFollowerMotor = new CANPort(0, busName);
-
-        public static final int kPneumaticForwardChannel = 0;
-        public static final int kPneumaticReverseChannel = 0;
-
-        public static final CANPort kExtensionMotor = new CANPort(0, busName);
-
     }
 
     public static class DrivePorts

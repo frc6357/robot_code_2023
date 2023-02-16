@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ExtenderConstants;
-import frc.robot.Ports.ArmPorts;
+import frc.robot.Ports.ExtenderPorts;
 import frc.robot.utils.armAngle.ArmAngleInternal;
 import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
@@ -27,10 +27,10 @@ public class SK23Extender extends SubsystemBase
 
     public SK23Extender()
     {
-        mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+        mainMotor = new ArmAngleInternal(AngleMotorType.SparkMax, ExtenderPorts.kMainMotor.ID,
             ExtenderConstants.kRotationRatio, ExtenderConstants.kArmMotorP,
-            ExtenderConstants.kArmMotorI, ExtenderConstants.kArmMotorD, ArmPorts.kLowerSwitch,
-            ArmPorts.kUpperSwitch);
+            ExtenderConstants.kArmMotorI, ExtenderConstants.kArmMotorD, ExtenderPorts.kLowerSwitch,
+            ExtenderPorts.kUpperSwitch);
     }
 
     public void setTargetPosition(ExtenderEnum angle)
@@ -50,9 +50,19 @@ public class SK23Extender extends SubsystemBase
         }
     }
 
+    public void setTargetAngle(double angle)
+    {
+        mainMotor.setTargetAngle(angle);
+    }
+
     public double getCurrentAngle()
     {
         return mainMotor.getCurrentAngle();
+    }
+
+    public boolean isAtSetPoint()
+    {
+        return mainMotor.getCurrentAngle() == mainMotor.getTargetAngle();
     }
 
     public double getSetPoint()

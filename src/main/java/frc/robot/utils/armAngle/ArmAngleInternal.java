@@ -44,7 +44,7 @@ public class ArmAngleInternal
      * @param upperSensorID
      *            ID for digital input sensor that determines upper limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
         double Ki, double Kd, int lowerSensorID, int upperSensorID)
     {
         switch (motorType)
@@ -74,7 +74,7 @@ public class ArmAngleInternal
      * @param lowerSensorID
      *            ID for digital input sensor that determines lower limit of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
         double Ki, double Kd, int lowerSensorID)
     {
         switch (motorType)
@@ -101,7 +101,7 @@ public class ArmAngleInternal
      * @param Kd
      *            Value for derivative gain constant in PID controller
      */
-    public ArmAngleInternal(AngleMotorType motorType, CANPort CanID, double rotationRatio, double Kp,
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
         double Ki, double Kd)
     {
         switch (motorType)

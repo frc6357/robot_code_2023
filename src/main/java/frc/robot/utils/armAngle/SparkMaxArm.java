@@ -46,7 +46,7 @@ public class SparkMaxArm extends GenericArmMotor
      * @param UpperSensorID
      *            ID for digital input sensor that determines max limit point of arm
      */
-    public SparkMaxArm(CANPort CanID, double rotationRatio, double Kp, double Ki, double Kd,
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
         int LowerSensorID, int UpperSensorID)
     {
         this(CanID, rotationRatio, Kp, Ki, Kd, LowerSensorID);
@@ -72,7 +72,7 @@ public class SparkMaxArm extends GenericArmMotor
      * @param LowerSensorID
      *            ID for digital input sensor that determines reset point of arm
      */
-    public SparkMaxArm(CANPort CanID, double rotationRatio, double Kp, double Ki, double Kd,
+    public SparkMaxArm(int CanID, double rotationRatio, double Kp, double Ki, double Kd,
         int LowerSensorID)
     {
         this(CanID, rotationRatio, Kp, Ki, Kd);
@@ -96,10 +96,10 @@ public class SparkMaxArm extends GenericArmMotor
      *            Value for derivative gain constant in PID controller
      */
 
-    public SparkMaxArm(CANPort CanID, double rotationRatio, double p, double i, double d)
+    public SparkMaxArm(int CanID, double rotationRatio, double p, double i, double d)
     {
         this.rotationRatio = rotationRatio;
-        motor = new CANSparkMax(CanID.ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
         encoder = motor.getEncoder();
 
         pidController = motor.getPIDController();

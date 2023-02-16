@@ -31,4 +31,22 @@ public abstract class Arm extends SubsystemBase
      * @return Returns the current setpoint that the arm is attempting to reach
      */
     public abstract double getSetPoint();
+
+    /**
+     * 
+     * @return Returns true if the arm has reached it's current set point.
+     */
+    public abstract boolean isAtSetPoint();
+
+    /**
+     * Sets the angle of the arm based upon input from a joystick, adding or subtracting
+     * to the current set point. Assumes it will receive joystick input with downward
+     * movement being negative and upwards movement being positive.
+     * 
+     * @param joystickInput
+     *            Input from the joystick (Negative input signifys downwards
+     *            movement on the joystick, Positive input signifys upwards movement
+     *            on the joystick.
+     */
+    public abstract void setJoystickAngle(double joystickInput);
 }

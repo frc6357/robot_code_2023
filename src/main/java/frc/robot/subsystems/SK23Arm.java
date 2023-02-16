@@ -16,7 +16,7 @@ public class SK23Arm extends Arm
 
     public SK23Arm()
     {
-        Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
+        Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor.ID,
             ArmConstants.kRotationRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
             ArmConstants.kArmMotorD, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch);
     }
@@ -38,6 +38,23 @@ public class SK23Arm extends Arm
         }
     }
 
+    public void setTargetAngle(double angle)
+    {
+        Arm.setTargetAngle(angle);
+    }
+
+    @Override
+    public boolean isAtSetPoint()
+    {
+        return Arm.getCurrentAngle() == Arm.getTargetAngle();
+    }
+
+    @Override
+    public void setJoystickAngle(double joystickInput){
+        double angleChange = joystickInput * ArmConstants.kJoystickRatio; // Converting joystick input into degrees moved on the arm
+        setTargetAngle(getCurrentAngle() + angleChange);
+        
+    }
     @Override
     public double getCurrentAngle()
     {
