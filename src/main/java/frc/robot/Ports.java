@@ -54,5 +54,7 @@ public class Ports
         public static final CANPort kRearLeftTurningEncoderPort   = new CANPort(31, busName);
         public static final CANPort kFrontRightTurningEncoderPort = new CANPort(32, busName);
         public static final CANPort kRearRightTurningEncoderPort  = new CANPort(33, busName);
+
+        public static final CANPort kPigeonPort = new CANPort(25, "DriveCAN");
     }
 }

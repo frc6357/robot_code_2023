@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Ports.DrivePorts;
@@ -56,7 +59,7 @@ public class SK23Drive extends SubsystemBase
             DriveConstants.kRearRightAngleOffset);
 
     // The gyro sensor
-    private final SK_ADIS16470_IMU m_gyro = new SK_ADIS16470_IMU();
+    private final WPI_Pigeon2 m_gyro = new WPI_Pigeon2(25, "DriveCAN");
 
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
@@ -64,13 +67,14 @@ public class SK23Drive extends SubsystemBase
             m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
     /** Creates a new DriveSubsystem. */
-    public SK23Drive() {}
+    public SK23Drive()
+    {
+        m_gyro.reset();
+    }
 
     @Override
     public void periodic()
     {
-        // SmartDashboard.putNumber("CANCoder Angle",
-        // m_frontLeft.getPosition().angle.getDegrees());
         // Update the odometry in the periodic block
         m_odometry.update(m_gyro.getRotation2d(),
             new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),

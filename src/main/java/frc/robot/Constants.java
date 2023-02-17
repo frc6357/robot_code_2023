@@ -133,7 +133,7 @@ public final class Constants
         public static final double kvVoltSecondsPerMeter        = 0.8;
         public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
-        public static final double kMaxSpeedMetersPerSecond = 4.5;
+        public static final double kMaxSpeedMetersPerSecond = 5;
     }
 
     public static final class ModuleConstants
@@ -144,7 +144,8 @@ public final class Constants
 
         // PID Constants
         public static final double kPModuleTurningController = 0.25;
-        public static final double kPModuleDriveController   = 0.1;
+        public static final double kPModuleDriveController   = 0.01;
+        public static final double kFModuleDriveController   = 0.0465;
         public static final double kPIDAngleDeadband         = 0.01;
 
         // Module Characteristics

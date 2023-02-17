@@ -64,7 +64,7 @@ public class MotorEncoder
      * Calculates the velocity of the motor in pulses using the inversion, and the last
      * motor position reset.
      * 
-     * @return The current velocity of the motor in pulse units
+     * @return The current velocity of the motor in pulses per 100ms
      */
     public double getVelocityPulses()
     {
@@ -86,9 +86,9 @@ public class MotorEncoder
      * Calculates the velocity of the motor in meters per second using the stored meters
      * per pulse and the current velocity.
      * 
-     * @return The current velocity of the motor in meters
+     * @return The current velocity of the motor in meters per second
      */
-    public double getVelocityMeters()
+    public double getVelocityMetersPerSecond()
     {
         // Multiplies by ten to convert from m/100ms to m/sec
         return getVelocityPulses() * metersPerPulse * 10;
