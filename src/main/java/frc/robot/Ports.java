@@ -11,6 +11,7 @@ public class Ports
     // initially added?
     public static class ArmPorts
     {
+        //TODO: Assign constants for can IDs
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(1, busName);
         public static final int     kLowerSwitch = -1;
@@ -19,8 +20,9 @@ public class Ports
 
     public static class ExtenderPorts
     {
+        //TODO: Assign constants for can IDs
         private static final String busName      = "";
-        public static final CANPort kMainMotor   = new CANPort(1, busName);
+        public static final CANPort kMainMotor   = new CANPort(2, busName);
         public static final int     kLowerSwitch = -1;
         public static final int     kUpperSwitch = -1;
     }
@@ -29,7 +31,7 @@ public class Ports
     {
         // TODO: Find out the correct port numbers for the intake
         public static final int kFrontIntakeMotorPort   = 0;
-        public static final int kBackTopIntakeMotorPort = 1;
+        public static final int kBackTopIntakeMotorPort = 3;
 
     }
 

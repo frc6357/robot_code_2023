@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.SK23RollerIntake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -34,8 +33,8 @@ public class IntakeBoxCommand extends CommandBase
     @Override
     public void initialize()
     {
-        intake.setFrontRollerSpeed(Constants.IntakeConstants.CLOCKWISE_FRONTROLLER_SPEED);
-        intake.setRearTopRollerSpeed(Constants.IntakeConstants.CLOCKWISE_REARTOPROLLER_SPEED);
+        intake.setFrontRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_FRONTROLLER_SPEED);
+        intake.setRearTopRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_REARTOPROLLER_SPEED);
     }
 
     // Returns true when the command should end.

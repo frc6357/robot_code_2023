@@ -2,10 +2,6 @@ package frc.robot.subsystems;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.util.Optional;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * Subsystem for vision data handling

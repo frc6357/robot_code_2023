@@ -8,45 +8,44 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
-import frc.robot.Constants.GamePieceEnum;
 
 public class SK23ClawIntake extends SubsystemBase
 {
     //TODO: Get correct port numbers
-    private final CANSparkMax frontMotor   =
+    private final CANSparkMax leftMotor  =
             new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
-    private final CANSparkMax rearTopMotor =
+    private final CANSparkMax rightMotor =
             new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
 
     /** Creates a new SK23RollerIntake. */
     public SK23ClawIntake()
     {
-        frontMotor.setInverted(true);
-        rearTopMotor.setInverted(true);
+        leftMotor.setInverted(true);
+        rightMotor.setInverted(true);
     }
 
     /**
      * Sets the intake to intake game pieces. Changes the mode of intake based on whether
      * it is intaking a cube or cone
      */
-    public void setFrontRollerSpeed(double speed)
+    public void setLeftSpeed(double speed)
     {
-        frontMotor.set(speed);
+        leftMotor.set(speed);
     }
 
-    public void setRearTopRollerSpeed(double speed)
+    public void setRightSpeed(double speed)
     {
-        rearTopMotor.set(speed);
+        rightMotor.set(speed);
     }
 
-    public double getFrontRollerSpeed()
+    public double getLeftSpeed()
     {
-        return frontMotor.get();
+        return leftMotor.get();
     }
 
-    public double getRearTopRollerSpeed()
+    public double getRightSpeed()
     {
-        return rearTopMotor.get();
+        return rightMotor.get();
     }
 
 }

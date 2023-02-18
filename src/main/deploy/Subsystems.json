@@ -2,6 +2,7 @@
     "arm"           : true,
     "extender"      : true,
     "intake"        : true,
-    "vision"        : true 
+    "vision"        : true,
+    "driverCamera"  : false
     
 }

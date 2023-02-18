@@ -131,6 +131,11 @@ public class RobotContainer
             subsystemGroup.bindButtons();
         }
 
+        if (intakeSubsystem.isPresent())
+        {
+            //TODO: Implement intake based on 
+        }
+
     }
 
     /**

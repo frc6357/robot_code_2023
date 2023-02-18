@@ -9,7 +9,7 @@ import frc.robot.subsystems.SK23RollerIntake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class IntakeConeCommand extends CommandBase
+public class EjectBoxCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -22,7 +22,7 @@ public class IntakeConeCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public IntakeConeCommand(SK23RollerIntake intake)
+    public EjectBoxCommand(SK23RollerIntake intake)
     {
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -33,8 +33,10 @@ public class IntakeConeCommand extends CommandBase
     @Override
     public void initialize()
     {
-        intake.setFrontRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_FRONTROLLER_SPEED);
-        intake.setRearTopRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_REARTOPROLLER_SPEED);
+        intake.setFrontRollerSpeed(
+            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_FRONTROLLER_SPEED);
+        intake.setRearTopRollerSpeed(
+            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_REARTOPROLLER_SPEED);
     }
 
     // Returns true when the command should end.
