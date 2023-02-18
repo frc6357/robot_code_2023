@@ -66,9 +66,5 @@ public abstract class GenericArmMotor
      */
     public abstract void setTargetAngle(double degrees);
 
-    public abstract double getCurrent();
-    
-    public abstract double getAppliedOutput();
-
     public abstract void periodic();
 }

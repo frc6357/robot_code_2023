@@ -1,21 +1,22 @@
 package frc.robot.utils.armAngle;
 
 /**
- * Generic class to set and read the angle of an arm in degrees, with the lower point
- * starting at 0 and increasing towards the upper point. It does this using a motor that
- * contains an internal encoder, and can determine when it is at it's max point and zero
+ * Generic class to set and read the angle of an arm in degrees, with the lower
+ * point
+ * starting at 0 and increasing towards the upper point. It does this using a
+ * motor that
+ * contains an internal encoder, and can determine when it is at it's max point
+ * and zero
  * point using upper and lower sensors.
  */
-public class ArmAngleInternal
-{
+public class ArmAngleInternal {
     GenericArmMotor motor;
 
     /**
      * Enumerated Value that determines the motor type that is used for the arm
      */
 
-    public static enum AngleMotorType
-    {
+    public static enum AngleMotorType {
         /**
          * CAN Spark Max motor
          */
@@ -26,30 +27,31 @@ public class ArmAngleInternal
      * Creates a new arm motor of the specified type
      * 
      * @param motorType
-     *            Type of motor the arm is using
+     *                      Type of motor the arm is using
      * @param CanID
-     *            Can ID of the motor used
-     * @param rotationRatio
-     *            Ratio of wheel rotations to degree (rotations/degree)
+     *                      Can ID of the motor used
+     * @param gearRatio
+     *                      Number of motor shaft rotations per output shaft
+     *                      rotations
      * @param Kp
-     *            Value for proportional gain constant in PID controller
+     *                      Value for proportional gain constant in PID controller
      * @param Ki
-     *            Value for integral gain constant in PID controller
+     *                      Value for integral gain constant in PID controller
      * @param Kd
-     *            Value for derivative gain constant in PID controller
+     *                      Value for derivative gain constant in PID controller
      * @param lowerSensorID
-     *            ID for digital input sensor that determines lower limit of arm
+     *                      ID for digital input sensor that determines lower limit
+     *                      of arm
      * @param upperSensorID
-     *            ID for digital input sensor that determines upper limit of arm
+     *                      ID for digital input sensor that determines upper limit
+     *                      of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
-        double Ki, double Kd, int lowerSensorID, int upperSensorID)
-    {
-        switch (motorType)
-        {
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
+            double Ki, double Kd, int lowerSensorID, int upperSensorID) {
+        switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd, lowerSensorID,
-                    upperSensorID);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, lowerSensorID,
+                        upperSensorID);
                 break;
         }
     }
@@ -58,27 +60,27 @@ public class ArmAngleInternal
      * Creates a new arm motor of the specified type
      * 
      * @param motorType
-     *            Type of motor the arm is using
+     *                      Type of motor the arm is using
      * @param CanID
-     *            Can ID of the motor used
-     * @param rotationRatio
-     *            Ratio of wheel rotations to degree (rotations/degree)
+     *                      Can ID of the motor used
+     * @param gearRatio
+     *                      Number of motor shaft rotations per output shaft
+     *                      rotations
      * @param Kp
-     *            Value for proportional gain constant in PID controller
+     *                      Value for proportional gain constant in PID controller
      * @param Ki
-     *            Value for integral gain constant in PID controller
+     *                      Value for integral gain constant in PID controller
      * @param Kd
-     *            Value for derivative gain constant in PID controller
+     *                      Value for derivative gain constant in PID controller
      * @param lowerSensorID
-     *            ID for digital input sensor that determines lower limit of arm
+     *                      ID for digital input sensor that determines lower limit
+     *                      of arm
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
-        double Ki, double Kd, int lowerSensorID)
-    {
-        switch (motorType)
-        {
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
+            double Ki, double Kd, int lowerSensorID) {
+        switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd, lowerSensorID);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, lowerSensorID);
                 break;
         }
     }
@@ -87,25 +89,23 @@ public class ArmAngleInternal
      * Creates a new arm motor of the specified type
      * 
      * @param motorType
-     *            Type of motor the arm is using
+     *                  Type of motor the arm is using
      * @param CanID
-     *            Can ID of the motor used
-     * @param rotationRatio
-     *            Ratio of wheel rotations to degree (rotations/degree)
+     *                  Can ID of the motor used
+     * @param gearRatio
+     *                  Number of motor shaft rotations per output shaft rotations
      * @param Kp
-     *            Value for proportional gain constant in PID controller
+     *                  Value for proportional gain constant in PID controller
      * @param Ki
-     *            Value for integral gain constant in PID controller
+     *                  Value for integral gain constant in PID controller
      * @param Kd
-     *            Value for derivative gain constant in PID controller
+     *                  Value for derivative gain constant in PID controller
      */
-    public ArmAngleInternal(AngleMotorType motorType, int CanID, double rotationRatio, double Kp,
-        double Ki, double Kd)
-    {
-        switch (motorType)
-        {
+    public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
+            double Ki, double Kd) {
+        switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, rotationRatio, Kp, Ki, Kd);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd);
                 break;
         }
     }
@@ -113,8 +113,7 @@ public class ArmAngleInternal
     /**
      * Resets position of encoder to 0.0.
      */
-    public void resetEncoder()
-    {
+    public void resetEncoder() {
         motor.resetEncoder();
     }
 
@@ -122,113 +121,100 @@ public class ArmAngleInternal
      * Adds a new motor that follows the actions of the lead motor
      * 
      * @param CanID
-     *            CanID for the follower motor
+     *              CanID for the follower motor
      */
 
-    public void addFollowerMotor(int CanID)
-    {
+    public void addFollowerMotor(int CanID) {
         motor.addFollowerMotor(CanID);
     }
 
     /**
-     * @return Returns the value of digital input sensor that is used for location the
+     * @return Returns the value of digital input sensor that is used for location
+     *         the
      *         lower limit of the arm.
      */
-    public boolean isLowerReached()
-    {
+    public boolean isLowerReached() {
         return motor.isLowerReached();
     }
 
     /**
      * @return Returns true if the lower sensor is present
      */
-    public boolean isLowerAvailable()
-    {
+    public boolean isLowerAvailable() {
         return motor.isLowerAvailable();
     }
 
     /**
-     * @return Returns the value of digital input sensor that is used for locating the
+     * @return Returns the value of digital input sensor that is used for locating
+     *         the
      *         upper limit of the arm.
      */
-    public boolean isUpperReached()
-    {
+    public boolean isUpperReached() {
         return motor.isUpperReached();
     }
 
     /**
      * @return Returns true if the upper sensor is present
      */
-    public boolean isUpperAvailable()
-    {
+    public boolean isUpperAvailable() {
         return motor.isUpperAvailable();
     }
 
     /**
-     * Stops motor movement. Motor can be moved again by calling set without having to
+     * Stops motor movement. Motor can be moved again by calling set without having
+     * to
      * re-enable the motor.
      */
-    public void stop()
-    {
+    public void stop() {
         motor.stop();
     }
 
     /**
      * @return Returns the current setpoint that the arm is attempting to reach
      */
-    public double getTargetAngle()
-    {
+    public double getTargetAngle() {
         return motor.getTargetAngle();
     }
 
     /**
      * @return Returns the angle that the arm is currently at
      */
-    public double getCurrentAngle()
-    {
+    public double getCurrentAngle() {
         return motor.getCurrentAngle();
     }
 
     /**
-     * Sets the angle of the arm to specified degrees, starting at 0 at the lower point
+     * Sets the angle of the arm to specified degrees, starting at 0 at the lower
+     * point
      * and increasing towards upper point
      * 
      * @param degrees
-     *            Degree to which the arm should be set
+     *                Degree to which the arm should be set
      */
-    public void setTargetAngle(double degrees)
-    {
+    public void setTargetAngle(double degrees) {
         motor.setTargetAngle(degrees);
     }
 
-    public double getVoltage(){
-        return motor.getCurrent();
-    }
-
-    public double getAppliedOutput(){
-        return motor.getAppliedOutput();
-    }
     /**
      * 
-     * Checks both the upper and lower sensor, if they are present, to determine if they
-     * have been reached. If so it will stop the motor, and reset the encoder if it has
+     * Checks both the upper and lower sensor, if they are present, to determine if
+     * they
+     * have been reached. If so it will stop the motor, and reset the encoder if it
+     * has
      * reached the bottom sensor.
      */
-    public void checkLimitSensors()
-    {
-        if (isLowerAvailable() && isLowerReached())
-        {
+    public void checkLimitSensors() {
+        if (isLowerAvailable() && isLowerReached()) {
             resetEncoder();
             stop();
         }
 
-        if (isUpperAvailable() && isUpperReached())
-        {
+        if (isUpperAvailable() && isUpperReached()) {
             stop();
         }
     }
-    
-    public void periodic(){
+
+    public void periodic() {
         motor.periodic();
     }
 }
