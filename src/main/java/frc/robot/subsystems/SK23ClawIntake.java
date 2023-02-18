@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.Constants.GamePieceEnum;
 
-public class SK23Intake extends SubsystemBase
+public class SK23ClawIntake extends SubsystemBase
 {
     //TODO: Get correct port numbers
     private final CANSparkMax frontMotor   =
@@ -19,7 +19,7 @@ public class SK23Intake extends SubsystemBase
             new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
 
     /** Creates a new SK23RollerIntake. */
-    public SK23Intake()
+    public SK23ClawIntake()
     {
         frontMotor.setInverted(true);
         rearTopMotor.setInverted(true);

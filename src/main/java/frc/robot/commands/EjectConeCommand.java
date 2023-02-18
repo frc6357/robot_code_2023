@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.SK23Intake;
+import frc.robot.subsystems.SK23RollerIntake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -14,7 +14,7 @@ public class EjectConeCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Intake intake;
+    private final SK23RollerIntake intake;
 
     /**
      * This command allows the operator to extend the intake outwards or retract it
@@ -23,7 +23,7 @@ public class EjectConeCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public EjectConeCommand(SK23Intake intake)
+    public EjectConeCommand(SK23RollerIntake intake)
     {
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.

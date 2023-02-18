@@ -38,11 +38,11 @@ public class Robot extends TimedRobot
 
         // Start the driver camera streaming.
         //TODO: Bring Camera back after optional testing
-        // m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
-        // m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX,
-        //     CameraConstants.kDriverCameraResolutionY);
-        // m_driverCamera.setFPS(CameraConstants.kDriverCameraFPS);
-        // m_driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
+        m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX,
+            CameraConstants.kDriverCameraResolutionY);
+        m_driverCamera.setFPS(CameraConstants.kDriverCameraFPS);
+        m_driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     }
 
     /**
