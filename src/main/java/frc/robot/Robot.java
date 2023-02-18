@@ -23,7 +23,7 @@ public class Robot extends TimedRobot
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
-    private UsbCamera m_driverCamera;
+    private UsbCamera      m_driverCamera;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -37,10 +37,12 @@ public class Robot extends TimedRobot
         m_robotContainer = new RobotContainer();
 
         // Start the driver camera streaming.
-        m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
-        m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX, CameraConstants.kDriverCameraResolutionY);
-        m_driverCamera.setFPS(CameraConstants.kDriverCameraFPS);
-        m_driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);    
+        //TODO: Bring Camera back after optional testing
+        // m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
+        // m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX,
+        //     CameraConstants.kDriverCameraResolutionY);
+        // m_driverCamera.setFPS(CameraConstants.kDriverCameraFPS);
+        // m_driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     }
 
     /**
@@ -63,10 +65,14 @@ public class Robot extends TimedRobot
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit()
+    {
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic()
+    {
+    }
 
     /**
      * This autonomous runs the autonomous command selected by your {@link RobotContainer}
@@ -93,7 +99,9 @@ public class Robot extends TimedRobot
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic()
+    {
+    }
 
     @Override
     public void teleopInit()
@@ -110,7 +118,9 @@ public class Robot extends TimedRobot
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic()
+    {
+    }
 
     @Override
     public void testInit()

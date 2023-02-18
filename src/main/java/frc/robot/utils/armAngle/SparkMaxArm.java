@@ -9,99 +9,114 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Specific class to set the angle of an arm using a CAN Spark Max Brushless
- * motor with an
- * internal encoder, and to determine when it is at it's max point and zero
- * point using
+ * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an
+ * internal encoder, and to determine when it is at it's max point and zero point using
  * digital input sensors.
  */
-public class SparkMaxArm extends GenericArmMotor {
-    double Kp;
-    double Ki;
-    double Kd;
-    boolean isLowerPresent;
-    boolean isUpperPresent;
-    double positionSetPoint;
-    double degreeSetPoint;
-    CANSparkMax motor;
-    RelativeEncoder encoder;
+public class SparkMaxArm extends GenericArmMotor
+{
+    double                Kp;
+    double                Ki;
+    double                Kd;
+    boolean               isLowerPresent;
+    boolean               isUpperPresent;
+    double                positionSetPoint;
+    double                degreeSetPoint;
+    CANSparkMax           motor;
+    RelativeEncoder       encoder;
     SparkMaxPIDController pidController;
-    double gearRatio;
-    DigitalInput UpperSensor;
-    DigitalInput LowerSensor;
+    double                gearRatio;
+    DigitalInput          UpperSensor;
+    DigitalInput          LowerSensor;
 
     /**
      * Creates a new CAN Spark Max arm
      * 
      * @param CanID
-     *                      Can ID of the motor used
+     *            Can ID of the motor used
      * @param gearRatio
-     *                      Number of motor shaft rotations per output shaft
-     *                      rotations
+     *            Number of motor shaft rotations per output shaft rotations
      * @param Kp
-     *                      Value for proportional gain constant in PID controller
+     *            Value for proportional gain constant in PID controller
      * @param Ki
-     *                      Value for integral gain constant in PID controller
+     *            Value for integral gain constant in PID controller
      * @param Kd
-     *                      Value for derivative gain constant in PID controller
+     *            Value for derivative gain constant in PID controller
      * @param LowerSensorID
-     *                      ID for digital input sensor that determines reset point
-     *                      of arm
+     *            ID for digital input sensor that determines reset point of arm
      * @param UpperSensorID
-     *                      ID for digital input sensor that determines max limit
-     *                      point of arm
+     *            ID for digital input sensor that determines max limit point of arm or -1
+     *            to indicate no switch is present
      */
     public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd,
-            int LowerSensorID, int UpperSensorID) {
+        int LowerSensorID, int UpperSensorID)
+    {
         this(CanID, gearRatio, Kp, Ki, Kd, LowerSensorID);
         this.gearRatio = gearRatio;
 
-        this.UpperSensor = new DigitalInput(UpperSensorID);
-        isUpperPresent = true;
+        if (UpperSensorID != -1)
+        {
+            this.UpperSensor = new DigitalInput(UpperSensorID);
+            isUpperPresent = true;
+        }
+        else
+        {
+            this.UpperSensor = null;
+            isUpperPresent = false;
+        }
+
     }
 
     /**
      * Creates a new CAN Spark Max arm
      * 
      * @param CanID
-     *                      Can ID of the motor used
+     *            Can ID of the motor used
      * @param gearRatio
-     *                      Number of motor shaft rotations per output shaft
-     *                      rotations
+     *            Number of motor shaft rotations per output shaft rotations
      * @param Kp
-     *                      Value for proportional gain constant in PID controller
+     *            Value for proportional gain constant in PID controller
      * @param Ki
-     *                      Value for integral gain constant in PID controller
+     *            Value for integral gain constant in PID controller
      * @param Kd
-     *                      Value for derivative gain constant in PID controller
+     *            Value for derivative gain constant in PID controller
      * @param LowerSensorID
-     *                      ID for digital input sensor that determines reset point
-     *                      of arm
+     *            ID for digital input sensor that determines reset point of arm
      */
     public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd,
-            int LowerSensorID) {
+        int LowerSensorID)
+    {
         this(CanID, gearRatio, Kp, Ki, Kd);
 
-        this.LowerSensor = new DigitalInput(LowerSensorID);
-        isLowerPresent = true;
+        if (LowerSensorID != -1)
+        {
+            this.LowerSensor = new DigitalInput(LowerSensorID);
+            isLowerPresent = true;
+        }
+        else
+        {
+            this.LowerSensor = null;
+            isLowerPresent = false;
+        }
     }
 
     /**
      * Creates a new CAN Spark Max arm
      * 
      * @param CanID
-     *                  Can ID of the motor used
+     *            Can ID of the motor used
      * @param gearRatio
-     *                  Number of motor shaft rotations per output shaft rotations
+     *            Number of motor shaft rotations per output shaft rotations
      * @param p
-     *                  Value for proportional gain constant in PID controller
+     *            Value for proportional gain constant in PID controller
      * @param i
-     *                  Value for integral gain constant in PID controller
+     *            Value for integral gain constant in PID controller
      * @param d
-     *                  Value for derivative gain constant in PID controller
+     *            Value for derivative gain constant in PID controller
      */
 
-    public SparkMaxArm(int CanID, double gearRatio, double p, double i, double d) {
+    public SparkMaxArm(int CanID, double gearRatio, double p, double i, double d)
+    {
         this.gearRatio = gearRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor.restoreFactoryDefaults();
@@ -119,57 +134,71 @@ public class SparkMaxArm extends GenericArmMotor {
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
-    public double getAppliedOutput() {
+    public double getAppliedOutput()
+    {
         return motor.getAppliedOutput();
     }
 
-    public void resetEncoder() {
+    public void resetEncoder()
+    {
         encoder.setPosition(0.0); // Reset Position of encoder is 0.0
 
     }
 
-    public void addFollowerMotor(int CanID) {
-        try (CANSparkMax followerMotor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless)) {
+    public void addFollowerMotor(int CanID)
+    {
+        try (CANSparkMax followerMotor =
+                new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless))
+        {
             followerMotor.follow(motor);
         }
     }
 
-    public boolean isLowerAvailable() {
+    public boolean isLowerAvailable()
+    {
         return isLowerPresent;
     }
 
-    public boolean isLowerReached() {
+    public boolean isLowerReached()
+    {
         return LowerSensor.get();
     }
 
-    public boolean isUpperAvailable() {
+    public boolean isUpperAvailable()
+    {
         return isUpperPresent;
     }
 
-    public boolean isUpperReached() {
+    public boolean isUpperReached()
+    {
         return UpperSensor.get();
     }
 
-    public void stop() {
+    public void stop()
+    {
         motor.stopMotor();
     }
 
-    public double getCurrentAngle() {
+    public double getCurrentAngle()
+    {
         double current_value = (encoder.getPosition() * 360) / 4; // Convert native encoder unit of rotations to degrees
         return current_value;
     }
 
-    public double getTargetAngle() {
+    public double getTargetAngle()
+    {
         return degreeSetPoint;
     }
 
-    public void setTargetAngle(double degrees) {
+    public void setTargetAngle(double degrees)
+    {
         degreeSetPoint = degrees;
         positionSetPoint = (degrees * gearRatio) / 360.0;
         pidController.setReference(positionSetPoint, CANSparkMax.ControlType.kPosition);
     }
 
-    public void periodic() {
+    public void periodic()
+    {
         double applied_output = motor.getAppliedOutput();
         SmartDashboard.putNumber("Applied Output", applied_output);
         double current = motor.getOutputCurrent();

@@ -28,7 +28,7 @@ import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Extender;
-import frc.robot.subsystems.SK23Intake;
+import frc.robot.subsystems.SK23RollerIntake;
 import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -57,10 +57,10 @@ public class RobotContainer
     // Initialization for optional
     // These are currently empty and only created in the constructor
     // based on the Subsystem.json file
-    private Optional<SK23Intake>   intakeSubsystem   = Optional.empty();
-    private Optional<SK23Vision>   visionSubsystem   = Optional.empty();
-    private Optional<SK23Arm>      armSubsystem      = Optional.empty();
-    private Optional<SK23Extender> extenderSubsystem = Optional.empty();
+    private Optional<SK23RollerIntake> intakeSubsystem   = Optional.empty();
+    private Optional<SK23Vision>       visionSubsystem   = Optional.empty();
+    private Optional<SK23Arm>          armSubsystem      = Optional.empty();
+    private Optional<SK23Extender>     extenderSubsystem = Optional.empty();
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
@@ -92,7 +92,7 @@ public class RobotContainer
             // This is decided by looking at Subsystems.json
             if (subsystems.isIntakePresent())
             {
-                intakeSubsystem = Optional.of(new SK23Intake());
+                intakeSubsystem = Optional.of(new SK23RollerIntake());
                 System.out.println("intake is here");
             }
             if (subsystems.isVisionPresent())

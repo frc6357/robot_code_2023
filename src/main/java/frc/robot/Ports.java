@@ -13,16 +13,16 @@ public class Ports
     {
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(1, busName);
-        public static final int     kLowerSwitch = 0;
-        public static final int     kUpperSwitch = 0;
+        public static final int     kLowerSwitch = -1;
+        public static final int     kUpperSwitch = -1;
     }
 
     public static class ExtenderPorts
     {
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(1, busName);
-        public static final int     kLowerSwitch = 0;
-        public static final int     kUpperSwitch = 0;
+        public static final int     kLowerSwitch = -1;
+        public static final int     kUpperSwitch = -1;
     }
 
     public static class IntakePorts

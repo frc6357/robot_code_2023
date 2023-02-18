@@ -1,7 +1,7 @@
 {
     "arm"           : false,
-    "extender"      : false,
-    "intake"        : true,
-    "vision"        : false
+    "extender"      : true,
+    "intake"        : false,
+    "vision"        : false 
     
 }
