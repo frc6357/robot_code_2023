@@ -93,6 +93,7 @@ public class RobotContainer
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem = Optional.of(new SK23Intake());
+                System.out.println("intake is here");
             }
             if (subsystems.isVisionPresent())
             {

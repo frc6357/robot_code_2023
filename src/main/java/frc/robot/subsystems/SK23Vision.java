@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import frc.robot.Ports.LowArmPorts;
 
 /**
  * Subsystem for vision data handling

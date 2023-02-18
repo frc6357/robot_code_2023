@@ -30,6 +30,15 @@ public final class Constants
     {
     }
 
+    public static class IntakeConstants
+    {
+        // TODO: Test to make sure that the intake speed is correct
+        public static final double CLOCKWISE_FRONTROLLER_SPEED          = 0.625;
+        public static final double COUNTERCLOCKWISE_FRONTROLLER_SPEED   = -0.625;
+        public static final double CLOCKWISE_REARTOPROLLER_SPEED        = 0.625;
+        public static final double COUNTERCLOCKWISE_REARTOPROLLER_SPEED = 0.625;
+    }
+
     public static enum GamePieceEnum
     {
         // Represents a case where there is no game object 

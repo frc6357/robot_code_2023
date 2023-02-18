@@ -25,6 +25,14 @@ public class Ports
         public static final int     kUpperSwitch = 0;
     }
 
+    public static class IntakePorts
+    {
+        // TODO: Find out the correct port numbers for the intake
+        public static final int kFrontIntakeMotorPort   = 0;
+        public static final int kBackTopIntakeMotorPort = 1;
+
+    }
+
     public static class OperatorPorts
     {
         // TODO: What do these "ports" represent? I presume they are Joystick

@@ -3,51 +3,50 @@
 //
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Ports;
 import frc.robot.Constants.GamePieceEnum;
 
 public class SK23Intake extends SubsystemBase
 {
+    //TODO: Get correct port numbers
+    private final CANSparkMax frontMotor   =
+            new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
+    private final CANSparkMax rearTopMotor =
+            new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
+
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
     {
-
+        frontMotor.setInverted(true);
+        rearTopMotor.setInverted(true);
     }
 
     /**
      * Sets the intake to intake game pieces. Changes the mode of intake based on whether
      * it is intaking a cube or cone
      */
-    public void Intake(GamePieceEnum gamePiece)
+    public void setFrontRollerSpeed(double speed)
     {
-
+        frontMotor.set(speed);
     }
 
-    /**
-     * Sets the intake to eject game pieces. Changes the mode of ejection based on whether
-     * it is intaking a cube or cone
-     */
-    public void Eject(GamePieceEnum gamePiece)
+    public void setRearTopRollerSpeed(double speed)
     {
-
+        rearTopMotor.set(speed);
     }
 
-    /**
-     * deploys the intake into the active position to pickup game pieces
-     *
-     */
-    public void deployIntake()
+    public double getFrontRollerSpeed()
     {
-
+        return frontMotor.get();
     }
 
-    /**
-     * Stores the intake into the deactive position
-     *
-     */
-    public void storeIntake()
+    public double getRearTopRollerSpeed()
     {
-
+        return rearTopMotor.get();
     }
 
 }

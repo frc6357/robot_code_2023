@@ -4,39 +4,39 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.SK23Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class SetIntakeCommand extends CommandBase
+public class EjectConeCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
     private final SK23Intake intake;
 
     /**
-     * Createa new SetIntakeCommand
+     * This command allows the operator to extend the intake outwards or retract it
+     * inwards.
      *
      * @param intake
-     *            The intake subsystem used to execute the command
+     *            The intake subsystem the command operates on.
      */
-    public SetIntakeCommand(SK23Intake intake)
+    public EjectConeCommand(SK23Intake intake)
     {
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intake);
     }
 
-    // Called when the command is initially scheduled.
+    // 
     @Override
     public void initialize()
     {
-
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted)
-    {
+        intake.setFrontRollerSpeed(Constants.IntakeConstants.COUNTERCLOCKWISE_FRONTROLLER_SPEED);
+        intake
+            .setRearTopRollerSpeed(Constants.IntakeConstants.COUNTERCLOCKWISE_REARTOPROLLER_SPEED);
     }
 
     // Returns true when the command should end.
