@@ -49,7 +49,10 @@ public class RobotContainer
         configureButtonBindings();
         configureAutos();
     }
-
+    public void testPeriodic()
+    {
+        m_Arm.testPeriodic();
+    }
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses

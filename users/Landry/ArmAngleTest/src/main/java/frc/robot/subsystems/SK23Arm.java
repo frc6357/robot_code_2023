@@ -29,7 +29,8 @@ public class SK23Arm extends SubsystemBase
     {
         Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
             ArmConstants.kGearRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
-            ArmConstants.kArmMotorD);
+            ArmConstants.kArmMotorD, ArmConstants.kRampRate);
+        Arm.addFollowerMotor(ArmPorts.kFollowerMotor, false);
         Arm.resetEncoder();
     }
 
@@ -79,6 +80,15 @@ public class SK23Arm extends SubsystemBase
     public void periodic()
     {
         Arm.periodic();
+        Arm.checkLimitSensors();
+        double current_angle = Arm.getCurrentAngle();
+        double target_angle = Arm.getTargetAngle();
+        SmartDashboard.putNumber("Current Angle", current_angle);
+        SmartDashboard.putNumber("Target Angle", target_angle);
+    }
+
+    public void testPeriodic(){
+        Arm.testPeriodic();
         Arm.checkLimitSensors();
         double current_angle = Arm.getCurrentAngle();
         double target_angle = Arm.getTargetAngle();

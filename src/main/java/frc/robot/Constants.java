@@ -52,7 +52,7 @@ public final class Constants
     public static class ArmConstants
     {
         // High Arm Constants
-        public static final double kRotationRatio = 0;
+        public static final double kGearRatio = 0;
         public static final double kArmMotorP     = 0;
         public static final double kArmMotorI     = 0;
         public static final double kArmMotorD     = 0;

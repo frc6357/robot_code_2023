@@ -23,6 +23,8 @@ public abstract class Arm extends SubsystemBase
      *            Enum that specifies which angle you want the arm to be set at
      */
     public abstract void setTargetAngle(ArmAngleEnum angle);
+    
+    
 
     /**
      * @return Returns the angle that the arm is currently at
@@ -32,7 +34,7 @@ public abstract class Arm extends SubsystemBase
     /**
      * @return Returns the current setpoint that the arm is attempting to reach
      */
-    public abstract double getSetPoint();
+    public abstract double getTargetAngle();
 
     /**
      * 

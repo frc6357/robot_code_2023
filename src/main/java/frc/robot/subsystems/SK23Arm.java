@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Ports.ArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
@@ -17,8 +18,9 @@ public class SK23Arm extends Arm
     public SK23Arm()
     {
         Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor.ID,
-            ArmConstants.kRotationRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
-            ArmConstants.kArmMotorD, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch);
+            ArmConstants.kGearRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
+            ArmConstants.kArmMotorD);
+        Arm.resetEncoder();
     }
 
     public void setTargetAngle(ArmAngleEnum angle)
@@ -45,33 +47,34 @@ public class SK23Arm extends Arm
         Arm.setTargetAngle(angle);
     }
 
-    @Override
+    public void setJoystickAngle(double joystickInput){
+        double angleChange = joystickInput * ArmConstants.kJoystickRatio; // Converting joystick input into degrees moved on the arm
+        double currentAngle = getTargetAngle() + angleChange;
+        setTargetAngle(currentAngle);
+        
+    }
     public boolean isAtSetPoint()
     {
         return Arm.getCurrentAngle() == Arm.getTargetAngle();
     }
 
-    @Override
-    public void setJoystickAngle(double joystickInput){
-        double angleChange = joystickInput * ArmConstants.kJoystickRatio; // Converting joystick input into degrees moved on the arm
-        setTargetAngle(getCurrentAngle() + angleChange);
-        
-    }
-    @Override
     public double getCurrentAngle()
     {
         return Arm.getCurrentAngle();
     }
 
-    @Override
-    public double getSetPoint()
+    public double getTargetAngle()
     {
         return Arm.getTargetAngle();
     }
 
-    @Override
     public void periodic()
     {
+        Arm.periodic();
         Arm.checkLimitSensors();
+        double current_angle = Arm.getCurrentAngle();
+        double target_angle = Arm.getTargetAngle();
+        SmartDashboard.putNumber("Current Angle", current_angle);
+        SmartDashboard.putNumber("Target Angle", target_angle);
     }
 }

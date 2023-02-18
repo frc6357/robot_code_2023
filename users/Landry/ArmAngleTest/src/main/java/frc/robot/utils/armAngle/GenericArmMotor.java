@@ -16,7 +16,7 @@ public abstract class GenericArmMotor
      * @param CanID
      *            CanID for the follower motor
      */
-    public abstract void addFollowerMotor(int CanID);
+    public abstract void addFollowerMotor(int CanID, boolean isReversed);
 
     /**
      * @return Returns the value of the sensor that is used for locating the lower limit
@@ -67,4 +67,6 @@ public abstract class GenericArmMotor
     public abstract void setTargetAngle(double degrees);
 
     public abstract void periodic();
+
+    public abstract void testPeriodic();
 }

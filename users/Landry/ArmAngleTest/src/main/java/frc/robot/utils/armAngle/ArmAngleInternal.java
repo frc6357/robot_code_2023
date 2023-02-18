@@ -47,10 +47,10 @@ public class ArmAngleInternal {
      *                      of arm
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd, int lowerSensorID, int upperSensorID) {
+            double Ki, double Kd, double rampRate, int lowerSensorID, int upperSensorID) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, lowerSensorID,
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate, lowerSensorID,
                         upperSensorID);
                 break;
         }
@@ -77,10 +77,10 @@ public class ArmAngleInternal {
      *                      of arm
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd, int lowerSensorID) {
+            double Ki, double Kd, double rampRate, int lowerSensorID) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, lowerSensorID);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate, lowerSensorID);
                 break;
         }
     }
@@ -102,10 +102,10 @@ public class ArmAngleInternal {
      *                  Value for derivative gain constant in PID controller
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd) {
+            double Ki, double Kd, double rampRate) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate);
                 break;
         }
     }
@@ -124,8 +124,8 @@ public class ArmAngleInternal {
      *              CanID for the follower motor
      */
 
-    public void addFollowerMotor(int CanID) {
-        motor.addFollowerMotor(CanID);
+    public void addFollowerMotor(int CanID,boolean isReversed) {
+        motor.addFollowerMotor(CanID, isReversed);
     }
 
     /**
@@ -216,5 +216,9 @@ public class ArmAngleInternal {
 
     public void periodic() {
         motor.periodic();
+    }
+
+    public void testPeriodic() {
+        motor.testPeriodic();
     }
 }
