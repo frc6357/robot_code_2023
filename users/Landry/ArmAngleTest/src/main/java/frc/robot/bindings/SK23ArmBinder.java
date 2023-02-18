@@ -11,7 +11,7 @@ import frc.robot.utils.filters.FilteredJoystick;
 
 public class SK23ArmBinder implements CommandBinder {
     SK23Arm subsystem;
-    
+
     // Driver button commands
     private final JoystickButton LowButton;
     private final JoystickButton MidButton;
@@ -39,18 +39,17 @@ public class SK23ArmBinder implements CommandBinder {
     public void bindButtons() {
 
         controller.setFilter(ControllerPorts.kYAxis,
-        new CubicDeadbandFilter(1, 0.01,
-           1, false));
+                new CubicDeadbandFilter(1, 0.01,
+                        1, false));
 
-    
         LowButton.onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.LowPosition)));
         MidButton.onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.MidPosition)));
         HighButton.onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.HighPosition)));
-        subsystem.setDefaultCommand(
-            
-            // The right stick controls movement of the arm.
-            // Vertical movement is controlled by the Y axis of the right stick.
-            new RunCommand(() -> subsystem.setJoystickAngle(controller.getFilteredAxis(ControllerPorts.kYAxis))));
+        // subsystem.setDefaultCommand(
 
-        }
+        //         // The right stick controls movement of the arm.
+        //         // Vertical movement is controlled by the Y axis of the right stick.
+        //         new RunCommand(() -> subsystem.setJoystickAngle(controller.getFilteredAxis(ControllerPorts.kYAxis)), subsystem));
+
+    }
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Ports.ArmPorts;
@@ -28,7 +29,8 @@ public class SK23Arm extends SubsystemBase
     {
         Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor,
             ArmConstants.kRotationRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
-            ArmConstants.kArmMotorD, ArmPorts.kLowerSwitch, ArmPorts.kUpperSwitch);
+            ArmConstants.kArmMotorD);
+        Arm.resetEncoder();
     }
 
     public void setTargetAngle(ArmAngleEnum angle)
@@ -55,7 +57,8 @@ public class SK23Arm extends SubsystemBase
 
     public void setJoystickAngle(double joystickInput){
         double angleChange = joystickInput * ArmConstants.kJoystickRatio; // Converting joystick input into degrees moved on the arm
-        setTargetAngle(getCurrentAngle() + angleChange);
+        double currentAngle = getTargetAngle() + angleChange;
+        setTargetAngle(currentAngle);
         
     }
     public boolean isAtSetPoint()
@@ -68,13 +71,18 @@ public class SK23Arm extends SubsystemBase
         return Arm.getCurrentAngle();
     }
 
-    public double getSetPoint()
+    public double getTargetAngle()
     {
         return Arm.getTargetAngle();
     }
 
     public void periodic()
     {
+        Arm.periodic();
         Arm.checkLimitSensors();
+        double current_angle = Arm.getCurrentAngle();
+        double target_angle = Arm.getTargetAngle();
+        SmartDashboard.putNumber("Current Angle", current_angle);
+        SmartDashboard.putNumber("Target Angle", target_angle);
     }
 }

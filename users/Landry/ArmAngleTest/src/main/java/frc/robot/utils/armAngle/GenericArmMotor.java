@@ -65,4 +65,10 @@ public abstract class GenericArmMotor
      *            Degree to which the arm should be set
      */
     public abstract void setTargetAngle(double degrees);
+
+    public abstract double getCurrent();
+    
+    public abstract double getAppliedOutput();
+
+    public abstract void periodic();
 }

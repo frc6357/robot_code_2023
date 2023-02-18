@@ -201,7 +201,15 @@ public class ArmAngleInternal
         motor.setTargetAngle(degrees);
     }
 
+    public double getVoltage(){
+        return motor.getCurrent();
+    }
+
+    public double getAppliedOutput(){
+        return motor.getAppliedOutput();
+    }
     /**
+     * 
      * Checks both the upper and lower sensor, if they are present, to determine if they
      * have been reached. If so it will stop the motor, and reset the encoder if it has
      * reached the bottom sensor.
@@ -219,5 +227,8 @@ public class ArmAngleInternal
             stop();
         }
     }
-
+    
+    public void periodic(){
+        motor.periodic();
+    }
 }

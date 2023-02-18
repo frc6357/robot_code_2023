@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an
@@ -108,9 +109,17 @@ public class SparkMaxArm extends GenericArmMotor
 
         isLowerPresent = false;
         isUpperPresent = false;
-        encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
+        //encoder.setPositionConversionFactor(rotationRatio); // Sets the encoder units to degrees
 
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public double getCurrent(){
+        return motor.getOutputCurrent();
+    }
+
+    public double getAppliedOutput(){
+        return motor.getAppliedOutput();
     }
 
     public void resetEncoder()
@@ -155,7 +164,8 @@ public class SparkMaxArm extends GenericArmMotor
 
     public double getCurrentAngle()
     {
-        return encoder.getPosition();
+        double current_value = encoder.getPosition();
+        return current_value;
     }
 
     public double getTargetAngle()
@@ -166,6 +176,13 @@ public class SparkMaxArm extends GenericArmMotor
     public void setTargetAngle(double degrees)
     {
         setPoint = degrees;
-        pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
+         pidController.setReference(degrees, CANSparkMax.ControlType.kPosition);
+    }
+
+    public void periodic(){
+        double applied_output = motor.getAppliedOutput();
+        SmartDashboard.putNumber("Applied Output", applied_output );
+        double current = motor.getOutputCurrent();
+        SmartDashboard.putNumber("Current", current);
     }
 }
