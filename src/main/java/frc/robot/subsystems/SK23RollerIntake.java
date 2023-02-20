@@ -8,13 +8,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
-import frc.robot.Constants.GamePieceEnum;
 
 public class SK23RollerIntake extends SubsystemBase
 {
-    //TODO: Get correct port numbers
-    private final CANSparkMax frontMotor   =
+    // The motor responsible for controlling the front roller close the ground
+    private final CANSparkMax frontMotor =
             new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
+    // The motor responsible for controlling the back roller and the front roller far above the ground
     private final CANSparkMax rearTopMotor =
             new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
 
@@ -26,24 +26,34 @@ public class SK23RollerIntake extends SubsystemBase
     }
 
     /**
-     * Sets the intake to intake game pieces. Changes the mode of intake based on whether
-     * it is intaking a cube or cone
+     * Sets the intake to intake game pieces of the motor that controls the front roller.
+     * Changes the mode of intake based on whether it is intaking a cube or cone
      */
     public void setFrontRollerSpeed(double speed)
     {
         frontMotor.set(speed);
     }
 
+    /**
+     * Sets the intake to intake game pieces of the motor that controls the top and rear
+     * roller. Changes the mode of intake based on whether it is intaking a cube or cone
+     */
     public void setRearTopRollerSpeed(double speed)
     {
         rearTopMotor.set(speed);
     }
 
+    /**
+     * Get the current motor speed for the motor that controls the front roller
+     */
     public double getFrontRollerSpeed()
     {
         return frontMotor.get();
     }
 
+    /**
+     * Get the current motor speed for the motor that controls the back and top rollers
+     */
     public double getRearTopRollerSpeed()
     {
         return rearTopMotor.get();

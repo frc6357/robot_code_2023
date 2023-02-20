@@ -25,9 +25,12 @@ import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.commands.DoNothingCommand;
+import frc.robot.commands.EjectBoxCommand;
+import frc.robot.commands.EjectConeCommand;
+import frc.robot.commands.IntakeBoxCommand;
+import frc.robot.commands.IntakeConeCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.subsystems.SK23Extender;
 import frc.robot.subsystems.SK23RollerIntake;
 import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
@@ -54,13 +57,21 @@ public class RobotContainer
     private final FilteredJoystick operatorController =
             new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
+    // 2023 Button mappings
+    private final JoystickButton intakeCubeBtn =
+            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorIntakeCube);
+    private final JoystickButton ejectConeBtn  =
+            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorEjectCone);
+    private final JoystickButton intakeConeBtn =
+            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorIntakeCone);
+    private final JoystickButton ejectCubeBtn  =
+            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorEjectCube);
     // Initialization for optional
     // These are currently empty and only created in the constructor
     // based on the Subsystem.json file
-    private Optional<SK23RollerIntake> intakeSubsystem   = Optional.empty();
-    private Optional<SK23Vision>       visionSubsystem   = Optional.empty();
-    private Optional<SK23Arm>          armSubsystem      = Optional.empty();
-    private Optional<SK23Extender>     extenderSubsystem = Optional.empty();
+    private Optional<SK23RollerIntake> intakeSubsystem = Optional.empty();
+    private Optional<SK23Vision>       visionSubsystem = Optional.empty();
+    private Optional<SK23Arm>          armSubsystem    = Optional.empty();
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
@@ -93,7 +104,6 @@ public class RobotContainer
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem = Optional.of(new SK23RollerIntake());
-                System.out.println("intake is here");
             }
             if (subsystems.isVisionPresent())
             {
@@ -102,10 +112,6 @@ public class RobotContainer
             if (subsystems.isArmPresent())
             {
                 armSubsystem = Optional.of(new SK23Arm());
-            }
-            if (subsystems.isExtenderPresent())
-            {
-                extenderSubsystem = Optional.of(new SK23Extender());
             }
         }
         catch (IOException e)
@@ -133,7 +139,18 @@ public class RobotContainer
 
         if (intakeSubsystem.isPresent())
         {
-            //TODO: Implement intake based on 
+            //The SK23 intake subsystem
+            SK23RollerIntake intake = intakeSubsystem.get();
+
+            // When the left button is pressed intake the cube while it is held down
+            intakeCubeBtn.whileTrue(new IntakeBoxCommand(intake));
+            // When the right button is pressed eject the cone while it is held down
+            ejectConeBtn.whileTrue(new EjectConeCommand(intake));
+            // When the left trigger is pressed intake the cone while it is held down
+            intakeConeBtn.whileTrue(new IntakeConeCommand(intake));
+            // When the right trigger is pressed eject the cube while it is held down
+            ejectCubeBtn.whileTrue(new EjectBoxCommand(intake));
+
         }
 
     }
