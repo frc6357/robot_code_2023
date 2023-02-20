@@ -26,13 +26,9 @@ import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.bindings.SK23IntakeBinder;
 import frc.robot.commands.DoNothingCommand;
-import frc.robot.commands.EjectBoxCommand;
-import frc.robot.commands.EjectConeCommand;
-import frc.robot.commands.IntakeBoxCommand;
-import frc.robot.commands.IntakeConeCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.subsystems.SK23RollerIntake;
+import frc.robot.subsystems.SK23Intake;
 import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -47,8 +43,8 @@ public class RobotContainer
 {
 
     // The robot's subsystems
-    private final SK23Drive        m_robotDrive  = new SK23Drive();
-    private final SK23RollerIntake m_robotIntake = new SK23RollerIntake();
+    private final SK23Drive  m_robotDrive  = new SK23Drive();
+    private final SK23Intake m_robotIntake = new SK23Intake();
 
     // The class used to create all PathPlanner Autos
     private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
@@ -64,9 +60,9 @@ public class RobotContainer
     // Initialization for optional
     // These are currently empty and only created in the constructor
     // based on the Subsystem.json file
-    private Optional<SK23RollerIntake> intakeSubsystem = Optional.empty();
-    private Optional<SK23Vision>       visionSubsystem = Optional.empty();
-    private Optional<SK23Arm>          armSubsystem    = Optional.empty();
+    private Optional<SK23Intake> intakeSubsystem = Optional.empty();
+    private Optional<SK23Vision> visionSubsystem = Optional.empty();
+    private Optional<SK23Arm>    armSubsystem    = Optional.empty();
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
@@ -98,7 +94,7 @@ public class RobotContainer
             // This is decided by looking at Subsystems.json
             if (subsystems.isIntakePresent())
             {
-                intakeSubsystem = Optional.of(new SK23RollerIntake());
+                intakeSubsystem = Optional.of(new SK23Intake());
             }
             if (subsystems.isVisionPresent())
             {
@@ -136,7 +132,7 @@ public class RobotContainer
         if (intakeSubsystem.isPresent())
         {
             //The SK23 intake subsystem
-            SK23RollerIntake intake = intakeSubsystem.get();
+            SK23Intake intake = intakeSubsystem.get();
 
         }
 

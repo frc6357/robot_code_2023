@@ -5,15 +5,18 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.SK23RollerIntake;
+import frc.robot.Constants.GamePieceEnum;
+import frc.robot.subsystems.SK23Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class EjectBoxCommand extends CommandBase
+public class IntakeCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23RollerIntake intake;
+    private final SK23Intake    intake;
+    private final GamePieceEnum gamePiece;
+    private final double        speed;
 
     /**
      * This command allows the operator to extend the intake outwards or retract it
@@ -22,8 +25,10 @@ public class EjectBoxCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public EjectBoxCommand(SK23RollerIntake intake)
+    public IntakeCommand(double speed, GamePieceEnum gamePiece, SK23Intake intake)
     {
+        this.speed = speed;
+        this.gamePiece = gamePiece;
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intake);
@@ -33,10 +38,21 @@ public class EjectBoxCommand extends CommandBase
     @Override
     public void initialize()
     {
-        intake.setFrontRollerSpeed(
-            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_FRONTROLLER_SPEED);
-        intake.setRearTopRollerSpeed(
-            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_REARTOPROLLER_SPEED);
+        switch (gamePiece)
+        {
+            // Intake intaking cone
+            case Cone:
+                intake.setFrontRollerSpeed(speed);
+                intake.setRearTopRollerSpeed(speed);
+                break;
+
+            case Cube:
+                intake.setFrontRollerSpeed(speed);
+                intake.setRearTopRollerSpeed(speed);
+                break;
+
+        }
+
     }
 
     public void end(boolean interrupted)

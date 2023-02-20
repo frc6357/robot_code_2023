@@ -30,22 +30,12 @@ public final class Constants
     {
     }
 
-    public static class RollerIntakeConstants
+    public static class IntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
-        public static final double CLOCKWISE_FRONTROLLER_SPEED          = 0.8;
-        public static final double COUNTERCLOCKWISE_FRONTROLLER_SPEED   = -0.8;
-        public static final double CLOCKWISE_REARTOPROLLER_SPEED        = 0.8;
-        public static final double COUNTERCLOCKWISE_REARTOPROLLER_SPEED = -0.8;
-    }
+        public static final double CLOCKWISE_ROLLER_SPEED        = 0.8;
+        public static final double COUNTERCLOCKWISE_ROLLER_SPEED = -0.8;
 
-    public static class ClawIntakeConstants
-    {
-        // TODO: Test to make sure that the intake speed is correct
-        public static final double CLOCKWISE_LEFTMOTOR_SPEED         = 0.8;
-        public static final double COUNTERCLOCKWISE_LEFTMOTOR_SPEED  = -0.8;
-        public static final double CLOCKWISE_RIGHTMOTOR_SPEED        = 0.8;
-        public static final double COUNTERCLOCKWISE_RIGHTMOTOR_SPEED = -0.8;
     }
 
     public static enum GamePieceEnum

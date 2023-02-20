@@ -10,7 +10,6 @@ public class SubsystemControls
 {
 
     private final boolean arm;
-    private final boolean extender;
     private final boolean intake;
     private final boolean vision;
 
@@ -19,21 +18,17 @@ public class SubsystemControls
      * 
      * @param arm
      *            indicates if the arm system is present and should be enabled
-     * @param extender
-     *            indicates if the extender system is present and should be enabled
      * @param intake
      *            indictes if the intake system is present and should be enabled
      * @param vision
      *            indicates if the vision system is present and should be enabled
      */
     public SubsystemControls(@JsonProperty(required = true, value = "arm")
-    boolean arm, @JsonProperty(required = true, value = "extender")
-    boolean extender, @JsonProperty(required = true, value = "intake")
+    boolean arm, @JsonProperty(required = true, value = "intake")
     boolean intake, @JsonProperty(required = true, value = "vision")
     boolean vision)
     {
         this.arm = arm;
-        this.extender = extender;
         this.intake = intake;
         this.vision = vision;
     }
@@ -47,17 +42,6 @@ public class SubsystemControls
     public boolean isArmPresent()
     {
         return arm;
-    }
-
-    /**
-     * Returns true if the extender system is indicated as present and should be enabled.
-     * 
-     * @return true if the extender system is indicated as present and should be enabled;
-     *         false otherwise
-     */
-    public boolean isExtenderPresent()
-    {
-        return extender;
     }
 
     /**

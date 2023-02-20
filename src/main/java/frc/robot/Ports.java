@@ -43,9 +43,7 @@ public class Ports
         public static final int kOperatorControllerPort = 1;
 
         public static final int kOperatorIntakeCube = 5; // left button
-        public static final int kOperatorEjectCone  = 6; // right button
-        public static final int kOperatorIntakeCone = 3; // left trigger
-        public static final int kOperatorEjectCube  = 2; // right trigger
+        public static final int kOperatorIntakeCone = 6; // right button
 
     }
 

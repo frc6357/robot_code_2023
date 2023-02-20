@@ -9,20 +9,23 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 
-public class SK23RollerIntake extends SubsystemBase
+public class SK23Intake extends SubsystemBase
 {
     // The motor responsible for controlling the front roller close the ground
-    private final CANSparkMax frontMotor =
+    private final CANSparkMax insideMotor =
             new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
     // The motor responsible for controlling the back roller and the front roller far above the ground
-    private final CANSparkMax rearTopMotor =
+    private final CANSparkMax outerMotor =
             new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
 
     /** Creates a new SK23RollerIntake. */
-    public SK23RollerIntake()
+    public SK23Intake()
     {
-        frontMotor.setInverted(true);
-        rearTopMotor.setInverted(true);
+        insideMotor.setInverted(true);
+        outerMotor.setInverted(true);
+
+        insideMotor.setSmartCurrentLimit(10);
+        outerMotor.setSmartCurrentLimit(10);
     }
 
     /**
@@ -31,7 +34,7 @@ public class SK23RollerIntake extends SubsystemBase
      */
     public void setFrontRollerSpeed(double speed)
     {
-        frontMotor.set(speed);
+        insideMotor.set(speed);
     }
 
     /**
@@ -40,7 +43,7 @@ public class SK23RollerIntake extends SubsystemBase
      */
     public void setRearTopRollerSpeed(double speed)
     {
-        rearTopMotor.set(speed);
+        outerMotor.set(speed);
     }
 
     /**
@@ -48,7 +51,7 @@ public class SK23RollerIntake extends SubsystemBase
      */
     public double getFrontRollerSpeed()
     {
-        return frontMotor.get();
+        return insideMotor.get();
     }
 
     /**
@@ -56,7 +59,7 @@ public class SK23RollerIntake extends SubsystemBase
      */
     public double getRearTopRollerSpeed()
     {
-        return rearTopMotor.get();
+        return outerMotor.get();
     }
 
 }
