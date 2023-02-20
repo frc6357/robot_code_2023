@@ -14,6 +14,7 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 public class SK23Arm extends Arm
 {
     ArmAngleInternal Arm;
+    int joystickCount;
 
     public SK23Arm()
     {
@@ -47,12 +48,33 @@ public class SK23Arm extends Arm
         Arm.setTargetAngle(angle);
     }
 
-    public void setJoystickAngle(double joystickInput){
-        double angleChange = joystickInput * ArmConstants.kJoystickRatio; // Converting joystick input into degrees moved on the arm
-        double currentAngle = getTargetAngle() + angleChange;
-        setTargetAngle(currentAngle);
+        /**
+     * 
+     * @param joystickInput
+     *                      Input coming from the joystick
+     * @param joystickTime
+     *                      Time in seconds between each check to change the arm
+     *                      position.
+     */
+    public void setJoystickAngle(double joystickInput, double joystickTime) {
         
+        double joystickTimePeriodic = joystickTime * 50; // Converts seconds into number of periodic calls
+
+        if (joystickCount == joystickTimePeriodic) {
+            double angleChange = ArmConstants.kJoystickRate;
+
+            if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband) {
+                double currentAngle = getTargetAngle() + Math.signum(joystickInput) * angleChange;
+                setTargetAngle(currentAngle);
+            }
+
+            joystickCount = 0;
+        }
+
+        joystickCount++;
+
     }
+
     public boolean isAtSetPoint()
     {
         return Arm.getCurrentAngle() == Arm.getTargetAngle();

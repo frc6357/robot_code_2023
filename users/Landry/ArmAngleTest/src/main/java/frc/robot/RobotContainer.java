@@ -10,7 +10,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Ports.ControllerPorts;
+import frc.robot.Ports.OperatorPorts;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23ArmBinder;
 import frc.robot.subsystems.SK23Arm;
@@ -31,8 +31,8 @@ public class RobotContainer
 
 
     // The driver's controller
-    private final FilteredJoystick driveController = new FilteredJoystick(ControllerPorts.kDriverControllerPort);
-    private final FilteredJoystick operatorController = new FilteredJoystick(ControllerPorts.kOperatorControllerPort);
+    private final FilteredJoystick driveController = new FilteredJoystick(OperatorPorts.kDriverControllerPort);
+    private final FilteredJoystick operatorController = new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();

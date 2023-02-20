@@ -52,5 +52,5 @@ public abstract class Arm extends SubsystemBase
      *            movement on the joystick, Positive input signifys upwards movement
      *            on the joystick.
      */
-    public abstract void setJoystickAngle(double joystickInput);
+    public abstract void setJoystickAngle(double joystickInput, double joystickTime);
 }

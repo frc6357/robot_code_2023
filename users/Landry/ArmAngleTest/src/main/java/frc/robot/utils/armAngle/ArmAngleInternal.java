@@ -39,6 +39,12 @@ public class ArmAngleInternal {
      *                      Value for integral gain constant in PID controller
      * @param Kd
      *                      Value for derivative gain constant in PID controller
+     * @param Kiz
+     *                      Value for integral zone gain constant in PID controller
+     * 
+     * @param rampRate
+     *                      The maximum rate at which the motor controller's output
+     *                      is allowed to change.
      * @param lowerSensorID
      *                      ID for digital input sensor that determines lower limit
      *                      of arm
@@ -47,10 +53,10 @@ public class ArmAngleInternal {
      *                      of arm
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd, double rampRate, int lowerSensorID, int upperSensorID) {
+            double Ki, double Kd, double Kiz, double rampRate, int lowerSensorID, int upperSensorID) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate, lowerSensorID,
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, Kiz, rampRate, lowerSensorID,
                         upperSensorID);
                 break;
         }
@@ -72,15 +78,20 @@ public class ArmAngleInternal {
      *                      Value for integral gain constant in PID controller
      * @param Kd
      *                      Value for derivative gain constant in PID controller
+     * @param Kiz
+     *                      Value for integral zone gain constant in PID controller
+     * @param rampRate
+     *                      The maximum rate at which the motor controller's output
+     *                      is allowed to change.
      * @param lowerSensorID
      *                      ID for digital input sensor that determines lower limit
      *                      of arm
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd, double rampRate, int lowerSensorID) {
+            double Ki, double Kd, double Kiz, double rampRate, int lowerSensorID) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate, lowerSensorID);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, Kiz, rampRate, lowerSensorID);
                 break;
         }
     }
@@ -100,12 +111,17 @@ public class ArmAngleInternal {
      *                  Value for integral gain constant in PID controller
      * @param Kd
      *                  Value for derivative gain constant in PID controller
+     * @param Kiz
+     *                  Value for integral zone gain constant in PID controller
+     * @param rampRate
+     *                  The maximum rate at which the motor controller's output is
+     *                  allowed to change.
      */
     public ArmAngleInternal(AngleMotorType motorType, int CanID, double gearRatio, double Kp,
-            double Ki, double Kd, double rampRate) {
+            double Ki, double Kd, double Kiz, double rampRate) {
         switch (motorType) {
             case SparkMax:
-                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, rampRate);
+                motor = new SparkMaxArm(CanID, gearRatio, Kp, Ki, Kd, Kiz, rampRate);
                 break;
         }
     }
@@ -124,7 +140,7 @@ public class ArmAngleInternal {
      *              CanID for the follower motor
      */
 
-    public void addFollowerMotor(int CanID,boolean isReversed) {
+    public void addFollowerMotor(int CanID, boolean isReversed) {
         motor.addFollowerMotor(CanID, isReversed);
     }
 

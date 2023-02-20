@@ -18,15 +18,6 @@ public class Ports
         public static final int     kUpperSwitch = -1;
     }
 
-    public static class ExtenderPorts
-    {
-        //TODO: Assign constants for can IDs
-        private static final String busName      = "";
-        public static final CANPort kMainMotor   = new CANPort(2, busName);
-        public static final int     kLowerSwitch = -1;
-        public static final int     kUpperSwitch = -1;
-    }
-
     public static class IntakePorts
     {
         // TODO: Find out the correct port numbers for the intake
@@ -44,6 +35,12 @@ public class Ports
 
         public static final int kOperatorIntakeCube = 5; // left button
         public static final int kOperatorIntakeCone = 6; // right button
+
+        public static final int kOperatorHighArm       = 4; //Y-Button
+        public static final int kOperatorMidArm        = 3; //X-Button
+        public static final int kOperatorLowArm        = 1; //A-Button
+        public static final int kOperatorSubstationArm = 2; //B-Button
+        public static final int kOperatorArmAxis       = 5; //Right joystick Y-Axis
 
     }
 
