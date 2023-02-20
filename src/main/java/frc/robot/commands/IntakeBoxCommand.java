@@ -33,8 +33,16 @@ public class IntakeBoxCommand extends CommandBase
     @Override
     public void initialize()
     {
-        intake.setFrontRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_FRONTROLLER_SPEED);
-        intake.setRearTopRollerSpeed(Constants.RollerIntakeConstants.CLOCKWISE_REARTOPROLLER_SPEED);
+        intake.setFrontRollerSpeed(
+            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_FRONTROLLER_SPEED);
+        intake.setRearTopRollerSpeed(
+            Constants.RollerIntakeConstants.COUNTERCLOCKWISE_REARTOPROLLER_SPEED);
+    }
+
+    public void end(boolean interrupted)
+    {
+        intake.setFrontRollerSpeed(0.0);
+        intake.setRearTopRollerSpeed(0.0);
     }
 
     // Returns true when the command should end.

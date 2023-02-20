@@ -30,8 +30,8 @@ public class Ports
     public static class IntakePorts
     {
         // TODO: Find out the correct port numbers for the intake
-        public static final int kFrontIntakeMotorPort   = 0;
-        public static final int kBackTopIntakeMotorPort = 3;
+        public static final int kFrontIntakeMotorPort   = 30;
+        public static final int kBackTopIntakeMotorPort = 20;
 
     }
 

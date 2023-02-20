@@ -24,6 +24,7 @@ import frc.robot.Ports.OperatorPorts;
 import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
+import frc.robot.bindings.SK23IntakeBinder;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.EjectBoxCommand;
 import frc.robot.commands.EjectConeCommand;
@@ -46,7 +47,8 @@ public class RobotContainer
 {
 
     // The robot's subsystems
-    private final SK23Drive m_robotDrive = new SK23Drive();
+    private final SK23Drive        m_robotDrive  = new SK23Drive();
+    private final SK23RollerIntake m_robotIntake = new SK23RollerIntake();
 
     // The class used to create all PathPlanner Autos
     private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
@@ -58,14 +60,7 @@ public class RobotContainer
             new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
     // 2023 Button mappings
-    private final JoystickButton intakeCubeBtn =
-            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorIntakeCube);
-    private final JoystickButton ejectConeBtn  =
-            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorEjectCone);
-    private final JoystickButton intakeConeBtn =
-            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorIntakeCone);
-    private final JoystickButton ejectCubeBtn  =
-            new JoystickButton(operatorController, Ports.OperatorPorts.kOperatorEjectCube);
+
     // Initialization for optional
     // These are currently empty and only created in the constructor
     // based on the Subsystem.json file
@@ -130,6 +125,7 @@ public class RobotContainer
     {
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
+        buttonBinders.add(new SK23IntakeBinder(operatorController, m_robotIntake));
 
         // Traversing through all the binding classes to actually bind the buttons
         for (CommandBinder subsystemGroup : buttonBinders)
@@ -141,15 +137,6 @@ public class RobotContainer
         {
             //The SK23 intake subsystem
             SK23RollerIntake intake = intakeSubsystem.get();
-
-            // When the left button is pressed intake the cube while it is held down
-            intakeCubeBtn.whileTrue(new IntakeBoxCommand(intake));
-            // When the right button is pressed eject the cone while it is held down
-            ejectConeBtn.whileTrue(new EjectConeCommand(intake));
-            // When the left trigger is pressed intake the cone while it is held down
-            intakeConeBtn.whileTrue(new IntakeConeCommand(intake));
-            // When the right trigger is pressed eject the cube while it is held down
-            ejectCubeBtn.whileTrue(new EjectBoxCommand(intake));
 
         }
 

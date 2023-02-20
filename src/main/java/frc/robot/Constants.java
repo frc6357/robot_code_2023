@@ -33,19 +33,19 @@ public final class Constants
     public static class RollerIntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
-        public static final double CLOCKWISE_FRONTROLLER_SPEED          = 0.625;
-        public static final double COUNTERCLOCKWISE_FRONTROLLER_SPEED   = -0.625;
-        public static final double CLOCKWISE_REARTOPROLLER_SPEED        = 0.625;
-        public static final double COUNTERCLOCKWISE_REARTOPROLLER_SPEED = -0.625;
+        public static final double CLOCKWISE_FRONTROLLER_SPEED          = 0.8;
+        public static final double COUNTERCLOCKWISE_FRONTROLLER_SPEED   = -0.8;
+        public static final double CLOCKWISE_REARTOPROLLER_SPEED        = 0.8;
+        public static final double COUNTERCLOCKWISE_REARTOPROLLER_SPEED = -0.8;
     }
 
     public static class ClawIntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
-        public static final double CLOCKWISE_LEFTMOTOR_SPEED         = 0.625;
-        public static final double COUNTERCLOCKWISE_LEFTMOTOR_SPEED  = -0.625;
-        public static final double CLOCKWISE_RIGHTMOTOR_SPEED        = 0.625;
-        public static final double COUNTERCLOCKWISE_RIGHTMOTOR_SPEED = -0.625;
+        public static final double CLOCKWISE_LEFTMOTOR_SPEED         = 0.8;
+        public static final double COUNTERCLOCKWISE_LEFTMOTOR_SPEED  = -0.8;
+        public static final double CLOCKWISE_RIGHTMOTOR_SPEED        = 0.8;
+        public static final double COUNTERCLOCKWISE_RIGHTMOTOR_SPEED = -0.8;
     }
 
     public static enum GamePieceEnum
@@ -62,9 +62,9 @@ public final class Constants
     {
         // High Arm Constants
         public static final double kGearRatio = 0;
-        public static final double kArmMotorP     = 0;
-        public static final double kArmMotorI     = 0;
-        public static final double kArmMotorD     = 0;
+        public static final double kArmMotorP = 0;
+        public static final double kArmMotorI = 0;
+        public static final double kArmMotorD = 0;
 
         public static final double kHighPosition       = 0;
         public static final double kMidPosition        = 0;

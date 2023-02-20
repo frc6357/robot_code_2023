@@ -39,6 +39,12 @@ public class EjectBoxCommand extends CommandBase
             Constants.RollerIntakeConstants.COUNTERCLOCKWISE_REARTOPROLLER_SPEED);
     }
 
+    public void end(boolean interrupted)
+    {
+        intake.setFrontRollerSpeed(0.0);
+        intake.setRearTopRollerSpeed(0.0);
+    }
+
     // Returns true when the command should end.
     @Override
     public boolean isFinished()
