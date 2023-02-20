@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -118,7 +119,7 @@ public class SK23Drive extends SubsystemBase
         else if (fieldRelative)
         {
             swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-                ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, m_gyro.getRotation2d()));
+                ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose().getRotation()));
         }
         else
         {
@@ -166,6 +167,8 @@ public class SK23Drive extends SubsystemBase
     public void zeroHeading()
     {
         m_gyro.reset();
+        Pose2d newPose = new Pose2d(getPose().getTranslation(), new Rotation2d());
+        resetOdometry(newPose);
     }
 
     /**

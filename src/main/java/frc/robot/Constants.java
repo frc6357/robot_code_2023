@@ -176,7 +176,7 @@ public final class Constants
 
         // Autonomous translation constraints
         public static final double          kMaxSpeedMetersPerSecond               = 1.5;
-        public static final double          kMaxAccelerationMetersPerSecondSquared = 0.75;
+        public static final double          kMaxAccelerationMetersPerSecondSquared = 0.5;
         public static final PathConstraints kPathConstraints                       =
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                     kMaxAccelerationMetersPerSecondSquared);
@@ -186,8 +186,8 @@ public final class Constants
         public static final double kMaxAngularSpeedDegreesPerSecondSquared = 180;
 
         // PID Constants
-        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(0.25, 0, 0);
-        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(0.012, 0, 0);
+        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3, 0, 0);
+        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(0.8, 0, 0);
 
         // Constraint for the motion profiled robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

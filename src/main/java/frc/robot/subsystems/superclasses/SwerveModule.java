@@ -153,7 +153,6 @@ public class SwerveModule
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.slot0.kP = ModuleConstants.kPModuleDriveController;
         config.slot0.kF = ModuleConstants.kFModuleDriveController;
-        config.neutralDeadband = ModuleConstants.kPIDAngleDeadband;
         m_driveMotor.configFactoryDefault();
         m_driveMotor.configAllSettings(config);
         m_driveMotor.setNeutralMode(NeutralMode.Brake);     // Set drive motor to brake mode
