@@ -100,7 +100,7 @@ public class SK23Drive extends SubsystemBase
      * @param ySpeed
      *            Speed of the robot in the y direction (sideways).
      * @param rot
-     *            Angular rate of the robot.
+     *            Angular rate of the robot in radians per second.
      * @param fieldRelative
      *            Whether the provided x and y speeds are relative to the field.
      */
@@ -118,8 +118,8 @@ public class SK23Drive extends SubsystemBase
         }
         else if (fieldRelative)
         {
-            swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-                ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose().getRotation()));
+            swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(ChassisSpeeds
+                .fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose().getRotation()));
         }
         else
         {
@@ -167,6 +167,7 @@ public class SK23Drive extends SubsystemBase
     public void zeroHeading()
     {
         m_gyro.reset();
+
         Pose2d newPose = new Pose2d(getPose().getTranslation(), new Rotation2d());
         resetOdometry(newPose);
     }
@@ -189,5 +190,25 @@ public class SK23Drive extends SubsystemBase
     public double getTurnRate()
     {
         return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    }
+
+    /**
+     * Get the pitch of the robot
+     * 
+     * @return The pitch of the robot in degrees (CCW+)
+     */
+    public double getPitch()
+    {
+        return m_gyro.getPitch();
+    }
+
+    /**
+     * Get the roll of the robot
+     * 
+     * @return The roll of the robot in degrees (CCW+)
+     */
+    public double getRoll()
+    {
+        return m_gyro.getRoll();
     }
 }

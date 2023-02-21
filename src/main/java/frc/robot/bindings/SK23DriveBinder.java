@@ -1,11 +1,11 @@
 package frc.robot.bindings;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.DefaultSwerveCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -53,16 +53,6 @@ public class SK23DriveBinder implements CommandBinder
 
         resetGyro.onTrue(new InstantCommand(subsystem::zeroHeading));
 
-        subsystem.setDefaultCommand(
-            // The left stick controls translation of the robot.
-            // Turning is controlled by the X axis of the right stick.
-            new RunCommand(() -> subsystem.drive(
-                // Left Y Axis
-                controller.getFilteredAxis(OIConstants.kVelocityYPort),
-                // Left X Axis
-                controller.getFilteredAxis(OIConstants.kVelocityXPort),
-                // Right X Axis
-                controller.getFilteredAxis(OIConstants.kVelocityOmegaPort),
-                !robotCentric.getAsBoolean()), subsystem));
+        subsystem.setDefaultCommand(new DefaultSwerveCommand(controller, robotCentric::getAsBoolean, subsystem));
     }
 }

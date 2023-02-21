@@ -143,7 +143,6 @@ public class RobotContainer
      */
     private void configureAutos()
     {
-        autoCommandSelector.setDefaultOption("None", new DoNothingCommand());
         autoGenerator.displayAllPathCommands(
             (name, command) -> autoCommandSelector.addOption(name, command));
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);

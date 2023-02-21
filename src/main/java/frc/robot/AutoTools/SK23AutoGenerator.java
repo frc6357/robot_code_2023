@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.files.FileScanner;
 
@@ -62,6 +63,7 @@ public class SK23AutoGenerator
      */
     public void displayAllPathCommands(BiConsumer<String, Command> displayMethod)
     {
+        displayMethod.accept("None", new DoNothingCommand());
         File pathplannerFolder = FileScanner.getFileFromDeploy(AutoConstants.kSplineDirectory);
         FileScanner.applyStringFunctionByType(pathplannerFolder, ".path",
             (autoName) -> createPathCommand(autoName, displayMethod), false);
