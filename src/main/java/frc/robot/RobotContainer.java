@@ -121,7 +121,7 @@ public class RobotContainer
     {
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
-        buttonBinders.add(new SK23IntakeBinder(operatorController, m_robotIntake));
+        //buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
 
         // Traversing through all the binding classes to actually bind the buttons
         for (CommandBinder subsystemGroup : buttonBinders)

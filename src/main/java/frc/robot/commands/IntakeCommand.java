@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 //import frc.robot.Constants;
 import frc.robot.Constants.GamePieceEnum;
+import frc.robot.Constants.IntakeStateEnum;
 import frc.robot.subsystems.SK23Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,9 +15,10 @@ public class IntakeCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Intake    intake;
-    private final GamePieceEnum gamePiece;
-    private final double        speed;
+    private final SK23Intake      intake;
+    private final IntakeStateEnum intakeState;
+    //private final IntakeState   state;
+    private final double speed;
 
     /**
      * This command allows the operator to extend the intake outwards or retract it
@@ -25,10 +27,11 @@ public class IntakeCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public IntakeCommand(double speed, GamePieceEnum gamePiece, SK23Intake intake)
+    public IntakeCommand(double speed, IntakeStateEnum intakeState, SK23Intake intake)
     {
         this.speed = speed;
-        this.gamePiece = gamePiece;
+        this.intakeState = intakeState;
+        //this.state = state;
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intake);
@@ -38,15 +41,16 @@ public class IntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-        switch (gamePiece)
+
+        switch (intakeState)
         {
             // Intake intaking cone
-            case Cone:
+            case IntakeCone:
                 intake.setFrontRollerSpeed(speed);
                 intake.setRearTopRollerSpeed(speed);
                 break;
 
-            case Cube:
+            case IntakeCube:
                 intake.setFrontRollerSpeed(speed);
                 intake.setRearTopRollerSpeed(speed);
                 break;

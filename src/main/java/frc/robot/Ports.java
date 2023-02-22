@@ -15,16 +15,15 @@ public class Ports
     {
         //TODO: Use first CAN digit to indicate subsystem to ensure we don't duplicate IDs!
         private static final String busName      = "";
-        public static final CANPort kMainMotor   = new CANPort(1, busName);
+        public static final CANPort kMainMotor   = new CANPort(50, busName);
         public static final int     kLowerSwitch = -1;
         public static final int     kUpperSwitch = -1;
     }
 
     public static class IntakePorts
     {
-        //TODO: Use first CAN digit to indicate subsystem to ensure we don't duplicate IDs!
-        public static final int kFrontIntakeMotorPort   = 30;
-        public static final int kBackTopIntakeMotorPort = 20;
+        public static final int kFrontIntakeMotorPort   = 40;
+        public static final int kBackTopIntakeMotorPort = 41;
 
     }
 
@@ -35,8 +34,10 @@ public class Ports
         public static final int kDriverControllerPort   = 0;
         public static final int kOperatorControllerPort = 1;
 
+        public static final int kOperatorIntakeCone = 2; // left trigger
+        public static final int kOperatorEjectCone  = 6; // right button
         public static final int kOperatorIntakeCube = 5; // left button
-        public static final int kOperatorIntakeCone = 6; // right button
+        public static final int kOperatorEjectCube  = 3; //  right trigger
 
         public static final int kOperatorHighArm       = 4; //Y-Button
         public static final int kOperatorMidArm        = 3; //X-Button

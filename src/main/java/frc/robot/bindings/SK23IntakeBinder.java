@@ -1,9 +1,11 @@
 package frc.robot.bindings;
 
+import java.util.Optional;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.Ports;
-import frc.robot.Constants.GamePieceEnum;
+import frc.robot.Constants.IntakeStateEnum;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.SK23Intake;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -13,8 +15,11 @@ public class SK23IntakeBinder implements CommandBinder
     SK23Intake subsystem;
 
     // Driver button command
-    private final JoystickButton intakeCubeBtn;
     private final JoystickButton intakeConeBtn;
+    //private final JoystickButton ejectConeBtn;
+
+    private final JoystickButton intakeCubeBtn;
+    //private final JoystickButton ejectCubeBtn;
 
     FilteredJoystick controller;
 
@@ -23,28 +28,28 @@ public class SK23IntakeBinder implements CommandBinder
      * 
      * @param controller
      *            The contoller that the commands are being bound to
-     * @param subsystem
+     * @param intakeSubsystem
      *            The required drive subsystem for the commands
      */
-    public SK23IntakeBinder(FilteredJoystick controller, SK23Intake subsystem)
+    public SK23IntakeBinder(FilteredJoystick controller, SK23Intake intakeSubsystem)
     {
         this.controller = controller;
-        this.subsystem = subsystem;
+        this.subsystem = intakeSubsystem;
 
-        intakeCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCube);
         intakeConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCone);
+        //ejectConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kO
+        intakeCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCube);
 
     }
 
     public void bindButtons()
     {
 
+        intakeConeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeConeSpeed,
+            IntakeStateEnum.IntakeCone, subsystem));
         // When the left button is pressed intake the cube when it is pressed
-        intakeCubeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.CLOCKWISE_ROLLER_SPEED,
-            GamePieceEnum.Cube, subsystem));
-        intakeConeBtn
-            .onTrue(new IntakeCommand(Constants.IntakeConstants.COUNTERCLOCKWISE_ROLLER_SPEED,
-                GamePieceEnum.Cone, subsystem));
+        intakeCubeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeCubeSpeed,
+            IntakeStateEnum.IntakeCube, subsystem));
 
     }
 }

@@ -33,9 +33,26 @@ public final class Constants
     public static class IntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
-        public static final double CLOCKWISE_ROLLER_SPEED        = 0.8;
-        public static final double COUNTERCLOCKWISE_ROLLER_SPEED = -0.8;
+        public static final double kIntakeConeSpeed = 0.8;
+        public static final double kEjectConeSpeed  = -0.4;
+        public static final double kIntakeCubeSpeed = 0.8;
+        public static final double kEjectCubeSpeed  = -0.4;
 
+    }
+
+    public static enum IntakeStateEnum
+    {
+        // The state of the intake when it is intaking the cone while also ejecting the cube
+        IntakeCone,
+
+        // The state of the intake when it is ejecting the cone while also intaking the cube
+        EjectCone,
+
+        // The state of the intake when it is intaking the cube while also ejecting the cone
+        IntakeCube,
+
+        // The state of the intake when it is ejecting the cube while also intaking the cone
+        EjectCube,
     }
 
     public static enum GamePieceEnum
