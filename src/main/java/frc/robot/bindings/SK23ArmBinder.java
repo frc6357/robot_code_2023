@@ -1,16 +1,18 @@
 package frc.robot.bindings;
 
+import java.util.Optional;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Ports.OperatorPorts;
-import frc.robot.commands.ArmSimpleCommand;
 import frc.robot.commands.ArmJoystickCommand;
+import frc.robot.commands.ArmSimpleCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.filters.FilteredJoystick;
 
 public class SK23ArmBinder implements CommandBinder
 {
-    SK23Arm subsystem;
+    Optional<SK23Arm> subsystem;
 
     // Arm button commands
     private final JoystickButton LowButton;
@@ -27,35 +29,38 @@ public class SK23ArmBinder implements CommandBinder
      * @param subsystem
      *            The required drive subsystem for the commands
      */
-    public SK23ArmBinder(FilteredJoystick controller, SK23Arm subsystem)
+    public SK23ArmBinder(FilteredJoystick controller, Optional<SK23Arm> subsystem)
     {
         this.controller = controller;
         this.subsystem = subsystem;
-
         LowButton = new JoystickButton(controller, OperatorPorts.kOperatorLowArm);
         MidButton = new JoystickButton(controller, OperatorPorts.kOperatorMidArm);
         HighButton = new JoystickButton(controller, OperatorPorts.kOperatorLowArm);
         SubstationButton = new JoystickButton(controller, OperatorPorts.kOperatorSubstationArm);
-
+        
     }
 
     public void bindButtons()
     {
+        if(subsystem.isPresent()){
+            
+            SK23Arm m_robotArm = subsystem.get();
 
-        LowButton
-            .onTrue(new ArmSimpleCommand(ArmAngleEnum.FloorPosition, subsystem));
-        MidButton
-            .onTrue(new ArmSimpleCommand(ArmAngleEnum.MidPosition, subsystem));
-        HighButton
-            .onTrue(new ArmSimpleCommand(ArmAngleEnum.HighPosition, subsystem));
-        SubstationButton
-            .onTrue(new ArmSimpleCommand(ArmAngleEnum.SubstationPosition, subsystem));
+            LowButton
+                .onTrue(new ArmSimpleCommand(ArmAngleEnum.FloorPosition, m_robotArm));
+            MidButton
+                .onTrue(new ArmSimpleCommand(ArmAngleEnum.MidPosition, m_robotArm));
+            HighButton
+                .onTrue(new ArmSimpleCommand(ArmAngleEnum.HighPosition, m_robotArm));
+            SubstationButton
+                .onTrue(new ArmSimpleCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
 
-        controller.setYChannel(OperatorPorts.kOperatorArmAxis);
-        subsystem.setDefaultCommand(
-            // Vertical movement of the arm is controlled by the Y axis of the right stick.
-            // Up on joystick moving arm up and down on stick moving arm down.
-            new ArmJoystickCommand(controller.getY(), subsystem));
+            controller.setYChannel(OperatorPorts.kOperatorArmAxis);
+            m_robotArm.setDefaultCommand(
+                // Vertical movement of the arm is controlled by the Y axis of the right stick.
+                // Up on joystick moving arm up and down on stick moving arm down.
+                new ArmJoystickCommand(controller.getY(), m_robotArm));
 
+        }
     }
 }

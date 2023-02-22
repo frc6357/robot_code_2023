@@ -12,7 +12,7 @@ import frc.robot.utils.filters.FilteredJoystick;
 
 public class SK23IntakeBinder implements CommandBinder
 {
-    SK23Intake subsystem;
+    Optional<SK23Intake> subsystem;
 
     // Driver button command
     private final JoystickButton intakeConeBtn;
@@ -31,7 +31,7 @@ public class SK23IntakeBinder implements CommandBinder
      * @param intakeSubsystem
      *            The required drive subsystem for the commands
      */
-    public SK23IntakeBinder(FilteredJoystick controller, SK23Intake intakeSubsystem)
+    public SK23IntakeBinder(FilteredJoystick controller, Optional<SK23Intake> intakeSubsystem)
     {
         this.controller = controller;
         this.subsystem = intakeSubsystem;
@@ -44,12 +44,16 @@ public class SK23IntakeBinder implements CommandBinder
 
     public void bindButtons()
     {
+        if(subsystem.isPresent()){
+            
+            SK23Intake m_robotArm = subsystem.get();
 
-        intakeConeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeConeSpeed,
-            IntakeStateEnum.IntakeCone, subsystem));
-        // When the left button is pressed intake the cube when it is pressed
-        intakeCubeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeCubeSpeed,
-            IntakeStateEnum.IntakeCube, subsystem));
+            intakeConeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeConeSpeed,
+                IntakeStateEnum.IntakeCone, m_robotArm));
+            // When the left button is pressed intake the cube when it is pressed
+            intakeCubeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeCubeSpeed,
+                IntakeStateEnum.IntakeCube, m_robotArm));
+        }
 
     }
 }

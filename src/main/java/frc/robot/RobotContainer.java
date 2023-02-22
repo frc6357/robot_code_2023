@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Ports.OperatorPorts;
 import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
+import frc.robot.bindings.SK23ArmBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.bindings.SK23IntakeBinder;
 //import frc.robot.commands.DoNothingCommand;
@@ -43,8 +44,7 @@ public class RobotContainer
 {
 
     // The robot's subsystems
-    private final SK23Drive  m_robotDrive  = new SK23Drive();
-    private final SK23Intake m_robotIntake = new SK23Intake();
+    private final SK23Drive m_robotDrive = new SK23Drive();
 
     // The class used to create all PathPlanner Autos
     private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
@@ -74,9 +74,6 @@ public class RobotContainer
      */
     public RobotContainer()
     {
-        // Configure the button bindings
-        configureButtonBindings();
-        configureAutos();
 
         File deployDirectory = Filesystem.getDeployDirectory();
 
@@ -109,6 +106,10 @@ public class RobotContainer
         {
             DriverStation.reportError("Failure to read Subsystem Control File!", e.getStackTrace());
         }
+
+        // Configure the button bindings
+        configureButtonBindings();
+        configureAutos();
     }
 
     /**
@@ -119,20 +120,17 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
+
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
-        //buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
+
+        buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
+        buttonBinders.add(new SK23ArmBinder(operatorController, armSubsystem));
 
         // Traversing through all the binding classes to actually bind the buttons
         for (CommandBinder subsystemGroup : buttonBinders)
         {
             subsystemGroup.bindButtons();
-        }
-
-        if (intakeSubsystem.isPresent())
-        {
-            //The SK23 intake subsystem
-            SK23Intake intake = intakeSubsystem.get();
         }
 
     }
