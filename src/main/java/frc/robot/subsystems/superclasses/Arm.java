@@ -11,7 +11,7 @@ public abstract class Arm extends SubsystemBase
         /** Set the angle to reach the middle cube node */
         MidPosition,
         /** Set the angle to reach the bottom cube node */
-        LowPosition,
+        FloorPosition,
         /** Set the angle to reach the substation */
         SubstationPosition
     }
@@ -23,6 +23,14 @@ public abstract class Arm extends SubsystemBase
      *            Enum that specifies which angle you want the arm to be set at
      */
     public abstract void setTargetAngle(ArmAngleEnum angle);
+
+    /**
+     * Sets the arm to the specified angle in degrees
+     * 
+     * @param angle
+     *            Angle to which the arm is set to (degrees)
+     */
+    public abstract void setTargetAngle(double angle);
     
     
 
@@ -40,17 +48,5 @@ public abstract class Arm extends SubsystemBase
      * 
      * @return Returns true if the arm has reached it's current set point.
      */
-    public abstract boolean isAtSetPoint();
-
-    /**
-     * Sets the angle of the arm based upon input from a joystick, adding or subtracting
-     * to the current set point. Assumes it will receive joystick input with downward
-     * movement being negative and upwards movement being positive.
-     * 
-     * @param joystickInput
-     *            Input from the joystick (Negative input signifys downwards
-     *            movement on the joystick, Positive input signifys upwards movement
-     *            on the joystick.
-     */
-    public abstract void setJoystickAngle(double joystickInput, double joystickTime);
+    public abstract boolean isAtTargetAngle();
 }

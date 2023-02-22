@@ -1,10 +1,9 @@
 package frc.robot.bindings;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Ports.OperatorPorts;
+import frc.robot.commands.ArmSimpleCommand;
+import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -13,7 +12,7 @@ public class SK23ArmBinder implements CommandBinder
 {
     SK23Arm subsystem;
 
-    // Driver button commands
+    // Arm button commands
     private final JoystickButton LowButton;
     private final JoystickButton MidButton;
     private final JoystickButton HighButton;
@@ -21,7 +20,7 @@ public class SK23ArmBinder implements CommandBinder
     FilteredJoystick             controller;
 
     /**
-     * The class that is used to bind all the commands for the drive subsystem
+     * The class that is used to bind all the commands for the arm subsystem
      * 
      * @param controller
      *            The contoller that the commands are being bound to
@@ -44,22 +43,19 @@ public class SK23ArmBinder implements CommandBinder
     {
 
         LowButton
-            .onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.LowPosition)));
+            .onTrue(new ArmSimpleCommand(ArmAngleEnum.FloorPosition, subsystem));
         MidButton
-            .onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.MidPosition)));
+            .onTrue(new ArmSimpleCommand(ArmAngleEnum.MidPosition, subsystem));
         HighButton
-            .onTrue(new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.HighPosition)));
-        SubstationButton.onTrue(
-            new InstantCommand(() -> subsystem.setTargetAngle(ArmAngleEnum.SubstationPosition)));
+            .onTrue(new ArmSimpleCommand(ArmAngleEnum.HighPosition, subsystem));
+        SubstationButton
+            .onTrue(new ArmSimpleCommand(ArmAngleEnum.SubstationPosition, subsystem));
 
         controller.setYChannel(OperatorPorts.kOperatorArmAxis);
         subsystem.setDefaultCommand(
             // Vertical movement of the arm is controlled by the Y axis of the right stick.
-            //Up on joystick moving arm up and down on stick moving arm down.
-            new RunCommand(
-                () -> subsystem
-                    .setJoystickAngle(controller.getY(), ArmConstants.kJoystickTime),
-                subsystem));
+            // Up on joystick moving arm up and down on stick moving arm down.
+            new ArmJoystickCommand(controller.getY(), subsystem));
 
     }
 }

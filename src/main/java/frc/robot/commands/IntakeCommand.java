@@ -54,10 +54,6 @@ public class IntakeCommand extends CommandBase
                 intake.setFrontRollerSpeed(speed);
                 intake.setRearTopRollerSpeed(speed);
                 break;
-
-            case None:
-                // Do nothing in this case.
-                break;
         }
 
     }

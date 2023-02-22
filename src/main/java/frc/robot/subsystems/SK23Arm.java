@@ -9,12 +9,12 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 /**
  * A class that represents the arm of the robot. Capable of moving the arm to a specified
- * angle and reading the current angle of the arm.
+ * angle and reading the current angle of the arm. Using only one CANSparkMax motor.
  */
 public class SK23Arm extends Arm
 {
     ArmAngleInternal Arm;
-    int joystickCount;
+    int              joystickCount;
 
     public SK23Arm()
     {
@@ -34,7 +34,7 @@ public class SK23Arm extends Arm
             case MidPosition:
                 Arm.setTargetAngle(ArmConstants.kMidPosition);
                 break;
-            case LowPosition:
+            case FloorPosition:
                 Arm.setTargetAngle(ArmConstants.kLowPosition);
                 break;
             case SubstationPosition:
@@ -48,34 +48,7 @@ public class SK23Arm extends Arm
         Arm.setTargetAngle(angle);
     }
 
-        /**
-     * 
-     * @param joystickInput
-     *                      Input coming from the joystick
-     * @param joystickTime
-     *                      Time in seconds between each check to change the arm
-     *                      position.
-     */
-    public void setJoystickAngle(double joystickInput, double joystickTime) {
-        
-        double joystickTimePeriodic = joystickTime * 50; // Converts seconds into number of periodic calls
-
-        if (joystickCount == joystickTimePeriodic) {
-            double angleChange = ArmConstants.kJoystickRate;
-
-            if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband) {
-                double currentAngle = getTargetAngle() + Math.signum(joystickInput) * angleChange;
-                setTargetAngle(currentAngle);
-            }
-
-            joystickCount = 0;
-        }
-
-        joystickCount++;
-
-    }
-
-    public boolean isAtSetPoint()
+    public boolean isAtTargetAngle()
     {
         return Arm.getCurrentAngle() == Arm.getTargetAngle();
     }
@@ -85,6 +58,9 @@ public class SK23Arm extends Arm
         return Arm.getCurrentAngle();
     }
 
+    /**
+     * @return Returns the current target angle of the arm
+     */
     public double getTargetAngle()
     {
         return Arm.getTargetAngle();

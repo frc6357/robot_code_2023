@@ -67,7 +67,8 @@ public final class Constants
 
     public static class ArmConstants
     {
-        // High Arm Constants
+        // Arm Constants
+        //TODO - Determine these constants for the final arm
         public static final double kGearRatio = 0.0;
         public static final double kArmMotorP = 0.0;
         public static final double kArmMotorI = 0.0;
@@ -78,9 +79,10 @@ public final class Constants
         public static final double kLowPosition        = 0.0;
         public static final double kSubstationPosition = 0.0;
 
-        public static final double kJoystickRate     = 0.0;
+        public static final double kJoystickChange   = 0.0;
         public static final double kJoystickTime     = 0.0;
         public static final double kJoystickDeadband = 0.0;
+        public static final int    periodicPerSecond = 50; //Number of periodic calls per second
     }
 
     public static final class DriveConstants
