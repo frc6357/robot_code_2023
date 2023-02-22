@@ -8,10 +8,12 @@ public class Ports
     // definition of 0 is definitely wrong and the choice is essentially
     // arbitrary so why create a job that someone needs to remember to do later
     // when you could just stick in any non-clashing value when the port is 
-    // initially added?
+    // initially added? If we assign groups of 10 IDs per subsystem, we can also
+    // guard against clashes. For example, all ARM-related CAN IDs could start at,
+    // say, 80 and increment.
     public static class ArmPorts
     {
-        //TODO: Assign constants for can IDs
+        //TODO: Use first CAN digit to indicate subsystem to ensure we don't duplicate IDs!
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(1, busName);
         public static final int     kLowerSwitch = -1;
@@ -20,7 +22,7 @@ public class Ports
 
     public static class IntakePorts
     {
-        // TODO: Find out the correct port numbers for the intake
+        //TODO: Use first CAN digit to indicate subsystem to ensure we don't duplicate IDs!
         public static final int kFrontIntakeMotorPort   = 30;
         public static final int kBackTopIntakeMotorPort = 20;
 

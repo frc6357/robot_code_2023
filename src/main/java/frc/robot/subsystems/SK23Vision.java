@@ -7,7 +7,7 @@ import java.nio.channels.DatagramChannel;
  * Subsystem for vision data handling
  */
 
-//TODO: Discuse how to further complete the skeleton class
+//TODO: Discuss how to further complete the skeleton class
 
 class Datagram
 {

@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
+//import frc.robot.Constants;
 import frc.robot.Constants.GamePieceEnum;
 import frc.robot.subsystems.SK23Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -51,6 +51,9 @@ public class IntakeCommand extends CommandBase
                 intake.setRearTopRollerSpeed(speed);
                 break;
 
+            case None:
+                // Do nothing in this case.
+                break;
         }
 
     }

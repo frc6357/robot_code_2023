@@ -37,7 +37,6 @@ public class Robot extends TimedRobot
         m_robotContainer = new RobotContainer();
 
         // Start the driver camera streaming.
-        //TODO: Bring Camera back after optional testing
         m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
         m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX,
             CameraConstants.kDriverCameraResolutionY);

@@ -25,7 +25,7 @@ import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.bindings.SK23IntakeBinder;
-import frc.robot.commands.DoNothingCommand;
+//import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
@@ -133,7 +133,6 @@ public class RobotContainer
         {
             //The SK23 intake subsystem
             SK23Intake intake = intakeSubsystem.get();
-
         }
 
     }
