@@ -1,0 +1,5 @@
+The LaunchApps.bat file is a batch file that starts up the FRC Driver Station application along with
+the Microsoft Edge browser window. This file coupled with an add-on tool called DisplayFusion, the
+drive team will be able to start all the necessary programs with a single double-click and perform a
+command in order to maximize the Microsoft Edge browser onto the extended display. More information
+can be found here: https://docs.google.com/document/d/1xidQ9NZ18TDf8ov7yB8u2Q1LPo5dO7PuGrjeB43_ZUU/edit?usp=sharing
