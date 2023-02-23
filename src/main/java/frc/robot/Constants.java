@@ -172,8 +172,10 @@ public final class Constants
         public static final int kVelocityOmegaPort = 4;
 
         // Buttons for driving
-        public static final int kResetGyro        = 4;
+        public static final int kResetGyro        = 3;
         public static final int kRobotCentricMode = 5;
+        public static final int kRotateDSS        = 4;
+        public static final int kRotateGrid       = 1;
 
         // Controller constraints
         public static final double kDriveGain        = 0.95;
