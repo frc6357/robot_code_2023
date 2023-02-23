@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Ports.OperatorPorts;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.FilteredJoystick;
 
@@ -59,9 +59,9 @@ public class DriveTurnCommand extends CommandBase
 
         subsystem.drive(
             // Left Y Axis
-            controller.getFilteredAxis(OIConstants.kVelocityYPort),
+            controller.getFilteredAxis(OperatorPorts.kVelocityYPort),
             // Left X Axis
-            controller.getFilteredAxis(OIConstants.kVelocityXPort), rot, !robotCentric.get());
+            controller.getFilteredAxis(OperatorPorts.kVelocityXPort), rot, !robotCentric.get());
     }
 
     // Called once the command ends or is interrupted.

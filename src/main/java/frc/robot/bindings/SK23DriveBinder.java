@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Ports.OperatorPorts;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DefaultSwerveCommand;
 import frc.robot.commands.DriveTurnCommand;
@@ -38,25 +39,25 @@ public class SK23DriveBinder implements CommandBinder
         this.controller = controller;
         this.subsystem = subsystem;
 
-        resetGyro = new JoystickButton(controller, OIConstants.kResetGyro);
-        robotCentric = new JoystickButton(controller, OIConstants.kRobotCentricMode);
+        resetGyro = new JoystickButton(controller, OperatorPorts.kResetGyro);
+        robotCentric = new JoystickButton(controller, OperatorPorts.kRobotCentricMode);
         autoBalance = new JoystickButton(controller, 10);
-        rotateDSS = new JoystickButton(controller, OIConstants.kRotateDSS);
-        rotateGrid = new JoystickButton(controller, OIConstants.kRotateGrid);
+        rotateDSS = new JoystickButton(controller, OperatorPorts.kRotateDSS);
+        rotateGrid = new JoystickButton(controller, OperatorPorts.kRotateGrid);
 
     }
 
     public void bindButtons()
     {
-        controller.setFilter(OIConstants.kVelocityXPort,
+        controller.setFilter(OperatorPorts.kVelocityXPort,
             new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
                 DriveConstants.kMaxSpeedMetersPerSecond, true));
 
-        controller.setFilter(OIConstants.kVelocityYPort,
+        controller.setFilter(OperatorPorts.kVelocityYPort,
             new CubicDeadbandFilter(OIConstants.kDriveGain, OIConstants.kJoystickDeadband,
                 DriveConstants.kMaxSpeedMetersPerSecond, true));
 
-        controller.setFilter(OIConstants.kVelocityOmegaPort,
+        controller.setFilter(OperatorPorts.kVelocityOmegaPort,
             new CubicDeadbandFilter(OIConstants.kRotationGain, OIConstants.kJoystickDeadband,
                 Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
 

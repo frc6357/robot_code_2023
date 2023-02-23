@@ -28,26 +28,43 @@ public class Ports
 
     }
 
+    /**
+     * Defines the button, controller, and axis IDs needed to get input from an external
+     * controller
+     */
     public static class OperatorPorts
     {
-        // TODO: What do these "ports" represent? I presume they are Joystick
-        // IDs?
-        public static final int kDriverControllerPort   = 0;
+        public static final int kDriverControllerPort = 0;
+
+        // Axes for driving
+        public static final int kVelocityXPort     = 0; // Left Y Axis
+        public static final int kVelocityYPort     = 1; // Left X Axis
+        public static final int kVelocityOmegaPort = 4; // Right X Axis
+
+        // Buttons for driving
+        public static final int kResetGyro        = 3;  // X Button
+        public static final int kRobotCentricMode = 5;  // Left Trigger
+        public static final int kRotateDSS        = 4;  // Y Button
+        public static final int kRotateGrid       = 1;  // B Button
+
         public static final int kOperatorControllerPort = 1;
 
-        public static final int kOperatorIntakeCone = 2; // left trigger
-        public static final int kOperatorEjectCone  = 6; // right button
-        public static final int kOperatorIntakeCube = 5; // left button
-        public static final int kOperatorEjectCube  = 3; //  right trigger
+        public static final int kOperatorIntakeCone = 2; // Left Trigger
+        public static final int kOperatorEjectCone  = 6; // Right Button
+        public static final int kOperatorIntakeCube = 5; // Left Button
+        public static final int kOperatorEjectCube  = 3; // Right Trigger
 
-        public static final int kOperatorHighArm       = 4; //Y-Button
-        public static final int kOperatorMidArm        = 3; //X-Button
-        public static final int kOperatorLowArm        = 1; //A-Button
-        public static final int kOperatorSubstationArm = 2; //B-Button
-        public static final int kOperatorArmAxis       = 5; //Right joystick Y-Axis
+        public static final int kOperatorHighArm       = 4; // Y Button
+        public static final int kOperatorMidArm        = 3; // X Button
+        public static final int kOperatorLowArm        = 1; // A Button
+        public static final int kOperatorSubstationArm = 2; // B Button
+        public static final int kOperatorArmAxis       = 5; // Right Y Axis
 
     }
 
+    /**
+     * Defines all the ports needed to create sensors and actuators for the drivetrain.
+     */
     public static class DrivePorts
     {
         private static final String busName = "";

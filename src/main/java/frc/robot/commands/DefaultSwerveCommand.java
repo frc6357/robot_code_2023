@@ -3,7 +3,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Ports.OperatorPorts;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.FilteredJoystick;
 
@@ -29,11 +29,11 @@ public class DefaultSwerveCommand extends CommandBase
     {
         subsystem.drive(
                 // Left Y Axis
-                controller.getFilteredAxis(OIConstants.kVelocityYPort),
+                controller.getFilteredAxis(OperatorPorts.kVelocityYPort),
                 // Left X Axis
-                controller.getFilteredAxis(OIConstants.kVelocityXPort),
+                controller.getFilteredAxis(OperatorPorts.kVelocityXPort),
                 // Right X Axis
-                controller.getFilteredAxis(OIConstants.kVelocityOmegaPort),
+                controller.getFilteredAxis(OperatorPorts.kVelocityOmegaPort),
                 !robotCentric.get());
     }
 

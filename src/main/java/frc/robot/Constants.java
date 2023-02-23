@@ -26,10 +26,6 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants
 {
-    public static class OperatorConstants
-    {
-    }
-
     public static class IntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
@@ -166,17 +162,6 @@ public final class Constants
 
     public static final class OIConstants
     {
-        // Axes for driving
-        public static final int kVelocityXPort     = 0;
-        public static final int kVelocityYPort     = 1;
-        public static final int kVelocityOmegaPort = 4;
-
-        // Buttons for driving
-        public static final int kResetGyro        = 3;
-        public static final int kRobotCentricMode = 5;
-        public static final int kRotateDSS        = 4;
-        public static final int kRotateGrid       = 1;
-
         // Controller constraints
         public static final double kDriveGain        = 0.95;
         public static final double kRotationGain     = 0.95;

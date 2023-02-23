@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.OIConstants;
+import frc.robot.Ports.OperatorPorts;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.FilteredJoystick;
 
@@ -60,7 +60,7 @@ public class AutoBalanceCommand extends CommandBase
         // Use the PID controllers to control the robot relative to itself,
         // NOT in field relative mode, as it is using robot angles.
         if(DriverStation.isTeleop()){
-            subsystem.drive(xSpeed, ySpeed, controller.getFilteredAxis(OIConstants.kVelocityOmegaPort),
+            subsystem.drive(xSpeed, ySpeed, controller.getFilteredAxis(OperatorPorts.kVelocityOmegaPort),
                 false);
         } else {
             subsystem.drive(xSpeed, ySpeed, 0, false);
