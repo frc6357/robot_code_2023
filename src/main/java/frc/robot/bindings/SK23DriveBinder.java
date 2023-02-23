@@ -62,8 +62,7 @@ public class SK23DriveBinder implements CommandBinder
 
         resetGyro.onTrue(new InstantCommand(subsystem::zeroHeading));
 
-        autoBalance.toggleOnTrue(new AutoBalanceCommand(subsystem));
-
+        autoBalance.whileTrue(new AutoBalanceCommand(controller, subsystem));
         rotateDSS.whileTrue(new DriveTurnCommand(controller, robotCentric::getAsBoolean, 0, subsystem));
         rotateGrid.whileTrue(new DriveTurnCommand(controller, robotCentric::getAsBoolean, 180, subsystem));
 
