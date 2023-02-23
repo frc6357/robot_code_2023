@@ -32,19 +32,13 @@ public class AutoBalanceCommand extends CommandBase
     @Override
     public void execute()
     {
-        // A positive pitch requires a positive x speed.
-        // A positive measurement will return a negative input,
-        // which is the opposite sign of what is expected.
         double xSpeed = xPID.calculate(subsystem.getPitch());
-        // A positive roll requires a negative y speed.
-        // A positive measurement will return a negative input,
-        // which is the same sign as what is expected
         double ySpeed = -yPID.calculate(subsystem.getRoll());
 
-        // double totalSpeed = Math.hypot(xSpeed, ySpeed);
-        // double scaleFactor = totalSpeed > maxSpeed ? maxSpeed / totalSpeed : 1;
-        // xSpeed *= scaleFactor;
-        // ySpeed *= scaleFactor;
+        double totalSpeed = Math.hypot(xSpeed, ySpeed);
+        double scaleFactor = Math.abs(totalSpeed) > maxSpeed ? maxSpeed / totalSpeed : 1;
+        xSpeed *= scaleFactor;
+        ySpeed *= scaleFactor;
 
         // Use the PID controllers to control the robot relative to itself,
         // NOT in field relative mode, as it is using robot angles.
