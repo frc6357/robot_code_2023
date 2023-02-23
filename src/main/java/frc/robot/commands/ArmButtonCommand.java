@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 
-public class ArmSimpleCommand extends CommandBase
+public class ArmButtonCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -16,14 +16,15 @@ public class ArmSimpleCommand extends CommandBase
     private final ArmAngleEnum position;
 
     /**
-     * This command allows the operator to set the angle of the arm to a specified position.
+     * This command allows the operator to set the angle of the arm to a specified
+     * position.
      * 
      * @param position
      *            The position to set the arm to
      * @param Arm
      *            The Arm subsystem the command operates on.
      */
-    public ArmSimpleCommand(ArmAngleEnum position, SK23Arm Arm)
+    public ArmButtonCommand(ArmAngleEnum position, SK23Arm Arm)
     {
         this.position = position;
         this.Arm = Arm;
@@ -31,7 +32,6 @@ public class ArmSimpleCommand extends CommandBase
         addRequirements(Arm);
     }
 
-    
     @Override
     public void initialize()
     {

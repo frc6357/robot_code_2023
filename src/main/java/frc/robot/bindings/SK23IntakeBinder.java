@@ -44,8 +44,10 @@ public class SK23IntakeBinder implements CommandBinder
 
     public void bindButtons()
     {
-        if(subsystem.isPresent()){
-            
+        // If subsystem is present then this method will bind the buttons
+        if (subsystem.isPresent())
+        {
+
             SK23Intake m_robotArm = subsystem.get();
 
             intakeConeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeConeSpeed,

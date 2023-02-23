@@ -23,7 +23,8 @@ public class ArmJoystickCommand extends CommandBase
      * 
      * @param joystickInput
      *            Input from the joystick (Negative input signifies downwards movement on
-     *            the joystick, Positive input signifies upwards movement on the joystick).
+     *            the joystick, Positive input signifies upwards movement on the
+     *            joystick).
      */
     public ArmJoystickCommand(double joystickInput, SK23Arm Arm)
     {
@@ -44,14 +45,14 @@ public class ArmJoystickCommand extends CommandBase
     {
         double joystickTimePeriodic = ArmConstants.kJoystickTime * ArmConstants.periodicPerSecond; // Converts seconds into number of periodic calls
 
-        if (joystickCount == joystickTimePeriodic)
+        if (joystickCount == joystickTimePeriodic) // Only runs every joystickTimePeriod times it goes through
         {
             double angleChange = ArmConstants.kJoystickChange;
 
-            if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband)
+            if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband) // If joystick input is past deadband constant
             {
                 double currentAngle =
-                        Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); //Sets the new angle to the current angle plus or minus the constant change
+                        Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plus or minus the constant change
                 Arm.setTargetAngle(currentAngle);
             }
 

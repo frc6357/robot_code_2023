@@ -42,7 +42,6 @@ import frc.robot.utils.filters.FilteredJoystick;
  */
 public class RobotContainer
 {
-
     // The robot's subsystems
     private final SK23Drive m_robotDrive = new SK23Drive();
 
@@ -56,7 +55,7 @@ public class RobotContainer
             new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
 
     // 2023 Button mappings
-
+    
     // Initialization for optional
     // These are currently empty and only created in the constructor
     // based on the Subsystem.json file

@@ -13,7 +13,7 @@ public class Ports
     // say, 80 and increment.
     public static class ArmPorts
     {
-        //TODO: Use first CAN digit to indicate subsystem to ensure we don't duplicate IDs!
+        //Port IDs for Arm have a tens digit of 5
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(50, busName);
         public static final int     kLowerSwitch = -1;
@@ -22,6 +22,7 @@ public class Ports
 
     public static class IntakePorts
     {
+        //Port IDs for Intake have a tens digit of 4
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 

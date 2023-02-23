@@ -5,7 +5,7 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Ports.OperatorPorts;
 import frc.robot.commands.ArmJoystickCommand;
-import frc.robot.commands.ArmSimpleCommand;
+import frc.robot.commands.ArmButtonCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.filters.FilteredJoystick;
@@ -42,18 +42,19 @@ public class SK23ArmBinder implements CommandBinder
 
     public void bindButtons()
     {
+        // If subsystem is present then this method will bind the buttons
         if(subsystem.isPresent()){
             
             SK23Arm m_robotArm = subsystem.get();
 
             LowButton
-                .onTrue(new ArmSimpleCommand(ArmAngleEnum.FloorPosition, m_robotArm));
+                .onTrue(new ArmButtonCommand(ArmAngleEnum.FloorPosition, m_robotArm));
             MidButton
-                .onTrue(new ArmSimpleCommand(ArmAngleEnum.MidPosition, m_robotArm));
+                .onTrue(new ArmButtonCommand(ArmAngleEnum.MidPosition, m_robotArm));
             HighButton
-                .onTrue(new ArmSimpleCommand(ArmAngleEnum.HighPosition, m_robotArm));
+                .onTrue(new ArmButtonCommand(ArmAngleEnum.HighPosition, m_robotArm));
             SubstationButton
-                .onTrue(new ArmSimpleCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
+                .onTrue(new ArmButtonCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
 
             controller.setYChannel(OperatorPorts.kOperatorArmAxis);
             m_robotArm.setDefaultCommand(
@@ -63,4 +64,5 @@ public class SK23ArmBinder implements CommandBinder
 
         }
     }
+    
 }

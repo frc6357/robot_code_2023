@@ -31,8 +31,6 @@ public abstract class Arm extends SubsystemBase
      *            Angle to which the arm is set to (degrees)
      */
     public abstract void setTargetAngle(double angle);
-    
-    
 
     /**
      * @return Returns the angle that the arm is currently at

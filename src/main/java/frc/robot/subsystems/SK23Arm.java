@@ -39,7 +39,7 @@ public class SK23Arm extends Arm
                 break;
             case SubstationPosition:
                 Arm.setTargetAngle(ArmConstants.kSubstationPosition);
-
+                break;
         }
     }
 
