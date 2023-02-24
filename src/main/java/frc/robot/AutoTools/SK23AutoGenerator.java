@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.files.FileScanner;
@@ -50,7 +51,7 @@ public class SK23AutoGenerator
 
     private void createEventMap()
     {
-        // eventMap.put("marker1", new PrintCommand("Passed marker 1"));
+        eventMap.put("Level", new AutoBalanceCommand(() -> {return 0.0;}, driveSubsystem));
     }
 
     /**
