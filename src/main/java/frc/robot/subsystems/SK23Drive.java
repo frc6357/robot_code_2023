@@ -14,9 +14,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Ports.DrivePorts;
 import frc.robot.subsystems.superclasses.SwerveModule;
+
+import static frc.robot.Constants.DriveConstants.*;
+import static frc.robot.Ports.DrivePorts.*;
 
 /**
  * A class that represents the swerve drive on the robot. Used to drive the robot in both
@@ -25,33 +26,50 @@ import frc.robot.subsystems.superclasses.SwerveModule;
 public class SK23Drive extends SubsystemBase
 {
     // Robot swerve modules
-    private final SwerveModule m_frontLeft = new SwerveModule(DrivePorts.kFrontLeftDriveMotorPort,
-        DrivePorts.kFrontLeftTurningMotorPort, DrivePorts.kFrontLeftTurningEncoderPort,
-        DriveConstants.kFrontLeftDriveMotorReversed, DriveConstants.kFrontLeftTurnMotorReversed,
-        DriveConstants.kFrontLeftAngleOffset);
+    private final SwerveModule m_frontLeft = new SwerveModule(
+        kFrontLeftDriveMotorPort,
+        kFrontLeftTurningMotorPort,
+        kFrontLeftTurningEncoderPort,
+        kFrontLeftDriveMotorReversed,
+        kFrontLeftTurnMotorReversed,
+        kFrontLeftAngleOffset);
 
-    private final SwerveModule m_rearLeft = new SwerveModule(DrivePorts.kRearLeftDriveMotorPort,
-        DrivePorts.kRearLeftTurningMotorPort, DrivePorts.kRearLeftTurningEncoderPort,
-        DriveConstants.kRearLeftDriveEncoderReversed, DriveConstants.kRearLeftTurnMotorReversed,
-        DriveConstants.kRearLeftAngleOffset);
+    private final SwerveModule m_rearLeft = new SwerveModule(
+        kRearLeftDriveMotorPort,
+        kRearLeftTurningMotorPort,
+        kRearLeftTurningEncoderPort,
+        kRearLeftDriveEncoderReversed,
+        kRearLeftTurnMotorReversed,
+        kRearLeftAngleOffset);
 
-    private final SwerveModule m_frontRight = new SwerveModule(DrivePorts.kFrontRightDriveMotorPort,
-        DrivePorts.kFrontRightTurningMotorPort, DrivePorts.kFrontRightTurningEncoderPort,
-        DriveConstants.kFrontRightDriveEncoderReversed, DriveConstants.kFrontRightTurnMotorReversed,
-        DriveConstants.kFrontRightAngleOffset);
+    private final SwerveModule m_frontRight = new SwerveModule(
+        kFrontRightDriveMotorPort,
+        kFrontRightTurningMotorPort,
+        kFrontRightTurningEncoderPort,
+        kFrontRightDriveEncoderReversed,
+        kFrontRightTurnMotorReversed,
+        kFrontRightAngleOffset);
 
-    private final SwerveModule m_rearRight = new SwerveModule(DrivePorts.kRearRightDriveMotorPort,
-        DrivePorts.kRearRightTurningMotorPort, DrivePorts.kRearRightTurningEncoderPort,
-        DriveConstants.kRearRightDriveMotorReversed, DriveConstants.kRearRightTurnMotorReversed,
-        DriveConstants.kRearRightAngleOffset);
+    private final SwerveModule m_rearRight = new SwerveModule(
+        kRearRightDriveMotorPort,
+        kRearRightTurningMotorPort,
+        kRearRightTurningEncoderPort,
+        kRearRightDriveMotorReversed,
+        kRearRightTurnMotorReversed,
+        kRearRightAngleOffset);
 
     // The gyro sensor
     private final WPI_Pigeon2 m_gyro = new WPI_Pigeon2(25, "DriveCAN");
 
     // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
-        m_gyro.getRotation2d(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
-            m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
+    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+        kDriveKinematics,
+        m_gyro.getRotation2d(),
+        new SwerveModulePosition[]{
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()});
 
     /** Creates a new DriveSubsystem. */
     public SK23Drive()
@@ -63,9 +81,13 @@ public class SK23Drive extends SubsystemBase
     public void periodic()
     {
         // Update the odometry in the periodic block
-        m_odometry.update(m_gyro.getRotation2d(),
-            new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
-                m_rearLeft.getPosition(), m_rearRight.getPosition()});
+        m_odometry.update(
+            m_gyro.getRotation2d(),
+            new SwerveModulePosition[]{
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_rearLeft.getPosition(),
+                m_rearRight.getPosition()});
     }
 
     /**
@@ -87,8 +109,12 @@ public class SK23Drive extends SubsystemBase
     public void resetOdometry(Pose2d pose)
     {
         m_odometry.resetPosition(
-            m_gyro.getRotation2d(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
-                m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()},
+            m_gyro.getRotation2d(),
+            new SwerveModulePosition[]{
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_rearLeft.getPosition(),
+                m_rearRight.getPosition()},
             pose);
     }
 
@@ -114,17 +140,17 @@ public class SK23Drive extends SubsystemBase
         // otherwise use robot centric drive
         if ((xSpeed == 0.0) && (ySpeed == 0.0) && (rot == 0.0))
         {
-            swerveModuleStates = DriveConstants.kDefenseState;
+            swerveModuleStates = kDefenseState;
         }
         else if (fieldRelative)
         {
-            swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(ChassisSpeeds
+            swerveModuleStates = kDriveKinematics.toSwerveModuleStates(ChassisSpeeds
                 .fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getPose().getRotation()));
         }
         else
         {
-            swerveModuleStates = DriveConstants.kDriveKinematics
-                .toSwerveModuleStates(new ChassisSpeeds(xSpeed, ySpeed, rot));
+            swerveModuleStates =
+                    kDriveKinematics.toSwerveModuleStates(new ChassisSpeeds(xSpeed, ySpeed, rot));
         }
 
         setModuleStates(swerveModuleStates);
@@ -139,8 +165,7 @@ public class SK23Drive extends SubsystemBase
     public void setModuleStates(SwerveModuleState[] desiredStates)
     {
         // Ensure desired motor speeds do not exceed max motor speed
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
-            DriveConstants.kMaxSpeedMetersPerSecond);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, kMaxSpeedMetersPerSecond);
 
         m_frontLeft.setDesiredState(desiredStates[0]);
         m_frontRight.setDesiredState(desiredStates[1]);
@@ -150,8 +175,11 @@ public class SK23Drive extends SubsystemBase
 
     public SwerveModulePosition[] getModulePositions()
     {
-        return new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
-            m_rearLeft.getPosition(), m_rearRight.getPosition()};
+        return new SwerveModulePosition[]{
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_rearLeft.getPosition(),
+            m_rearRight.getPosition()};
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
@@ -189,7 +217,7 @@ public class SK23Drive extends SubsystemBase
      */
     public double getTurnRate()
     {
-        return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+        return m_gyro.getRate() * (kGyroReversed ? -1.0 : 1.0);
     }
 
     /**
