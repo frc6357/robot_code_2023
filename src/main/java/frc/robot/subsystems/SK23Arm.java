@@ -20,7 +20,7 @@ public class SK23Arm extends Arm
     {
         Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor.ID,
             ArmConstants.kGearRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
-            ArmConstants.kArmMotorD);
+            ArmConstants.kArmMotorD, ArmConstants.kArmMotorIZone);
         Arm.resetEncoder();
     }
 

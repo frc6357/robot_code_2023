@@ -4,32 +4,44 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.SK23Arm;
+import frc.robot.utils.filters.FilteredJoystick;
 
 public class ArmJoystickCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Arm Arm;
-    private final double  joystickInput;
-    private int           joystickCount;
+    private final SK23Arm          Arm;
+    private final FilteredJoystick controller;
+    private int                    joystickCount;
+    private int                    y_channel;
+    private boolean                isReversed;
 
     /**
      * Sets the angle of the arm based upon input from a joystick, adding or subtracting
-     * to the current set point. Assumes it will receive joystick input with downward
-     * movement being negative and upwards movement being positive.
+     * to the current set point. Default movement will receive joystick input with
+     * downward movement on joystick turning motor clockwise and upward movement on
+     * joystick turning motor counter clockwise.
      * 
-     * @param joystickInput
-     *            Input from the joystick (Negative input signifies downwards movement on
-     *            the joystick, Positive input signifies upwards movement on the
-     *            joystick).
+     * @param controller
+     *            Filtered controller object from which you get y axis
+     * @param y_channel
+     *            Y channel of the joystick axis
+     * @param isReversed
+     *            Reverses typical input from joystick
+     * @param Arm
+     *            Subsystem used for this command
      */
-    public ArmJoystickCommand(double joystickInput, SK23Arm Arm)
+    public ArmJoystickCommand(FilteredJoystick controller, int y_channel, boolean isReversed,
+        SK23Arm Arm)
     {
-        this.joystickInput = joystickInput;
+        this.controller = controller;
         this.Arm = Arm;
+        this.y_channel = y_channel;
+        this.isReversed = isReversed;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(Arm);
     }
@@ -47,8 +59,9 @@ public class ArmJoystickCommand extends CommandBase
 
         if (joystickCount == joystickTimePeriodic) // Only runs every joystickTimePeriod times it goes through
         {
+            double joystickInput = isReversed ? -1 * controller.getY() : controller.getY(); //Reverses input if isReversed is true
             double angleChange = ArmConstants.kJoystickChange;
-
+            controller.setYChannel(y_channel);
             if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband) // If joystick input is past deadband constant
             {
                 double currentAngle =

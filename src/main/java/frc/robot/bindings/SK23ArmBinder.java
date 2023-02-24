@@ -3,6 +3,7 @@ package frc.robot.bindings;
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Ports.OperatorPorts;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.commands.ArmButtonCommand;
@@ -60,7 +61,7 @@ public class SK23ArmBinder implements CommandBinder
             m_robotArm.setDefaultCommand(
                 // Vertical movement of the arm is controlled by the Y axis of the right stick.
                 // Up on joystick moving arm up and down on stick moving arm down.
-                new ArmJoystickCommand(controller.getY(), m_robotArm));
+                new ArmJoystickCommand(controller, OperatorPorts.kOperatorArmAxis, ArmConstants.isJoystickReversed, m_robotArm));
 
         }
     }
