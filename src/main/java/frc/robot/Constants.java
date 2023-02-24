@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -26,6 +25,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants
 {
+    /** Constants that define characteristics for the intake */
     public static class IntakeConstants
     {
         // TODO: Test to make sure that the intake speed is correct
@@ -48,42 +48,45 @@ public final class Constants
         IntakeCube,
 
         // The state of the intake when it is ejecting the cube while also intaking the cone
-        EjectCube,
+        EjectCube
     }
 
+    /** Defines the game pieces for the 2023 season */
     public static enum GamePieceEnum
     {
-        // Represents a case where there is no game object 
+        /** Represents a case where there is no game object */
         None,
-        // Represents a Cone game object
+        /** Represents a Cone game object */
         Cone,
-        // Represents a Cube game object
-        Cube,
+        /** Represents a Cube game object */
+        Cube
     }
 
+    /** Constants that define characteristics for the arm */
     public static class ArmConstants
     {
         // Arm Constants
         //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = 4.0; // Test Gear Ratio
-        public static final double kArmMotorP = 0.17; // Test Value for P
-        public static final double kArmMotorI = 0.0005; // Test Value for I
-        public static final double kArmMotorD = 0.0; // Test Value for D
+        public static final double kGearRatio = 4.0;        // Test Gear Ratio
+        public static final double kArmMotorP = 0.17;       // Test Value for P
+        public static final double kArmMotorI = 0.0005;     // Test Value for I
+        public static final double kArmMotorD = 0.0;        // Test Value for D
 
-        public static final double kHighPosition       = 45.0; // Test Value for High Position
-        public static final double kMidPosition        = 25.0; // Test Value for Mid Position
-        public static final double kLowPosition        = 0.0; // Test Value for Low Position
-        public static final double kSubstationPosition = 0.0; // Test Value for Substation
+        public static final double kHighPosition       = 45.0;  // Test Value for High Position
+        public static final double kMidPosition        = 25.0;  // Test Value for Mid Position
+        public static final double kLowPosition        = 0.0;   // Test Value for Low Position
+        public static final double kSubstationPosition = 0.0;   // Test Value for Substation
 
-        public static final double kJoystickTime = 1.0; // Test Value for time between checking joystick in seconds
-        public static final double kJoystickChange = 5.0; // Test Value for Degrees moved per 1 kJoystickTime
-        public static final double kJoystickDeadband = 0.3; //Test Value Joystick position at which it begins to move
-        public static final int    periodicPerSecond = 2; //Test Value Number of periodic calls per second
+        public static final double kJoystickTime = 1.0;     // Test Value for time between checking joystick in seconds
+        public static final double kJoystickChange = 5.0;   // Test Value for Degrees moved per 1 kJoystickTime
+        public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
+        public static final int    periodicPerSecond = 2;   // Test Value Number of periodic calls per second
 
-        public static final boolean isJoystickReversed = true; //Determines if the joystick movement is reversed
-        public static final double kArmMotorIZone = 0.0; //Test Value Number for I Zone of PID controller
+        public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
+        public static final double kArmMotorIZone = 0.0;        // Test Value Number for I Zone of PID controller
     }
 
+    /** Constants that define the drivetrain as a whole */
     public static final class DriveConstants
     {
         // Whether or not the turning motor needs to be reversed. Positive input should
@@ -129,9 +132,11 @@ public final class Constants
                     new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
                     new SwerveModuleState(0, Rotation2d.fromDegrees(315))};
 
+        /** The max speed the drive wheels should be allowed to go */
         public static final double kMaxSpeedMetersPerSecond = 5;
     }
 
+    /** Constants that define each swerve module as an individual */
     public static final class ModuleConstants
     {
         // Turning Constraints
@@ -157,6 +162,7 @@ public final class Constants
 
     }
 
+    /** Constants that are used when defining filters for controllers */
     public static final class OIConstants
     {
         // Controller constraints
@@ -165,6 +171,7 @@ public final class Constants
         public static final double kJoystickDeadband = 0.01;
     }
 
+    /** Constants that define the settings of the driver camera */
     public static final class CameraConstants
     {
         public static final int kDriverCameraResolutionX = 640;
@@ -172,6 +179,7 @@ public final class Constants
         public static final int kDriverCameraFPS         = 15;
     }
 
+    /** Defines constraints and information for autonomous development */
     public static final class AutoConstants
     {
         // Folder name for autos in deploy directors
@@ -189,5 +197,6 @@ public final class Constants
         public static final PIDConstants kRotationPIDConstants    = new PIDConstants(0.8, 0, 0);
     }
 
+    /** The file that is used for system instantiation at runtime */
     public static final String SUBSYSTEMFILE = "Subsystems.json";
 }
