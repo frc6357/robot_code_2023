@@ -44,6 +44,12 @@ public class AutoBalanceCommand extends CommandBase
     {
         xPID.setSetpoint(0);
         yPID.setSetpoint(0);
+
+        // Dividing the angle deadband by √2 allows the maximum possible error to be
+        // the magnitude of vector sum of the two tolerances, which ends up having 
+        // a magnitude of the original angle deadband. 
+        xPID.setTolerance(angleDeadband / Math.sqrt(2));
+        yPID.setTolerance(angleDeadband / Math.sqrt(2));
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -81,6 +87,10 @@ public class AutoBalanceCommand extends CommandBase
     @Override
     public boolean isFinished()
     {
-        return DriverStation.isAutonomousEnabled() && Math.hypot(subsystem.getPitch(), subsystem.getRoll()) < angleDeadband;
+        // Only ever return true during autonomous because other robots can cause disturbance during
+        // the teloperated period, and allowing the command to continue running may deem beneficial
+        // during that period. In autonomous, however, there is no need to continue the command when
+        // the robot is engaged with the charge station.
+        return DriverStation.isAutonomousEnabled() && xPID.atSetpoint() && yPID.atSetpoint();
     }
 }
