@@ -129,12 +129,6 @@ public final class Constants
                     new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
                     new SwerveModuleState(0, Rotation2d.fromDegrees(315))};
 
-        // Characterization constants as determined by the SysID tool.
-        // TODO: Characterize the robot to find these values.
-        public static final double ksVolts                      = 1;
-        public static final double kvVoltSecondsPerMeter        = 0.8;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.15;
-
         public static final double kMaxSpeedMetersPerSecond = 5;
     }
 
