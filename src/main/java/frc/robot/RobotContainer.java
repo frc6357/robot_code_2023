@@ -79,8 +79,7 @@ public class RobotContainer
         configureButtonBindings();
 
         // Configures the autonomous paths and smartdashboard chooser
-        autoGenerator =
-                new SK23AutoGenerator(driveSubsystem, armSubsystem.get(), intakeSubsystem.get());
+        autoGenerator = new SK23AutoGenerator(driveSubsystem, armSubsystem, intakeSubsystem);
         configureAutos();
     }
 

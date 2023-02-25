@@ -3,6 +3,7 @@ package frc.robot.AutoTools;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import com.pathplanner.lib.PathPlanner;
@@ -11,8 +12,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
+
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Arm;
@@ -20,19 +20,22 @@ import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
 import frc.robot.utils.files.FileScanner;
 
+import static frc.robot.Constants.AutoConstants.*;
+import static frc.robot.Constants.DriveConstants.kDriveKinematics;
+
 public class SK23AutoGenerator
 {
 
-    private SK23Drive         driveSubsystem;
-    private SK23Arm           armSubsystem;
-    private SK23Intake        intakeSubsystem;
-    private SwerveAutoBuilder autoBuilder;
+    private SK23Drive            driveSubsystem;
+    private Optional<SK23Arm>    armSubsystem;
+    private Optional<SK23Intake> intakeSubsystem;
+    private SwerveAutoBuilder    autoBuilder;
 
     // An event map connects a marker name to a given command that will run
     HashMap<String, Command> eventMap = new HashMap<>();
 
-    public SK23AutoGenerator(SK23Drive driveSubsystem, SK23Arm armSubsystem,
-        SK23Intake intakeSubsystem)
+    public SK23AutoGenerator(SK23Drive driveSubsystem, Optional<SK23Arm> armSubsystem,
+        Optional<SK23Intake> intakeSubsystem)
     {
         this.driveSubsystem = driveSubsystem;
         this.armSubsystem = armSubsystem;
@@ -45,16 +48,15 @@ public class SK23AutoGenerator
     private void createAutoBuilder(SK23Drive driveSubsystem)
     {
         // Create the AutoBuilder. Used to generate full auto paths using PathPlannerLib
-        autoBuilder = new SwerveAutoBuilder(
-            driveSubsystem::getPose,                // Pose2d supplier
-            driveSubsystem::resetOdometry,          // Pose2d consumer, used to reset odometry at the beginning of auto
-            DriveConstants.kDriveKinematics,        // SwerveDriveKinematics
-            AutoConstants.kTranslationPIDConstants, // PID constants to correct for translation error (used to create the X and Y PID controllers)
-            AutoConstants.kRotationPIDConstants,    // PID constants to correct for rotation error (used to create the rotation controller)
-            driveSubsystem::setModuleStates,        // Module states consumer used to output to the drive subsystem
-            eventMap,                               // Correlates marker names to actual commands
-            true,                                   // Should the path be automatically mirrored depending on alliance color.
-            driveSubsystem);                        // The drive subsystem. Used to set requirements of path following commands
+        autoBuilder = new SwerveAutoBuilder(driveSubsystem::getPose,                // Pose2d supplier
+            driveSubsystem::resetOdometry,      // Pose2d consumer, used to reset odometry at the beginning of auto
+            kDriveKinematics,                   // SwerveDriveKinematics
+            kTranslationPIDConstants,           // PID constants to correct for translation error (used to create the X and Y PID controllers)
+            kRotationPIDConstants,              // PID constants to correct for rotation error (used to create the rotation controller)
+            driveSubsystem::setModuleStates,    // Module states consumer used to output to the drive subsystem
+            eventMap,                           // Correlates marker names to actual commands
+            true,                               // Should the path be automatically mirrored depending on alliance color.
+            driveSubsystem);                    // The drive subsystem. Used to set requirements of path following commands
     }
 
     /**
@@ -68,19 +70,19 @@ public class SK23AutoGenerator
 
         // TODO: Define commands for these markers
         // Creates the arm commands if the arm subsystem is present (not null)
-        try
+        if (armSubsystem.isPresent())
         {
             eventMap.put("High Arm", null);
             eventMap.put("Mid Arm", null);
             eventMap.put("Low Arm", null);
         }
-        catch (NullPointerException e)
+        else
         {
             DriverStation.reportWarning("Did not create arm commands for auto", false);
         }
-        
+
         // Creates the intake commands if the intake subsystem is present (not null)
-        try
+        if (intakeSubsystem.isPresent())
         {
             eventMap.put("Intake Cone", null);
             eventMap.put("Eject Cone", null);
@@ -90,7 +92,7 @@ public class SK23AutoGenerator
             eventMap.put("Extend Intake", null);
             eventMap.put("Retract Intake", null);
         }
-        catch (NullPointerException e)
+        else
         {
             DriverStation.reportWarning("Did not create intake commands for auto", false);
         }
@@ -107,7 +109,7 @@ public class SK23AutoGenerator
     public void displayAllPathCommands(BiConsumer<String, Command> displayMethod)
     {
         displayMethod.accept("None", new DoNothingCommand());
-        File pathplannerFolder = FileScanner.getFileFromDeploy(AutoConstants.kSplineDirectory);
+        File pathplannerFolder = FileScanner.getFileFromDeploy(kSplineDirectory);
         FileScanner.applyStringFunctionByType(pathplannerFolder, ".path",
             (autoName) -> createPathCommand(autoName, displayMethod), false);
     }
@@ -126,7 +128,7 @@ public class SK23AutoGenerator
         try
         {
             final List<PathPlannerTrajectory> trajectory =
-                    PathPlanner.loadPathGroup(autoName, AutoConstants.kPathConstraints);
+                    PathPlanner.loadPathGroup(autoName, kPathConstraints);
             displayMethod.accept(autoName, autoBuilder.fullAuto(trajectory));
         }
         catch (Exception e)
