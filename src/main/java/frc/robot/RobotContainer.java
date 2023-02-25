@@ -33,6 +33,7 @@ import frc.robot.subsystems.SK23Intake;
 import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
+import frc.robot.utils.filters.FilteredXboxController;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -43,28 +44,26 @@ import frc.robot.utils.filters.FilteredJoystick;
 public class RobotContainer
 {
     // The robot's subsystems
-    private final SK23Drive m_robotDrive = new SK23Drive();
-
-    // The class used to create all PathPlanner Autos
-    private final SK23AutoGenerator autoGenerator = new SK23AutoGenerator(m_robotDrive);
-
-    // The driver's controller
-    private final FilteredJoystick driveController    =
-            new FilteredJoystick(OperatorPorts.kDriverControllerPort);
-    private final FilteredJoystick operatorController =
-            new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
-
-    // 2023 Button mappings
-    
-    // Initialization for optional
-    // These are currently empty and only created in the constructor
-    // based on the Subsystem.json file
+    private final SK23Drive driveSubsystem = new SK23Drive();
+    // Optional subsystems are only instantiated if the Subsystem.json
+    // file determines that the subsystem is present on the robot
     private Optional<SK23Intake> intakeSubsystem = Optional.empty();
     private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
+
+    // The driver's controller
+    private final FilteredJoystick       driveController        =
+            new FilteredJoystick(OperatorPorts.kDriverControllerPort);
+    private final FilteredJoystick       operatorController     =
+            new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
+    private final FilteredXboxController xBoxOperatorController =
+            new FilteredXboxController(OperatorPorts.kOperatorControllerPort);
+
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
+    // The class used to create all PathPlanner Autos
+    private final SK23AutoGenerator autoGenerator;
     // An option box on shuffleboard to choose the auto path
     SendableChooser<Command> autoCommandSelector = new SendableChooser<Command>();
 
@@ -73,7 +72,23 @@ public class RobotContainer
      */
     public RobotContainer()
     {
+        // Creates all subsystems that are on the robot
+        configureSubsystems();
 
+        // Configure the button bindings
+        configureButtonBindings();
+
+        // Configures the autonomous paths and smartdashboard chooser
+        autoGenerator =
+                new SK23AutoGenerator(driveSubsystem, armSubsystem.get(), intakeSubsystem.get());
+        configureAutos();
+    }
+
+    /**
+     * Will create all the optional subsystems using the json file in the deploy directory
+     */
+    private void configureSubsystems()
+    {
         File deployDirectory = Filesystem.getDeployDirectory();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -105,10 +120,6 @@ public class RobotContainer
         {
             DriverStation.reportError("Failure to read Subsystem Control File!", e.getStackTrace());
         }
-
-        // Configure the button bindings
-        configureButtonBindings();
-        configureAutos();
     }
 
     /**
@@ -121,9 +132,9 @@ public class RobotContainer
     {
 
         // Adding all the binding classes to the list
-        buttonBinders.add(new SK23DriveBinder(driveController, m_robotDrive));
+        buttonBinders.add(new SK23DriveBinder(driveController, driveSubsystem));
 
-        buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
+        buttonBinders.add(new SK23IntakeBinder(xBoxOperatorController, intakeSubsystem));
         buttonBinders.add(new SK23ArmBinder(operatorController, armSubsystem));
 
         // Traversing through all the binding classes to actually bind the buttons
