@@ -186,8 +186,8 @@ public final class Constants
         public static final String kSplineDirectory = "pathplanner";
 
         // Autonomous translation constraints
-        public static final double          kMaxSpeedMetersPerSecond               = 1.5;
-        public static final double          kMaxAccelerationMetersPerSecondSquared = 0.5;
+        public static final double          kMaxSpeedMetersPerSecond               = 3;
+        public static final double          kMaxAccelerationMetersPerSecondSquared = 1;
         public static final PathConstraints kPathConstraints                       =
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                     kMaxAccelerationMetersPerSecondSquared);

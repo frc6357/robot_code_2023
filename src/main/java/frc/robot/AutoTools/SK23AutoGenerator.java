@@ -15,21 +15,28 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DoNothingCommand;
+import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
+import frc.robot.subsystems.SK23Intake;
 import frc.robot.utils.files.FileScanner;
 
 public class SK23AutoGenerator
 {
 
     private SK23Drive         driveSubsystem;
+    private SK23Arm           armSubsystem;
+    private SK23Intake        intakeSubsystem;
     private SwerveAutoBuilder autoBuilder;
 
     // An event map connects a marker name to a given command that will run
     HashMap<String, Command> eventMap = new HashMap<>();
 
-    public SK23AutoGenerator(SK23Drive driveSubsystem)
+    public SK23AutoGenerator(SK23Drive driveSubsystem, SK23Arm armSubsystem,
+        SK23Intake intakeSubsystem)
     {
         this.driveSubsystem = driveSubsystem;
+        this.armSubsystem = armSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
 
         createAutoBuilder(this.driveSubsystem);
         createEventMap();
@@ -38,7 +45,8 @@ public class SK23AutoGenerator
     private void createAutoBuilder(SK23Drive driveSubsystem)
     {
         // Create the AutoBuilder. Used to generate full auto paths using PathPlannerLib
-        autoBuilder = new SwerveAutoBuilder(driveSubsystem::getPose,                // Pose2d supplier
+        autoBuilder = new SwerveAutoBuilder(
+            driveSubsystem::getPose,                // Pose2d supplier
             driveSubsystem::resetOdometry,          // Pose2d consumer, used to reset odometry at the beginning of auto
             DriveConstants.kDriveKinematics,        // SwerveDriveKinematics
             AutoConstants.kTranslationPIDConstants, // PID constants to correct for translation error (used to create the X and Y PID controllers)
@@ -49,9 +57,43 @@ public class SK23AutoGenerator
             driveSubsystem);                        // The drive subsystem. Used to set requirements of path following commands
     }
 
+    /**
+     * Defines the relationship between a marker on the pathplanner tool and an actual
+     * command that the robot should run.
+     */
     private void createEventMap()
     {
+        // Create the drivetrain commands
         eventMap.put("Level", new AutoBalanceCommand(() -> {return 0.0;}, driveSubsystem));
+
+        // TODO: Define commands for these markers
+        // Creates the arm commands if the arm subsystem is present (not null)
+        try
+        {
+            eventMap.put("High Arm", null);
+            eventMap.put("Mid Arm", null);
+            eventMap.put("Low Arm", null);
+        }
+        catch (NullPointerException e)
+        {
+            DriverStation.reportWarning("Did not create arm commands for auto", false);
+        }
+        
+        // Creates the intake commands if the intake subsystem is present (not null)
+        try
+        {
+            eventMap.put("Intake Cone", null);
+            eventMap.put("Eject Cone", null);
+            eventMap.put("Intake Cube", null);
+            eventMap.put("Eject Cube", null);
+
+            eventMap.put("Extend Intake", null);
+            eventMap.put("Retract Intake", null);
+        }
+        catch (NullPointerException e)
+        {
+            DriverStation.reportWarning("Did not create intake commands for auto", false);
+        }
     }
 
     /**
