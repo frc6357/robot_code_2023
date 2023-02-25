@@ -31,11 +31,12 @@ public class Ports
 
         // TODO: Check if the intake channels are correct numbers
         // Intake PCM channels
-        public static final int kIntakeForwardChannel = 10;
-        public static final int kIntakeReverseChannel = 11;
+        public static final int kIntakeForwardChannel = 0;
+        public static final int kIntakeReverseChannel = 1;
 
         //Intake Pneumatic Module Type
-        public static final int kPneumaticsModule = 42;
+        private static final String busName           = "";
+        public static final CANPort kPneumaticsModule = new CANPort(42, busName);
 
     }
 
