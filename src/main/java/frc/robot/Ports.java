@@ -35,8 +35,7 @@ public class Ports
         public static final int kIntakeReverseChannel = 1;
 
         //Intake Pneumatic Module Type
-        private static final String busName           = "";
-        public static final CANPort kPneumaticsModule = new CANPort(42, busName);
+        public static final int kPneumaticsModule = 42;
 
     }
 
