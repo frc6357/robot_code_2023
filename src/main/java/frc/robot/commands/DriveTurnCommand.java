@@ -5,9 +5,11 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Ports.OperatorPorts;
+
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.utils.filters.FilteredJoystick;
+import frc.robot.utils.filters.FilteredXboxController;
+
+import static frc.robot.Ports.OperatorPorts.*;
 
 /**
  * A command used to turn the robot to a certain angle. This allows the driver to set the
@@ -15,10 +17,10 @@ import frc.robot.utils.filters.FilteredJoystick;
  */
 public class DriveTurnCommand extends CommandBase
 {
-    private FilteredJoystick  controller;
-    private Supplier<Boolean> robotCentric;
-    private SK23Drive         subsystem;
-    private PIDController     PID;
+    private FilteredXboxController controller;
+    private Supplier<Boolean>      robotCentric;
+    private SK23Drive              subsystem;
+    private PIDController          PID;
 
     // In radians per second
     private double maxRot = 4;
@@ -36,7 +38,7 @@ public class DriveTurnCommand extends CommandBase
      * @param drive
      *            The subsystem required to control the drivetrain
      */
-    public DriveTurnCommand(FilteredJoystick controller, Supplier<Boolean> robotCentric,
+    public DriveTurnCommand(FilteredXboxController controller, Supplier<Boolean> robotCentric,
         double setpoint, SK23Drive drive)
     {
         this.controller = controller;
@@ -59,9 +61,9 @@ public class DriveTurnCommand extends CommandBase
 
         subsystem.drive(
             // Left Y Axis
-            controller.getFilteredAxis(OperatorPorts.kVelocityYPort),
+            controller.getFilteredAxis(kVelocityYPort.value),
             // Left X Axis
-            controller.getFilteredAxis(OperatorPorts.kVelocityXPort), rot, !robotCentric.get());
+            controller.getFilteredAxis(kVelocityXPort.value), rot, !robotCentric.get());
     }
 
     // Called once the command ends or is interrupted.

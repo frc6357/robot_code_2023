@@ -4,20 +4,22 @@
 
 package frc.robot.commands;
 
-//import frc.robot.Constants;
-
 import frc.robot.subsystems.SK23Intake;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An intake command that uses an intake subsystem. */
-public class IntakeCommand extends CommandBase
+public class IntakeDeployerCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
     private final SK23Intake intake;
-    private final double     speed;
-    //private final IntakeState   state;
+
+    /**
+     * The state of the double solenoid reponsible for deployment. Can be kForward for
+     * extension, kReverse for retraction, and kOff for no pressure
+     */
+    private final Value deploymentState;
 
     /**
      * This command allows the operator to extend the intake outwards or retract it
@@ -26,11 +28,9 @@ public class IntakeCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public IntakeCommand(double speed, SK23Intake intake)
+    public IntakeDeployerCommand(Value deploymentState, SK23Intake intake)
     {
-
-        this.speed = speed;
-        //this.state = state;
+        this.deploymentState = deploymentState;
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intake);
@@ -40,16 +40,7 @@ public class IntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-
-        intake.setInnerRollerSpeed(speed);
-        intake.setOuterRollerSpeed(speed);
-
-    }
-
-    public void end(boolean interrupted)
-    {
-        intake.setInnerRollerSpeed(0.0);
-        intake.setOuterRollerSpeed(0.0);
+        intake.setIntakeExtension(deploymentState);
     }
 
     // Returns true when the command should end.
