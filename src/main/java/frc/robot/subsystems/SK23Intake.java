@@ -6,11 +6,18 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 
 public class SK23Intake extends SubsystemBase
 {
+    // The solonoid used for extending or retracting intake
+    DoubleSolenoid intakeExtender =
+            new DoubleSolenoid(Ports.IntakePorts.kIntakeReverseChannel, PneumaticsModuleType.REVPH,
+                Ports.IntakePorts.kIntakeForwardChannel, Ports.IntakePorts.kIntakeReverseChannel);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
@@ -26,6 +33,11 @@ public class SK23Intake extends SubsystemBase
 
         insideMotor.setSmartCurrentLimit(10);
         outerMotor.setSmartCurrentLimit(10);
+    }
+
+    public void setIntakeExtension(Value setExtend)
+    {
+        intakeExtender.set(setExtend);
     }
 
     /**

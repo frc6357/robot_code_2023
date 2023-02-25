@@ -5,10 +5,12 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import frc.robot.Ports;
-import frc.robot.Constants.IntakeStateEnum;
+import frc.robot.Constants.GamePieceEnum;
+
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.SK23Intake;
-import frc.robot.utils.filters.FilteredJoystick;
+
+import frc.robot.utils.filters.FilteredXboxController;
 
 public class SK23IntakeBinder implements CommandBinder
 {
@@ -16,12 +18,12 @@ public class SK23IntakeBinder implements CommandBinder
 
     // Driver button command
     private final JoystickButton intakeConeBtn;
-    //private final JoystickButton ejectConeBtn;
+    private final JoystickButton ejectConeBtn;
 
     private final JoystickButton intakeCubeBtn;
-    //private final JoystickButton ejectCubeBtn;
+    private final JoystickButton ejectCubeBtn;
 
-    FilteredJoystick controller;
+    FilteredXboxController controller;
 
     /**
      * The class that is used to bind all the commands for the drive subsystem
@@ -31,14 +33,15 @@ public class SK23IntakeBinder implements CommandBinder
      * @param intakeSubsystem
      *            The required drive subsystem for the commands
      */
-    public SK23IntakeBinder(FilteredJoystick controller, Optional<SK23Intake> intakeSubsystem)
+    public SK23IntakeBinder(FilteredXboxController controller, Optional<SK23Intake> subsystem)
     {
         this.controller = controller;
-        this.subsystem = intakeSubsystem;
+        this.subsystem = subsystem;
 
         intakeConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCone);
-        //ejectConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kO
+        ejectConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorEjectCone);
         intakeCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCube);
+        ejectCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorEjectCube);
 
     }
 
@@ -50,11 +53,15 @@ public class SK23IntakeBinder implements CommandBinder
 
             SK23Intake m_robotArm = subsystem.get();
 
-            intakeConeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeConeSpeed,
-                IntakeStateEnum.IntakeCone, m_robotArm));
+            intakeConeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cone,
+                Constants.IntakeConstants.kIntakeConeSpeed, m_robotArm));
+            ejectConeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cone,
+                Constants.IntakeConstants.kEjectConeSpeed, m_robotArm));
+            ejectCubeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cube,
+                Constants.IntakeConstants.kEjectCubeSpeed, m_robotArm));
             // When the left button is pressed intake the cube when it is pressed
-            intakeCubeBtn.onTrue(new IntakeCommand(Constants.IntakeConstants.kIntakeCubeSpeed,
-                IntakeStateEnum.IntakeCube, m_robotArm));
+            intakeCubeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cube,
+                Constants.IntakeConstants.kIntakeCubeSpeed, m_robotArm));
         }
 
     }

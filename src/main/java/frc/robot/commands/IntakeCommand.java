@@ -6,8 +6,8 @@ package frc.robot.commands;
 
 //import frc.robot.Constants;
 import frc.robot.Constants.GamePieceEnum;
-import frc.robot.Constants.IntakeStateEnum;
 import frc.robot.subsystems.SK23Intake;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
@@ -15,10 +15,10 @@ public class IntakeCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Intake      intake;
-    private final IntakeStateEnum intakeState;
+    private final SK23Intake    intake;
+    private final GamePieceEnum gamePiece;
+    private final double        speed;
     //private final IntakeState   state;
-    private final double speed;
 
     /**
      * This command allows the operator to extend the intake outwards or retract it
@@ -27,10 +27,12 @@ public class IntakeCommand extends CommandBase
      * @param intake
      *            The intake subsystem the command operates on.
      */
-    public IntakeCommand(double speed, IntakeStateEnum intakeState, SK23Intake intake)
+    public IntakeCommand(GamePieceEnum gamePiece, double speed, SK23Intake intake)
     {
+
+        this.gamePiece = gamePiece;
+
         this.speed = speed;
-        this.intakeState = intakeState;
         //this.state = state;
         this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -41,19 +43,16 @@ public class IntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-
-        switch (intakeState)
+        if (gamePiece == GamePieceEnum.Cube && speed < 0)
         {
-            // Intake intaking cone
-            case IntakeCone:
-                intake.setFrontRollerSpeed(speed);
-                intake.setRearTopRollerSpeed(speed);
-                break;
+            intake.setFrontRollerSpeed(speed);
+            intake.setRearTopRollerSpeed(speed);
+        }
 
-            case IntakeCube:
-                intake.setFrontRollerSpeed(speed);
-                intake.setRearTopRollerSpeed(speed);
-                break;
+        else if (gamePiece == GamePieceEnum.Cube && speed > 0)
+        {
+            intake.setFrontRollerSpeed(speed);
+            intake.setRearTopRollerSpeed(speed);
         }
 
     }
