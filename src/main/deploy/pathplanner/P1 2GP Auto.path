@@ -94,16 +94,36 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level"
+          "Eject Cone"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "waitBehavior": "deadline",
+        "waitTime": 1.5
       }
     }
   ],
   "maxVelocity": 3.0,
   "maxAcceleration": 1.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 1.7306463068181819,
+      "names": [
+        "Intake Cone"
+      ]
+    },
+    {
+      "position": 1.4665482954545455,
+      "names": [
+        "Low Arm"
+      ]
+    },
+    {
+      "position": 2.288884943181817,
+      "names": [
+        "High Arm",
+        "Stop Intake"
+      ]
+    }
+  ]
 }
