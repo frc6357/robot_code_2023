@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.860990402598365,
-        "y": 2.73
+        "x": 3.45214176384454,
+        "y": 0.51
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.065448881641811,
-        "y": 2.7289284703197376
+        "x": 2.307736938096329,
+        "y": 0.5100000000000001
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,7 +17,34 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Eject Cube"
+          "High Arm"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "deadline",
+        "waitTime": 1.0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.898968817468885,
+        "y": 0.5041625419932375
+      },
+      "prevControl": {
+        "x": 1.9000861248522198,
+        "y": 0.5025323917108422
+      },
+      "nextControl": {
+        "x": 1.6732616556750972,
+        "y": 0.8334690506806598
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Eject Cone"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "deadline",
@@ -26,18 +53,18 @@
     },
     {
       "anchorPoint": {
-        "x": 2.2101514496927805,
-        "y": 2.732341720263797
+        "x": 6.840441331552307,
+        "y": 0.8427953955982307
       },
       "prevControl": {
-        "x": 2.5421020252382767,
-        "y": 2.7359953399222268
+        "x": 6.797992039994497,
+        "y": 0.5448330976647066
       },
       "nextControl": {
-        "x": 1.8631127863907144,
-        "y": 2.7285220333107256
+        "x": 6.849986566073062,
+        "y": 0.9097958073305529
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 0.01,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -51,62 +78,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.524849810860336,
-        "y": 2.73
+        "x": 1.9002668139264853,
+        "y": 0.5105083024526161
       },
       "prevControl": {
-        "x": 5.4807818419232905,
-        "y": 2.73
-      },
-      "nextControl": {
-        "x": 5.568917779797381,
-        "y": 2.73
-      },
-      "holonomicAngle": 0.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 6.349942892408107,
-        "y": 2.729745727348597
-      },
-      "prevControl": {
-        "x": 6.700899500162179,
-        "y": 2.729745727348597
-      },
-      "nextControl": {
-        "x": 5.998986284654035,
-        "y": 2.729745727348597
-      },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 3.7178945200524334,
-        "y": 2.73
-      },
-      "prevControl": {
-        "x": 3.5350740290976406,
-        "y": 2.73
+        "x": 2.563835070804932,
+        "y": 0.7438414542177172
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -116,11 +93,11 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level"
+          "Eject Cone"
         ],
         "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "waitBehavior": "deadline",
+        "waitTime": 1.0
       }
     }
   ],

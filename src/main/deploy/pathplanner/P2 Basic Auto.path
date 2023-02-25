@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8710378566590469,
-        "y": 2.73
+        "x": 3.45214176384454,
+        "y": 0.51
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9194852028238878,
-        "y": 2.73
+        "x": 2.307736938096329,
+        "y": 0.5100000000000001
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Eject Cube"
+          "High Arm"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "deadline",
@@ -26,18 +26,42 @@
     },
     {
       "anchorPoint": {
-        "x": 2.7448298423382567,
-        "y": 2.7334954948927757
+        "x": 1.926130595192738,
+        "y": 0.5002204786775638
       },
       "prevControl": {
-        "x": 2.0598513059101817,
-        "y": 2.7334954948927757
+        "x": 1.9272479025760734,
+        "y": 0.4985903283951684
       },
       "nextControl": {
-        "x": 3.4298083787663303,
-        "y": 2.7334954948927757
+        "x": 1.7004234333989503,
+        "y": 0.829526987364986
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Eject Cone"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "deadline",
+        "waitTime": 1.5
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.3324920511448175,
+        "y": 0.9242807287697905
+      },
+      "prevControl": {
+        "x": 5.371590080977782,
+        "y": 0.5336318689750462
+      },
+      "nextControl": null,
+      "holonomicAngle": 0.01,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -48,34 +72,17 @@
         "waitBehavior": "none",
         "waitTime": 0
       }
-    },
-    {
-      "anchorPoint": {
-        "x": 4.1,
-        "y": 2.73
-      },
-      "prevControl": {
-        "x": 2.8981944443413514,
-        "y": 2.73
-      },
-      "nextControl": null,
-      "holonomicAngle": 0.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [
-          "Level"
-        ],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
     }
   ],
   "maxVelocity": 3.0,
   "maxAcceleration": 1.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 1.5,
+      "names": [
+        "Low Arm"
+      ]
+    }
+  ]
 }
