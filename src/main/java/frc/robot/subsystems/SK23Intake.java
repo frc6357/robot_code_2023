@@ -11,12 +11,13 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
+import frc.robot.Constants.IntakeConstants;
 
 public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
     DoubleSolenoid intakeExtender =
-            new DoubleSolenoid(Ports.IntakePorts.kIntakeReverseChannel, PneumaticsModuleType.REVPH,
+            new DoubleSolenoid(Ports.IntakePorts.kPneumaticsModule, PneumaticsModuleType.REVPH,
                 Ports.IntakePorts.kIntakeForwardChannel, Ports.IntakePorts.kIntakeReverseChannel);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
@@ -31,10 +32,15 @@ public class SK23Intake extends SubsystemBase
         insideMotor.setInverted(true);
         outerMotor.setInverted(true);
 
-        insideMotor.setSmartCurrentLimit(10);
-        outerMotor.setSmartCurrentLimit(10);
+        //TODO: Find correct current limit 
+        insideMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
+        outerMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
     }
 
+    /**
+     * Sets the extension solenoid to either kforwards for extend or kReverse for
+     * retraction
+     */
     public void setIntakeExtension(Value setExtend)
     {
         intakeExtender.set(setExtend);
@@ -44,7 +50,7 @@ public class SK23Intake extends SubsystemBase
      * Sets the intake to intake game pieces of the motor that controls the front roller.
      * Changes the mode of intake based on whether it is intaking a cube or cone
      */
-    public void setFrontRollerSpeed(double speed)
+    public void setInnerRollerSpeed(double speed)
     {
         insideMotor.set(speed);
     }
@@ -53,7 +59,7 @@ public class SK23Intake extends SubsystemBase
      * Sets the intake to intake game pieces of the motor that controls the top and rear
      * roller. Changes the mode of intake based on whether it is intaking a cube or cone
      */
-    public void setRearTopRollerSpeed(double speed)
+    public void setOuterRollerSpeed(double speed)
     {
         outerMotor.set(speed);
     }

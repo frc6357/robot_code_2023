@@ -3,17 +3,19 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Ports.OperatorPorts;
+
 import frc.robot.subsystems.SK23Drive;
-import frc.robot.utils.filters.FilteredJoystick;
+import frc.robot.utils.filters.FilteredXboxController;
+
+import static frc.robot.Ports.OperatorPorts.*;
 
 public class DefaultSwerveCommand extends CommandBase
 {
-    private FilteredJoystick  controller;
-    private Supplier<Boolean> robotCentric;
-    private SK23Drive         subsystem;
+    private FilteredXboxController controller;
+    private Supplier<Boolean>      robotCentric;
+    private SK23Drive              subsystem;
 
-    public DefaultSwerveCommand(FilteredJoystick controller, Supplier<Boolean> robotCentric,
+    public DefaultSwerveCommand(FilteredXboxController controller, Supplier<Boolean> robotCentric,
         SK23Drive drive)
     {
         this.controller = controller;
@@ -28,13 +30,12 @@ public class DefaultSwerveCommand extends CommandBase
     public void execute()
     {
         subsystem.drive(
-                // Left Y Axis
-                controller.getFilteredAxis(OperatorPorts.kVelocityYPort),
-                // Left X Axis
-                controller.getFilteredAxis(OperatorPorts.kVelocityXPort),
-                // Right X Axis
-                controller.getFilteredAxis(OperatorPorts.kVelocityOmegaPort),
-                !robotCentric.get());
+            // Left Y Axis
+            controller.getFilteredAxis(kVelocityYPort.value),
+            // Left X Axis
+            controller.getFilteredAxis(kVelocityXPort.value),
+            // Right X Axis
+            controller.getFilteredAxis(kVelocityOmegaPort.value), !robotCentric.get());
     }
 
     // Called once the command ends or is interrupted.

@@ -52,11 +52,11 @@ public class RobotContainer
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
 
     // The driver's controller
-    private final FilteredJoystick       driveController        =
-            new FilteredJoystick(OperatorPorts.kDriverControllerPort);
-    private final FilteredJoystick       operatorController     =
-            new FilteredJoystick(OperatorPorts.kOperatorControllerPort);
-    private final FilteredXboxController xBoxOperatorController =
+    private final FilteredXboxController driveController =
+            new FilteredXboxController(OperatorPorts.kDriverControllerPort);
+
+    // Operator controller set to xbox controller
+    private final FilteredXboxController operatorController =
             new FilteredXboxController(OperatorPorts.kOperatorControllerPort);
 
     // The list containing all the command binding classes
@@ -133,7 +133,7 @@ public class RobotContainer
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, driveSubsystem));
 
-        buttonBinders.add(new SK23IntakeBinder(xBoxOperatorController, intakeSubsystem));
+        buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
         buttonBinders.add(new SK23ArmBinder(operatorController, armSubsystem));
 
         // Traversing through all the binding classes to actually bind the buttons

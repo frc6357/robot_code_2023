@@ -4,20 +4,24 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.ArmConstants.kJoystickChange;
+import static frc.robot.Constants.ArmConstants.kJoystickDeadband;
+import static frc.robot.Constants.ArmConstants.kJoystickTime;
+import static frc.robot.Constants.ArmConstants.periodicPerSecond;
+import static frc.robot.Ports.OperatorPorts.kOperatorArmAxis;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.SK23Arm;
-import frc.robot.utils.filters.FilteredJoystick;
+import frc.robot.utils.filters.FilteredXboxController;
 
 public class ArmJoystickCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Arm          Arm;
-    private final FilteredJoystick controller;
-    private int                    joystickCount;
-    private int                    y_channel;
-    private boolean                isReversed;
+    private final SK23Arm                Arm;
+    private final FilteredXboxController controller;
+    private int                          joystickCount;
+    private boolean                      isReversed;
 
     /**
      * Sets the angle of the arm based upon input from a joystick, adding or subtracting
@@ -34,12 +38,10 @@ public class ArmJoystickCommand extends CommandBase
      * @param Arm
      *            Subsystem used for this command
      */
-    public ArmJoystickCommand(FilteredJoystick controller, int y_channel, boolean isReversed,
-        SK23Arm Arm)
+    public ArmJoystickCommand(FilteredXboxController controller, boolean isReversed, SK23Arm Arm)
     {
         this.controller = controller;
         this.Arm = Arm;
-        this.y_channel = y_channel;
         this.isReversed = isReversed;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(Arm);
@@ -54,14 +56,15 @@ public class ArmJoystickCommand extends CommandBase
     @Override
     public void execute()
     {
-        double joystickTimePeriodic = ArmConstants.kJoystickTime * ArmConstants.periodicPerSecond; // Converts seconds into number of periodic calls
+        double joystickTimePeriodic = kJoystickTime * periodicPerSecond; // Converts seconds into number of periodic calls
 
         if (joystickCount == joystickTimePeriodic) // Only runs every joystickTimePeriod times it goes through
         {
-            double joystickInput = isReversed ? -1 * controller.getY() : controller.getY(); //Reverses input if isReversed is true
-            double angleChange = ArmConstants.kJoystickChange;
-            controller.setYChannel(y_channel);
-            if (Math.abs(joystickInput) > ArmConstants.kJoystickDeadband) // If joystick input is past deadband constant
+            double joystickInput = isReversed ? -1 * controller.getRawAxis(kOperatorArmAxis.value)
+                : controller.getRawAxis(kOperatorArmAxis.value); //Reverses input if isReversed is true
+            double angleChange = kJoystickChange;
+
+            if (Math.abs(joystickInput) > kJoystickDeadband) // If joystick input is past deadband constant
             {
                 double currentAngle =
                         Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plus or minus the constant change

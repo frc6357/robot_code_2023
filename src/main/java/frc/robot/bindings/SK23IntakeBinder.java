@@ -2,12 +2,14 @@ package frc.robot.bindings;
 
 import java.util.Optional;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants;
-import frc.robot.Ports;
-import frc.robot.Constants.GamePieceEnum;
 
+import static frc.robot.Constants.IntakeConstants.*;
+
+import static frc.robot.Ports.OperatorPorts.*;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeDeployerCommand;
 import frc.robot.subsystems.SK23Intake;
 
 import frc.robot.utils.filters.FilteredXboxController;
@@ -17,11 +19,14 @@ public class SK23IntakeBinder implements CommandBinder
     Optional<SK23Intake> subsystem;
 
     // Driver button command
-    private final JoystickButton intakeConeBtn;
-    private final JoystickButton ejectConeBtn;
+    private final JoystickButton intakeConeBtn; // (Hold) Left Trigger
+    private final JoystickButton ejectConeBtn; // (Hold) Right Button
 
-    private final JoystickButton intakeCubeBtn;
-    private final JoystickButton ejectCubeBtn;
+    private final JoystickButton intakeCubeBtn; // (Hold) Left Button
+    private final JoystickButton ejectCubeBtn; // (Hold) Right Trigger
+
+    private final JoystickButton retractIntakeBtn; // (Press) Start Button
+    private final JoystickButton extendIntakeBtn; // (Press) Back Button
 
     FilteredXboxController controller;
 
@@ -38,10 +43,14 @@ public class SK23IntakeBinder implements CommandBinder
         this.controller = controller;
         this.subsystem = subsystem;
 
-        intakeConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCone);
-        ejectConeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorEjectCone);
-        intakeCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorIntakeCube);
-        ejectCubeBtn = new JoystickButton(controller, Ports.OperatorPorts.kOperatorEjectCube);
+        // uses valeus from the xbox controller to control the port values
+        intakeConeBtn = new JoystickButton(controller, kOperatorIntakeCone.value);
+        ejectConeBtn = new JoystickButton(controller, kOperatorEjectCone.value);
+        intakeCubeBtn = new JoystickButton(controller, kOperatorIntakeCube.value);
+        ejectCubeBtn = new JoystickButton(controller, kOperatorEjectCube.value);
+
+        retractIntakeBtn = new JoystickButton(controller, kOperatorRetractIntake.value);
+        extendIntakeBtn = new JoystickButton(controller, kOperatorExtendIntake.value);
 
     }
 
@@ -51,17 +60,22 @@ public class SK23IntakeBinder implements CommandBinder
         if (subsystem.isPresent())
         {
 
-            SK23Intake m_robotArm = subsystem.get();
+            // Gets the intake subsystem and puts it into m_robotIntake
+            SK23Intake m_robotIntake = subsystem.get();
 
-            intakeConeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cone,
-                Constants.IntakeConstants.kIntakeConeSpeed, m_robotArm));
-            ejectConeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cone,
-                Constants.IntakeConstants.kEjectConeSpeed, m_robotArm));
-            ejectCubeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cube,
-                Constants.IntakeConstants.kEjectCubeSpeed, m_robotArm));
-            // When the left button is pressed intake the cube when it is pressed
-            intakeCubeBtn.onTrue(new IntakeCommand(GamePieceEnum.Cube,
-                Constants.IntakeConstants.kIntakeCubeSpeed, m_robotArm));
+            // Sets buttons with whileTrue so that they will run continuously until the button is let go
+            intakeConeBtn.whileTrue(new IntakeCommand(kIntakeConeSpeed, m_robotIntake));
+
+            ejectConeBtn.whileTrue(new IntakeCommand(kEjectConeSpeed, m_robotIntake));
+
+            intakeCubeBtn.whileTrue(new IntakeCommand(kIntakeCubeSpeed, m_robotIntake));
+
+            ejectCubeBtn.whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
+
+            // Sets the buttons with onTure so tha they will toggle extension and retraction of the intake
+            retractIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
+
+            extendIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
         }
 
     }

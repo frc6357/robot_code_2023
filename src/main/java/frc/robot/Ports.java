@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.utils.CANPort;
 
 public class Ports
@@ -26,9 +29,13 @@ public class Ports
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 
+        // TODO: Check if the intake channels are correct numbers
         // Intake PCM channels
         public static final int kIntakeForwardChannel = 10;
         public static final int kIntakeReverseChannel = 11;
+
+        //Intake Pneumatic Module Type
+        public static final int kPneumaticsModule = 42;
 
     }
 
@@ -41,28 +48,32 @@ public class Ports
         public static final int kDriverControllerPort = 0;
 
         // Axes for driving
-        public static final int kVelocityXPort     = 0; // Left Y Axis
-        public static final int kVelocityYPort     = 1; // Left X Axis
-        public static final int kVelocityOmegaPort = 4; // Right X Axis
+        public static final Axis kVelocityXPort     = XboxController.Axis.kLeftY; // Left Y Axis
+        public static final Axis kVelocityYPort     = XboxController.Axis.kLeftX; // Left X Axis
+        public static final Axis kVelocityOmegaPort = XboxController.Axis.kRightX; // Right X Axis
 
         // Buttons for driving
-        public static final int kResetGyro        = 3;  // X Button
-        public static final int kRobotCentricMode = 5;  // Left Trigger
-        public static final int kRotateDSS        = 4;  // Y Button
-        public static final int kRotateGrid       = 1;  // B Button
+        public static final Button kResetGyro        = XboxController.Button.kX;  // X Button
+        public static final Axis   kRobotCentricMode = XboxController.Axis.kLeftTrigger;  // Left Trigger
+        public static final Button kRotateDSS        = XboxController.Button.kY;  // Y Button
+        public static final Button kRotateGrid       = XboxController.Button.kB;  // B Button
+        public static final Button kAutoLevel        = XboxController.Button.kLeftBumper;
 
         public static final int kOperatorControllerPort = 1;
 
-        public static final int kOperatorIntakeCone = 2; // Left Trigger
-        public static final int kOperatorEjectCone  = 6; // Right Button
-        public static final int kOperatorIntakeCube = 5; // Left Button
-        public static final int kOperatorEjectCube  = 3; // Right Trigger
+        public static final Axis   kOperatorIntakeCone = XboxController.Axis.kLeftTrigger; // Left Trigger
+        public static final Button kOperatorEjectCone  = XboxController.Button.kRightBumper; // Right Button
+        public static final Button kOperatorIntakeCube = XboxController.Button.kLeftBumper; // Left Button
+        public static final Axis   kOperatorEjectCube  = XboxController.Axis.kRightTrigger; // Right Trigger
 
-        public static final int kOperatorHighArm       = 4; // Y Button
-        public static final int kOperatorMidArm        = 3; // X Button
-        public static final int kOperatorLowArm        = 1; // A Button
-        public static final int kOperatorSubstationArm = 2; // B Button
-        public static final int kOperatorArmAxis       = 5; // Right Y Axis
+        public static final Button kOperatorRetractIntake = XboxController.Button.kStart; // Start Button
+        public static final Button kOperatorExtendIntake  = XboxController.Button.kBack; // Back Button
+
+        public static final Button kOperatorHighArm       = XboxController.Button.kY; // Y Button
+        public static final Button kOperatorMidArm        = XboxController.Button.kX; // X Button
+        public static final Button kOperatorLowArm        = XboxController.Button.kA; // A Button
+        public static final Button kOperatorSubstationArm = XboxController.Button.kB; // B Button
+        public static final Axis   kOperatorArmAxis       = XboxController.Axis.kRightY; // Right Y Axis
 
     }
 
