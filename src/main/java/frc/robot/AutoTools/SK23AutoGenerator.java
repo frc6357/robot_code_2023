@@ -89,8 +89,6 @@ public class SK23AutoGenerator
             eventMap.put("Intake Cube", null);
             eventMap.put("Eject Cube", null);
 
-            eventMap.put("Stop Intake", null);
-
             eventMap.put("Extend Intake", null);
             eventMap.put("Retract Intake", null);
         }

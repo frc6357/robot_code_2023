@@ -1,9 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.utils.CANPort;
+
+import static edu.wpi.first.wpilibj.XboxController.Axis.*;
+import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 public class Ports
 {
@@ -48,32 +50,32 @@ public class Ports
         public static final int kDriverControllerPort = 0;
 
         // Axes for driving
-        public static final Axis kVelocityXPort     = XboxController.Axis.kLeftY; // Left Y Axis
-        public static final Axis kVelocityYPort     = XboxController.Axis.kLeftX; // Left X Axis
-        public static final Axis kVelocityOmegaPort = XboxController.Axis.kRightX; // Right X Axis
+        public static final Axis kVelocityXPort     = kLeftY;
+        public static final Axis kVelocityYPort     = kLeftX;
+        public static final Axis kVelocityOmegaPort = kRightX;
 
         // Buttons for driving
-        public static final Button kResetGyro        = XboxController.Button.kX;  // X Button
-        public static final Axis   kRobotCentricMode = XboxController.Axis.kLeftTrigger;  // Left Trigger
-        public static final Button kRotateDSS        = XboxController.Button.kY;  // Y Button
-        public static final Button kRotateGrid       = XboxController.Button.kB;  // B Button
-        public static final Button kAutoLevel        = XboxController.Button.kLeftBumper;
+        public static final Button kResetGyro        = kX;
+        public static final Axis   kRobotCentricMode = kLeftTrigger;
+        public static final Button kRotateDSS        = kY;
+        public static final Button kRotateGrid       = kB;
+        public static final Button kAutoLevel        = kLeftBumper;
 
         public static final int kOperatorControllerPort = 1;
 
-        public static final Axis   kOperatorIntakeCone = XboxController.Axis.kLeftTrigger; // Left Trigger
-        public static final Button kOperatorEjectCone  = XboxController.Button.kRightBumper; // Right Button
-        public static final Button kOperatorIntakeCube = XboxController.Button.kLeftBumper; // Left Button
-        public static final Axis   kOperatorEjectCube  = XboxController.Axis.kRightTrigger; // Right Trigger
+        public static final Axis   kOperatorIntakeCone = kLeftTrigger;
+        public static final Button kOperatorEjectCone  = kRightBumper;
+        public static final Button kOperatorIntakeCube = kLeftBumper;
+        public static final Axis   kOperatorEjectCube  = kRightTrigger;
 
-        public static final Button kOperatorRetractIntake = XboxController.Button.kStart; // Start Button
-        public static final Button kOperatorExtendIntake  = XboxController.Button.kBack; // Back Button
+        public static final Button kOperatorRetractIntake = kStart;
+        public static final Button kOperatorExtendIntake  = kBack;
 
-        public static final Button kOperatorHighArm       = XboxController.Button.kY; // Y Button
-        public static final Button kOperatorMidArm        = XboxController.Button.kX; // X Button
-        public static final Button kOperatorLowArm        = XboxController.Button.kA; // A Button
-        public static final Button kOperatorSubstationArm = XboxController.Button.kB; // B Button
-        public static final Axis   kOperatorArmAxis       = XboxController.Axis.kRightY; // Right Y Axis
+        public static final Button kOperatorHighArm       = kY;
+        public static final Button kOperatorMidArm        = kX;
+        public static final Button kOperatorLowArm        = kA;
+        public static final Button kOperatorSubstationArm = kB;
+        public static final Axis   kOperatorArmAxis       = kRightY;
 
     }
 
@@ -82,7 +84,7 @@ public class Ports
      */
     public static class DrivePorts
     {
-        private static final String busName = "";
+        private static final String busName = "DriveCAN";
 
         // CAN IDs for the drive motors on the swerve module
         public static final CANPort kFrontLeftDriveMotorPort  = new CANPort(10, busName);
@@ -102,6 +104,7 @@ public class Ports
         public static final CANPort kFrontRightTurningEncoderPort = new CANPort(32, busName);
         public static final CANPort kRearRightTurningEncoderPort  = new CANPort(33, busName);
 
-        public static final CANPort kPigeonPort = new CANPort(25, "DriveCAN");
+        // CAN ID for IMU
+        public static final CANPort kPigeonPort = new CANPort(25, busName);
     }
 }
