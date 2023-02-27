@@ -14,6 +14,9 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,6 +38,8 @@ import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
 import frc.robot.utils.filters.FilteredXboxController;
 
+import static frc.robot.Constants.CameraConstants.*;
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -44,12 +49,13 @@ import frc.robot.utils.filters.FilteredXboxController;
 public class RobotContainer
 {
     // The robot's subsystems
-    private final SK23Drive driveSubsystem = new SK23Drive();
     // Optional subsystems are only instantiated if the Subsystem.json
     // file determines that the subsystem is present on the robot
+    private Optional<SK23Drive>  driveSubsystem  = Optional.empty();
     private Optional<SK23Intake> intakeSubsystem = Optional.empty();
     private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
+    private UsbCamera            driverCamera;
 
     // The driver's controller
     private final FilteredXboxController driveController =
@@ -63,7 +69,7 @@ public class RobotContainer
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
 
     // The class used to create all PathPlanner Autos
-    private final SK23AutoGenerator autoGenerator;
+    private SK23AutoGenerator autoGenerator;
     // An option box on shuffleboard to choose the auto path
     SendableChooser<Command> autoCommandSelector = new SendableChooser<Command>();
 
@@ -77,10 +83,6 @@ public class RobotContainer
 
         // Configure the button bindings
         configureButtonBindings();
-
-        // Configures the autonomous paths and smartdashboard chooser
-        autoGenerator = new SK23AutoGenerator(driveSubsystem, armSubsystem, intakeSubsystem);
-        configureAutos();
     }
 
     /**
@@ -102,17 +104,35 @@ public class RobotContainer
 
             // Instantiating subsystems if they are present
             // This is decided by looking at Subsystems.json
+            if (subsystems.isDrivePresent())
+            {
+                driveSubsystem = Optional.of(new SK23Drive());
+
+                // Configures the autonomous paths and smartdashboard chooser
+                autoGenerator = new SK23AutoGenerator(driveSubsystem.get(), armSubsystem, intakeSubsystem);
+                autoGenerator.displayAllPathCommands(
+                    (name, command) -> autoCommandSelector.addOption(name, command));
+                SmartDashboard.putData("Auto Chooser", autoCommandSelector);
+            }
+            if (subsystems.isCameraPresent())
+            {
+                // Start the driver camera streaming.
+                driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
+                driverCamera.setResolution(kDriverCameraResolutionX, kDriverCameraResolutionY);
+                driverCamera.setFPS(kDriverCameraFPS);
+                driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+            }
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem = Optional.of(new SK23Intake());
             }
-            if (subsystems.isVisionPresent())
-            {
-                visionSubsystem = Optional.of(new SK23Vision());
-            }
             if (subsystems.isArmPresent())
             {
                 armSubsystem = Optional.of(new SK23Arm());
+            }
+            if (subsystems.isVisionPresent())
+            {
+                visionSubsystem = Optional.of(new SK23Vision());
             }
         }
         catch (IOException e)
@@ -132,7 +152,6 @@ public class RobotContainer
 
         // Adding all the binding classes to the list
         buttonBinders.add(new SK23DriveBinder(driveController, driveSubsystem));
-
         buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
         buttonBinders.add(new SK23ArmBinder(operatorController, armSubsystem));
 
@@ -142,16 +161,6 @@ public class RobotContainer
             subsystemGroup.bindButtons();
         }
 
-    }
-
-    /**
-     * Displays all the auto paths that can be run to the ShuffleBoard window
-     */
-    private void configureAutos()
-    {
-        autoGenerator.displayAllPathCommands(
-            (name, command) -> autoCommandSelector.addOption(name, command));
-        SmartDashboard.putData("Auto Chooser", autoCommandSelector);
     }
 
     /**

@@ -4,13 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.CameraConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions
@@ -23,7 +19,6 @@ public class Robot extends TimedRobot
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
-    private UsbCamera      m_driverCamera;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -35,13 +30,6 @@ public class Robot extends TimedRobot
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-
-        // Start the driver camera streaming.
-        m_driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
-        m_driverCamera.setResolution(CameraConstants.kDriverCameraResolutionX,
-            CameraConstants.kDriverCameraResolutionY);
-        m_driverCamera.setFPS(CameraConstants.kDriverCameraFPS);
-        m_driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     }
 
     /**
