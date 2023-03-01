@@ -29,11 +29,10 @@ import frc.robot.bindings.CommandBinder;
 import frc.robot.bindings.SK23ArmBinder;
 import frc.robot.bindings.SK23DriveBinder;
 import frc.robot.bindings.SK23IntakeBinder;
-//import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
-import frc.robot.subsystems.SK23Vision;
+//import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
 import frc.robot.utils.filters.FilteredXboxController;
@@ -53,8 +52,9 @@ public class RobotContainer
     // file determines that the subsystem is present on the robot
     private Optional<SK23Drive>  driveSubsystem  = Optional.empty();
     private Optional<SK23Intake> intakeSubsystem = Optional.empty();
-    private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
+    // TODO: Uncomment this when we want to start using the vision subsystem
+    //private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private UsbCamera            driverCamera;
 
     // The driver's controller
@@ -130,10 +130,11 @@ public class RobotContainer
             {
                 armSubsystem = Optional.of(new SK23Arm());
             }
-            if (subsystems.isVisionPresent())
-            {
-                visionSubsystem = Optional.of(new SK23Vision());
-            }
+            // TODO: Uncomment this when we start using the vision subsystem.
+            // if (subsystems.isVisionPresent())
+            // {
+            //     visionSubsystem = Optional.of(new SK23Vision());
+            // }
         }
         catch (IOException e)
         {
@@ -160,7 +161,6 @@ public class RobotContainer
         {
             subsystemGroup.bindButtons();
         }
-
     }
 
     /**
