@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -19,11 +20,11 @@ public class SK23IntakeBinder implements CommandBinder
     Optional<SK23Intake> subsystem;
 
     // Driver button command
-    private final JoystickButton intakeConeBtn; // (Hold) Left Trigger
+    private final Trigger        intakeConeBtn; // (Hold) Left Trigger
     private final JoystickButton ejectConeBtn; // (Hold) Right Button
 
     private final JoystickButton intakeCubeBtn; // (Hold) Left Button
-    private final JoystickButton ejectCubeBtn; // (Hold) Right Trigger
+    private final Trigger        ejectCubeBtn; // (Hold) Right Trigger
 
     private final JoystickButton retractIntakeBtn; // (Press) Start Button
     private final JoystickButton extendIntakeBtn; // (Press) Back Button
@@ -44,13 +45,13 @@ public class SK23IntakeBinder implements CommandBinder
         this.subsystem = subsystem;
 
         // uses valeus from the xbox controller to control the port values
-        intakeConeBtn = new JoystickButton(controller, kOperatorIntakeCone.value);
-        ejectConeBtn = new JoystickButton(controller, kOperatorEjectCone.value);
-        intakeCubeBtn = new JoystickButton(controller, kOperatorIntakeCube.value);
-        ejectCubeBtn = new JoystickButton(controller, kOperatorEjectCube.value);
+        intakeConeBtn = controller.leftTrigger();
+        ejectConeBtn = new JoystickButton(controller.getHID(), kOperatorEjectCone.value);
+        intakeCubeBtn = new JoystickButton(controller.getHID(), kOperatorIntakeCube.value);
+        ejectCubeBtn = controller.rightTrigger();
 
-        retractIntakeBtn = new JoystickButton(controller, kOperatorRetractIntake.value);
-        extendIntakeBtn = new JoystickButton(controller, kOperatorExtendIntake.value);
+        retractIntakeBtn = new JoystickButton(controller.getHID(), kOperatorRetractIntake.value);
+        extendIntakeBtn = new JoystickButton(controller.getHID(), kOperatorExtendIntake.value);
 
     }
 

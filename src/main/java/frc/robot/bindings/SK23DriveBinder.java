@@ -43,11 +43,11 @@ public class SK23DriveBinder implements CommandBinder
         this.controller = controller;
         this.subsystem = subsystem;
 
-        resetGyro = new JoystickButton(controller, kResetGyro.value);
-        robotCentric = new JoystickButton(controller, kRobotCentricMode.value);
-        autoBalance = new JoystickButton(controller, kAutoLevel.value);
-        rotateDSS = new JoystickButton(controller, kRotateDSS.value);
-        rotateGrid = new JoystickButton(controller, kRotateGrid.value);
+        resetGyro = new JoystickButton(controller.getHID(), kResetGyro.value);
+        robotCentric = new JoystickButton(controller.getHID(), kRobotCentricMode.value);
+        autoBalance = new JoystickButton(controller.getHID(), kAutoLevel.value);
+        rotateDSS = new JoystickButton(controller.getHID(), kRotateDSS.value);
+        rotateGrid = new JoystickButton(controller.getHID(), kRotateGrid.value);
 
     }
 

@@ -63,10 +63,10 @@ public class Ports
 
         public static final int kOperatorControllerPort = 1;
 
-        public static final Axis   kOperatorIntakeCone = kLeftTrigger;
+        public static final Axis   kOperatorIntakeCone = kLeftTrigger; // Hardcoded in SK23IntakeBinder 
         public static final Button kOperatorEjectCone  = kRightBumper;
         public static final Button kOperatorIntakeCube = kLeftBumper;
-        public static final Axis   kOperatorEjectCube  = kRightTrigger;
+        public static final Axis   kOperatorEjectCube  = kRightTrigger; // Hardcoded in SK23IntakeBinder
 
         public static final Button kOperatorRetractIntake = kStart;
         public static final Button kOperatorExtendIntake  = kBack;

@@ -3,6 +3,7 @@ package frc.robot.bindings;
 import static frc.robot.Constants.ArmConstants.isJoystickReversed;
 import static frc.robot.Ports.OperatorPorts.kOperatorLowArm;
 import static frc.robot.Ports.OperatorPorts.kOperatorMidArm;
+import static frc.robot.Ports.OperatorPorts.kOperatorHighArm;
 import static frc.robot.Ports.OperatorPorts.kOperatorSubstationArm;
 
 import java.util.Optional;
@@ -37,10 +38,10 @@ public class SK23ArmBinder implements CommandBinder
     {
         this.controller = controller;
         this.subsystem = subsystem;
-        LowButton = new JoystickButton(controller, kOperatorLowArm.value);
-        MidButton = new JoystickButton(controller, kOperatorMidArm.value);
-        HighButton = new JoystickButton(controller, kOperatorLowArm.value);
-        SubstationButton = new JoystickButton(controller, kOperatorSubstationArm.value);
+        LowButton = new JoystickButton(controller.getHID(), kOperatorLowArm.value);
+        MidButton = new JoystickButton(controller.getHID(), kOperatorMidArm.value);
+        HighButton = new JoystickButton(controller.getHID(), kOperatorHighArm.value);
+        SubstationButton = new JoystickButton(controller.getHID(), kOperatorSubstationArm.value);
 
     }
 
