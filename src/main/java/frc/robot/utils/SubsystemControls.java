@@ -83,7 +83,7 @@ public class SubsystemControls
      */
     public boolean isCameraPresent()
     {
-        return vision;
+        return camera;
     }
 
     /**
