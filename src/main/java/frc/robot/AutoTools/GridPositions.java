@@ -12,26 +12,52 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
  */
 public enum GridPositions
 {
-    LeftGrid_LeftCone(4.98),
-    LeftGrid_MiddleCube(4.42),
-    LeftGrid_RightCone(3.86),
+    LeftGrid_LeftCone(8, 0),
+    LeftGrid_MiddleCube(7, 1),
+    LeftGrid_RightCone(6, 2),
 
-    MiddleGrid_LeftCone(3.31),
-    MiddleGrid_MiddleCube(2.74),
-    MiddleGrid_RightCone(2.18),
+    MiddleGrid_LeftCone(5, 3),
+    MiddleGrid_MiddleCube(4, 4),
+    MiddleGrid_RightCone(3, 5),
 
-    RightGrid_LeftCone(1.62),
-    RightGrid_MiddleCube(1.05),
-    RightGrid_RightCone(0.5);
-
+    RightGrid_LeftCone(2, 6),
+    RightGrid_MiddleCube(1, 7),
+    RightGrid_RightCone(0, 8);
 
     private final double fieldWidth = Units.inchesToMeters(315.5);
-    private final double lengthFromFieldBottom;
     private final double lengthFromSide = 1.9;
 
-    private GridPositions(double length)
+    /**
+     * The position of the scoring position from the bottom of the field when using the
+     * blue alliance controller mapping
+     */
+    private final int      positionBlue;
+    /**
+     * The position of the scoring position from the bottom of the field when using the
+     * blue alliance controller mapping
+     */
+    private final int      positionRed;
+    /**
+     * An array that takes in the position from the bottom and hands back the distance
+     * from the field bottom
+     */
+    private final double[] positionFromBottom =
+            {0.5, 1.05, 1.62, 2.18, 2.74, 3.31, 3.86, 4.42, 4.98};
+
+    /**
+     * Initializes the enum to contain the position of the grid for both alliance colors
+     * 
+     * @param positionFromBottomBlue
+     *            The position of the scoring location from the bottom of the field when
+     *            standing at the blue alliance driver station
+     * @param positionFromBottomRed
+     *            The position of the scoring location from the bottom of the field when
+     *            standing at the red alliance driver station
+     */
+    private GridPositions(int positionFromBottomBlue, int positionFromBottomRed)
     {
-        this.lengthFromFieldBottom = length;
+        this.positionBlue = positionFromBottomBlue;
+        this.positionRed = positionFromBottomRed;
     }
 
     /**
@@ -45,15 +71,18 @@ public enum GridPositions
      */
     public Pose2d getPose(Alliance color)
     {
+        double yPos;
+
         if (color.equals(Alliance.Red))
         {
-            return new Pose2d(lengthFromSide, fieldWidth - lengthFromFieldBottom,
-                new Rotation2d(180));
+            yPos = fieldWidth - positionFromBottom[positionRed];
         }
         else
         {
-            return new Pose2d(lengthFromSide, lengthFromFieldBottom, new Rotation2d(180));
+            yPos = positionFromBottom[positionBlue];
         }
+
+        return new Pose2d(lengthFromSide, yPos, new Rotation2d(180));
     }
 
     /**
