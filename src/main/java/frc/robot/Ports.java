@@ -56,13 +56,14 @@ public class Ports
 
         // Buttons for driving
         public static final Button kResetGyro        = kX;
-        public static final Axis   kRobotCentricMode = kLeftTrigger;
+        public static final Axis   kRobotCentricMode = kRightTrigger;
         public static final Button kRotateDSS        = kY;
-        public static final Button kRotateGrid       = kB;
+        public static final Button kRotateGrid       = kA;
         public static final Button kAutoLevel        = kLeftBumper;
 
         public static final int kOperatorControllerPort = 1;
 
+        // Buttons for intake
         public static final Axis   kOperatorIntakeCone = kLeftTrigger; // Hardcoded in SK23IntakeBinder 
         public static final Button kOperatorEjectCone  = kRightBumper;
         public static final Button kOperatorIntakeCube = kLeftBumper;
@@ -71,6 +72,7 @@ public class Ports
         public static final Button kOperatorRetractIntake = kStart;
         public static final Button kOperatorExtendIntake  = kBack;
 
+        // Buttons for arm
         public static final Button kOperatorHighArm       = kY;
         public static final Button kOperatorMidArm        = kX;
         public static final Button kOperatorLowArm        = kA;

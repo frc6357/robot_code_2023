@@ -44,7 +44,7 @@ public class SK23IntakeBinder implements CommandBinder
         this.controller = controller;
         this.subsystem = subsystem;
 
-        // uses valeus from the xbox controller to control the port values
+        // uses values from the xbox controller to control the port values
         intakeConeBtn = controller.leftTrigger();
         ejectConeBtn = new JoystickButton(controller.getHID(), kOperatorEjectCone.value);
         intakeCubeBtn = new JoystickButton(controller.getHID(), kOperatorIntakeCube.value);

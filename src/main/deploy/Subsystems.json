@@ -1,5 +1,5 @@
 {
-    "drive"         : false,
+    "drive"         : true,
     "arm"           : true,
     "intake"        : true,
     "camera"        : false,

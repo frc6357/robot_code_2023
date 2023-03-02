@@ -28,9 +28,6 @@ public final class Constants
     /** Constants that define characteristics for the intake */
     public static class IntakeConstants
     {
-
-        // intake speed = 0.8
-        // eject speed =
         public static final double kIntakeConeSpeed = 0.8;
         public static final double kEjectConeSpeed  = 0.4;
         public static final double kIntakeCubeSpeed = -0.8;
@@ -88,7 +85,7 @@ public final class Constants
         public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
         public static final int    periodicPerSecond = 2;   // Test Value Number of periodic calls per second
 
-        public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
+        public static final boolean isJoystickReversed = false;  // Determines if the joystick movement is reversed
         public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
     }
 
