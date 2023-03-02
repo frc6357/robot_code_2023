@@ -21,10 +21,10 @@ public class SK23IntakeBinder implements CommandBinder
 
     // Driver button command
     private final Trigger        intakeConeBtn; // (Hold) Left Trigger
-    private final JoystickButton ejectConeBtn; // (Hold) Right Button
+    private final Trigger ejectConeBtn; // (Hold) Right Button
 
     private final JoystickButton intakeCubeBtn; // (Hold) Left Button
-    private final Trigger        ejectCubeBtn; // (Hold) Right Trigger
+    private final JoystickButton        ejectCubeBtn; // (Hold) Right Trigger
 
     private final JoystickButton retractIntakeBtn; // (Press) Start Button
     private final JoystickButton extendIntakeBtn; // (Press) Back Button
@@ -46,9 +46,9 @@ public class SK23IntakeBinder implements CommandBinder
 
         // uses values from the xbox controller to control the port values
         intakeConeBtn = controller.leftTrigger();
-        ejectConeBtn = new JoystickButton(controller.getHID(), kOperatorEjectCone.value);
+        ejectCubeBtn = new JoystickButton(controller.getHID(), kOperatorEjectCube.value);
         intakeCubeBtn = new JoystickButton(controller.getHID(), kOperatorIntakeCube.value);
-        ejectCubeBtn = controller.rightTrigger();
+        ejectConeBtn = controller.rightTrigger();
 
         retractIntakeBtn = new JoystickButton(controller.getHID(), kOperatorRetractIntake.value);
         extendIntakeBtn = new JoystickButton(controller.getHID(), kOperatorExtendIntake.value);
