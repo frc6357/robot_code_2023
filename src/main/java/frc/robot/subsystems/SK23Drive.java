@@ -182,6 +182,20 @@ public class SK23Drive extends SubsystemBase
             m_rearRight.getPosition()};
     }
 
+    public SwerveModuleState[] getmoduleStates()
+    {
+        return new SwerveModuleState[]{
+            m_frontLeft.getState(),
+            m_frontRight.getState(),
+            m_rearLeft.getState(),
+            m_rearRight.getState()};
+    }
+
+    public ChassisSpeeds getChassisState()
+    {
+        return kDriveKinematics.toChassisSpeeds(getmoduleStates());
+    }
+
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders()
     {

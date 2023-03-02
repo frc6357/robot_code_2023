@@ -23,6 +23,9 @@ import frc.robot.utils.files.FileScanner;
 import static frc.robot.Constants.AutoConstants.*;
 import static frc.robot.Constants.DriveConstants.kDriveKinematics;
 
+/**
+ * The class the creates all the autonomous commands for the 2023 Charged Up FRC game
+ */
 public class SK23AutoGenerator
 {
 
@@ -66,7 +69,9 @@ public class SK23AutoGenerator
     private void createEventMap()
     {
         // Create the drivetrain commands
-        eventMap.put("Level", new AutoBalanceCommand(() -> {return 0.0;}, driveSubsystem));
+        eventMap.put("Level", new AutoBalanceCommand(() -> {
+            return 0.0;
+        }, driveSubsystem));
 
         // TODO: Define commands for these markers
         // Creates the arm commands if the arm subsystem is present (not null)
