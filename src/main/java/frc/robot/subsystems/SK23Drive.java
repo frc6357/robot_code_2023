@@ -75,6 +75,7 @@ public class SK23Drive extends SubsystemBase
     public SK23Drive()
     {
         m_gyro.reset();
+        zeroHeading();
     }
 
     @Override

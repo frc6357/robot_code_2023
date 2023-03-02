@@ -17,8 +17,8 @@ public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
     DoubleSolenoid intakeExtender =
-            new DoubleSolenoid(Ports.IntakePorts.kPneumaticsModule, PneumaticsModuleType.CTREPCM,
-                Ports.IntakePorts.kIntakeForwardChannel, Ports.IntakePorts.kIntakeReverseChannel);
+            new DoubleSolenoid(Ports.IntakePorts.kPneumaticsModule, PneumaticsModuleType.REVPH,
+                Ports.IntakePorts.kIntakeForwardChannel, Ports.IntakePorts.kIntakeReverseChannel); 
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);

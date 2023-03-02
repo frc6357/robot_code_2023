@@ -28,10 +28,10 @@ public final class Constants
     /** Constants that define characteristics for the intake */
     public static class IntakeConstants
     {
-        public static final double kIntakeConeSpeed = 0.8;
-        public static final double kEjectConeSpeed  = 0.4;
-        public static final double kIntakeCubeSpeed = -0.8;
-        public static final double kEjectCubeSpeed  = -0.4;
+        public static final double kIntakeConeSpeed = 1;
+        public static final double kEjectConeSpeed  = -0.8;
+        public static final double kIntakeCubeSpeed = -1;
+        public static final double kEjectCubeSpeed  = 0.6;
 
         // TODO: Check and see if this is the correct number for the current limit.
         // Current limit for the neo 550 motors for the intake
@@ -108,15 +108,15 @@ public final class Constants
         public static final boolean kRearRightDriveMotorReversed    = true;
 
         // Offset for the CANCoders in Degrees
-        public static final double kFrontLeftAngleOffset  = -327.8;
-        public static final double kRearLeftAngleOffset   = -18.8;
-        public static final double kFrontRightAngleOffset = -2.8;
-        public static final double kRearRightAngleOffset  = -337.9;
+        public static final double kFrontLeftAngleOffset  = -326.162;
+        public static final double kRearLeftAngleOffset   = -247.412;
+        public static final double kFrontRightAngleOffset = -1.934;
+        public static final double kRearRightAngleOffset  = -108.896;
 
         /** Distance between centers of right and left wheels on robot */
-        public static final double kTrackWidth = 0.60325;
+        public static final double kTrackWidth = 0.5588;
         /** Distance between front and back wheels on robot */
-        public static final double kWheelBase  = 0.60325;
+        public static final double kWheelBase  = 0.5588;
 
         /** Contains position of the swerve modules relative to the robot center */
         public static final SwerveDriveKinematics kDriveKinematics =
@@ -137,6 +137,7 @@ public final class Constants
 
         /** The max speed the drive wheels should be allowed to go */
         public static final double kMaxSpeedMetersPerSecond = 5;
+        public static final double kMaxRotationDegreesPerSecond = 360.0;
     }
 
     /** Constants that define each swerve module as an individual */
@@ -171,7 +172,9 @@ public final class Constants
         // Controller constraints
         public static final double kDriveGain        = 0.95;
         public static final double kRotationGain     = 0.95;
-        public static final double kJoystickDeadband = 0.01;
+        public static final double kJoystickDeadband = 0.15;
+
+        public static final double kAccelLimit = 2;
     }
 
     /** Constants that define the settings of the driver camera */

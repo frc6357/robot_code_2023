@@ -30,11 +30,8 @@ public class DefaultSwerveCommand extends CommandBase
     public void execute()
     {
         subsystem.drive(
-            // Left Y Axis
-            controller.getFilteredAxis(kVelocityYPort.value),
-            // Left X Axis
             controller.getFilteredAxis(kVelocityXPort.value),
-            // Right X Axis
+            controller.getFilteredAxis(kVelocityYPort.value),
             controller.getFilteredAxis(kVelocityOmegaPort.value), !robotCentric.get());
     }
 

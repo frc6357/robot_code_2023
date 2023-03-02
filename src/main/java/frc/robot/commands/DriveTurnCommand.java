@@ -60,10 +60,8 @@ public class DriveTurnCommand extends CommandBase
         rot = Math.abs(rot) > maxRot ? Math.copySign(maxRot, rot) : rot;
 
         subsystem.drive(
-            // Left Y Axis
-            controller.getFilteredAxis(kVelocityYPort.value),
-            // Left X Axis
-            controller.getFilteredAxis(kVelocityXPort.value), rot, !robotCentric.get());
+            controller.getFilteredAxis(kVelocityXPort.value),
+            controller.getFilteredAxis(kVelocityYPort.value), rot, !robotCentric.get());
     }
 
     // Called once the command ends or is interrupted.

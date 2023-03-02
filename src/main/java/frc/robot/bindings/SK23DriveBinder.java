@@ -1,29 +1,25 @@
 package frc.robot.bindings;
 
-import static frc.robot.Constants.OIConstants.kDriveGain;
-import static frc.robot.Constants.OIConstants.kJoystickDeadband;
-import static frc.robot.Constants.OIConstants.kRotationGain;
-import static frc.robot.Ports.OperatorPorts.kAutoLevel;
-import static frc.robot.Ports.OperatorPorts.kResetGyro;
-import static frc.robot.Ports.OperatorPorts.kRotateDSS;
-import static frc.robot.Ports.OperatorPorts.kRotateGrid;
-import static frc.robot.Ports.OperatorPorts.kVelocityOmegaPort;
-import static frc.robot.Ports.OperatorPorts.kVelocityXPort;
-import static frc.robot.Ports.OperatorPorts.kVelocityYPort;
+import static frc.robot.Constants.OIConstants.*;
+import static frc.robot.Ports.OperatorPorts.*;
+import static frc.robot.AutoTools.GridPositions.*;
 
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DefaultSwerveCommand;
 import frc.robot.commands.DriveTurnCommand;
+import frc.robot.commands.OnTheFlyCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.FilteredXboxController;
+import frc.robot.utils.filters.SlewRateFilter;
 
 public class SK23DriveBinder implements CommandBinder
 {
@@ -35,6 +31,13 @@ public class SK23DriveBinder implements CommandBinder
     private final JoystickButton autoBalance;
     private final JoystickButton rotateDSS;
     private final JoystickButton rotateGrid;
+
+    // Buttons for On The Fly Driving
+    private final JoystickButton GridLeftModifier;
+    private final JoystickButton GridRightModifier;
+    private final JoystickButton GPLeftButton;
+    private final JoystickButton GPMiddleButton;
+    private final JoystickButton GPRightButton;
 
     FilteredXboxController controller;
 
@@ -56,6 +59,12 @@ public class SK23DriveBinder implements CommandBinder
         autoBalance = new JoystickButton(controller.getHID(), kAutoLevel.value);
         rotateDSS = new JoystickButton(controller.getHID(), kRotateDSS.value);
         rotateGrid = new JoystickButton(controller.getHID(), kRotateGrid.value);
+
+        GridLeftModifier = new JoystickButton(controller.getHID(), kGridLeftModifier.value);
+        GridRightModifier = new JoystickButton(controller.getHID(), kGridRightModifier.value);
+        GPLeftButton = new JoystickButton(controller.getHID(), kGPLeftButton.value);
+        GPMiddleButton = new JoystickButton(controller.getHID(), kGPMiddleButton.value);
+        GPRightButton = new JoystickButton(controller.getHID(), kGPRightButton.value);
 
     }
 
@@ -86,6 +95,23 @@ public class SK23DriveBinder implements CommandBinder
 
             drive.setDefaultCommand(
                 new DefaultSwerveCommand(controller, robotCentric::getAsBoolean, drive));
+
+            configureOTFCommands(drive);
         }
+    }
+
+    private void configureOTFCommands(SK23Drive drive)
+    {
+        GridLeftModifier.and(GPLeftButton).whileTrue(new OnTheFlyCommand(LeftGrid_LeftCone, drive));
+        GridLeftModifier.and(GPMiddleButton).whileTrue(new OnTheFlyCommand(LeftGrid_MiddleCube, drive));
+        GridLeftModifier.and(GPRightButton).whileTrue(new OnTheFlyCommand(LeftGrid_RightCone, drive));
+
+        GridLeftModifier.and(GridRightModifier).and(GPLeftButton).whileTrue(new OnTheFlyCommand(MiddleGrid_LeftCone, drive));
+        GridLeftModifier.and(GridRightModifier).and(GPMiddleButton).whileTrue(new OnTheFlyCommand(MiddleGrid_MiddleCube, drive));
+        GridLeftModifier.and(GridRightModifier).and(GPRightButton).whileTrue(new OnTheFlyCommand(MiddleGrid_RightCone, drive));
+
+        GridRightModifier.and(GPLeftButton).whileTrue(new OnTheFlyCommand(RightGrid_LeftCone, drive));
+        GridRightModifier.and(GPMiddleButton).whileTrue(new OnTheFlyCommand(RightGrid_MiddleCube, drive));
+        GridRightModifier.and(GPRightButton).whileTrue(new OnTheFlyCommand(RightGrid_RightCone, drive));
     }
 }

@@ -37,7 +37,7 @@ public class Ports
         public static final int kIntakeReverseChannel = 1;
 
         //Intake Pneumatic Module Type
-        public static final int kPneumaticsModule = 42;
+        public static final int kPneumaticsModule = 1;
 
     }
 
@@ -59,15 +59,22 @@ public class Ports
         public static final Axis   kRobotCentricMode = kRightTrigger;
         public static final Button kRotateDSS        = kY;
         public static final Button kRotateGrid       = kA;
-        public static final Button kAutoLevel        = kLeftBumper;
+        public static final Button kAutoLevel        = kBack;
+
+        // Buttons for On The Fly Driving
+        public static final Button kGridLeftModifier  = kLeftBumper;
+        public static final Button kGridRightModifier = kLeftBumper;
+        public static final Button kGPLeftButton      = kX;
+        public static final Button kGPMiddleButton    = kA;
+        public static final Button kGPRightButton     = kB;
 
         public static final int kOperatorControllerPort = 1;
 
         // Buttons for intake
-        public static final Axis   kOperatorIntakeCone = kLeftTrigger; // Hardcoded in SK23IntakeBinder 
-        public static final Button kOperatorEjectCone  = kRightBumper;
+        public static final Axis   kOperatorIntakeCone = kLeftTrigger;
+        public static final Axis   kOperatorEjectCone  = kRightTrigger;
         public static final Button kOperatorIntakeCube = kLeftBumper;
-        public static final Axis   kOperatorEjectCube  = kRightTrigger; // Hardcoded in SK23IntakeBinder
+        public static final Button kOperatorEjectCube  = kRightBumper;
 
         public static final Button kOperatorRetractIntake = kStart;
         public static final Button kOperatorExtendIntake  = kBack;
