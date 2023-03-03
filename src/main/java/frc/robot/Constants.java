@@ -70,20 +70,20 @@ public final class Constants
     {
         // Arm Constants
         //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = 4.0;        // Test Gear Ratio
-        public static final double kArmMotorP = 0.17;       // Test Value for P
+        public static final double kGearRatio = (75.0 * (36.0/24.0)) * 4.0;        // Test Gear Ratio
+        public static final double kArmMotorP = 0.05;       // Test Value for P
         public static final double kArmMotorI = 0.0005;     // Test Value for I
         public static final double kArmMotorD = 0.0;        // Test Value for D
 
         public static final double kHighPosition       = 45.0;  // Test Value for High Position
         public static final double kMidPosition        = 25.0;  // Test Value for Mid Position
         public static final double kLowPosition        = 0.0;   // Test Value for Low Position
-        public static final double kSubstationPosition = 0.0;   // Test Value for Substation
+        public static final double kSubstationPosition = 10.0;   // Test Value for Substation
 
         public static final double kJoystickTime     = 1.0;     // Test Value for time between checking joystick in seconds
-        public static final double kJoystickChange   = 5.0;   // Test Value for Degrees moved per 1 kJoystickTime
+        public static final double kJoystickChange   = 2.0;   // Test Value for Degrees moved per 1 kJoystickTime
         public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
-        public static final int    periodicPerSecond = 2;   // Test Value Number of periodic calls per second
+        public static final int    periodicPerSecond = 50;   // Test Value Number of periodic calls per second
 
         public static final boolean isJoystickReversed = false;  // Determines if the joystick movement is reversed
         public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
