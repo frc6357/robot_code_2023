@@ -80,7 +80,7 @@ public final class Constants
         public static final double kLowPosition        = 0.0;   // Test Value for Low Position
         public static final double kSubstationPosition = 10.0;   // Test Value for Substation
 
-        public static final double kJoystickTime     = 1.0;     // Test Value for time between checking joystick in seconds
+        public static final double kJoystickTime     = 0.1;     // Test Value for time between checking joystick in seconds
         public static final double kJoystickChange   = 2.0;   // Test Value for Degrees moved per 1 kJoystickTime
         public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
         public static final int    periodicPerSecond = 50;   // Test Value Number of periodic calls per second
