@@ -105,5 +105,24 @@
   "maxVelocity": 3.0,
   "maxAcceleration": 1.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 1.2646661931818182,
+      "names": [
+        "Low Arm"
+      ]
+    },
+    {
+      "position": 1.5017045454545457,
+      "names": [
+        "Intake Cone"
+      ]
+    },
+    {
+      "position": 2.2729048295454537,
+      "names": [
+        "Mid Arm"
+      ]
+    }
+  ]
 }
