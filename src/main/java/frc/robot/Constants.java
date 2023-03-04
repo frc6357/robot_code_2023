@@ -78,15 +78,21 @@ public final class Constants
         public static final double kArmMotorMinOutput = -0.3;
 
         public static final double kHighPosition       = 90.0;  // Test Value for High Position
-        public static final double kMidPosition        = 45.0;  // Test Value for Mid Position
-        public static final double kLowPosition        = 12.0;   // Test Value for Low Position
-        public static final double kSubstationPosition = 10.0;   // Test Value for Substation
+        public static final double kMidPosition        = 76.0;  // Degrees for Mid Position
+        public static final double kLowPosition        = 23.0;  // Degrees for Low Position
+        public static final double kSubstationPosition = 92.0;  // Test Value for Substation
+
+        // Angle limits for the arm positions
+        public static final double kMaxAngle = 130; // Degrees
+        public static final double kMinAngle = 0;   // Degrees
 
         public static final double kJoystickChange   = 45.0;   // Manual setpoint value for degrees moved per second
         public static final double kJoystickDeadband = 0.3;  // Test Value Joystick position at which it begins to move
 
         public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
         public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
+
+        public static final double kAngleTolerance     = 5.0; // The tolerance for the arm position in both directions
     }
 
     /** Constants that define the drivetrain as a whole */

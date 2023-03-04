@@ -37,6 +37,9 @@ public class SK23Arm extends Arm
             case FloorPosition:
                 Arm.setTargetAngle(ArmConstants.kLowPosition);
                 break;
+            case ZeroPosition:
+                Arm.setTargetAngle(0);
+                break;
             case SubstationPosition:
                 Arm.setTargetAngle(ArmConstants.kSubstationPosition);
                 break;
@@ -50,7 +53,7 @@ public class SK23Arm extends Arm
 
     public boolean isAtTargetAngle()
     {
-        return Arm.getCurrentAngle() == Arm.getTargetAngle();
+        return Math.abs(Arm.getCurrentAngle() - Arm.getTargetAngle()) < ArmConstants.kAngleTolerance;
     }
 
     public double getCurrentAngle()
@@ -64,6 +67,14 @@ public class SK23Arm extends Arm
     public double getTargetAngle()
     {
         return Arm.getTargetAngle();
+    }
+
+    /**
+     * Sets the encoder position of the arm to read zero
+     */
+    public void resetAngle()
+    {
+        Arm.resetEncoder();
     }
 
     public void testInit(){

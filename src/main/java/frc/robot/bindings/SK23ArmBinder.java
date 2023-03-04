@@ -1,14 +1,14 @@
 package frc.robot.bindings;
 
-import static frc.robot.Constants.ArmConstants.isJoystickReversed;
-import static frc.robot.Ports.OperatorPorts.kOperatorLowArm;
-import static frc.robot.Ports.OperatorPorts.kOperatorMidArm;
-import static frc.robot.Ports.OperatorPorts.kOperatorHighArm;
-import static frc.robot.Ports.OperatorPorts.kOperatorSubstationArm;
+import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Ports.OperatorPorts.*;
 
 import java.util.Optional;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.subsystems.SK23Arm;
@@ -20,10 +20,13 @@ public class SK23ArmBinder implements CommandBinder
     Optional<SK23Arm> subsystem;
 
     // Arm button commands
-    private final JoystickButton LowButton;
-    private final JoystickButton MidButton;
-    private final JoystickButton HighButton;
-    private final JoystickButton SubstationButton;
+    private final Trigger LowButton;
+    private final Trigger MidButton;
+    private final Trigger HighButton;
+    private final Trigger SubstationButton;
+    private final Trigger zeroPositionButton;
+    private final Trigger resetPos;
+
     FilteredXboxController       controller;
 
     /**
@@ -38,11 +41,13 @@ public class SK23ArmBinder implements CommandBinder
     {
         this.controller = controller;
         this.subsystem = subsystem;
+        zeroPositionButton = new POVButton(controller.getHID(), kOperatorZeroPosition);
         LowButton = new JoystickButton(controller.getHID(), kOperatorLowArm.value);
         MidButton = new JoystickButton(controller.getHID(), kOperatorMidArm.value);
         HighButton = new JoystickButton(controller.getHID(), kOperatorHighArm.value);
         SubstationButton = new JoystickButton(controller.getHID(), kOperatorSubstationArm.value);
 
+        resetPos = new JoystickButton(controller.getHID(), kOperatorResetArmPos.value);
     }
 
     public void bindButtons()
@@ -53,11 +58,15 @@ public class SK23ArmBinder implements CommandBinder
 
             SK23Arm m_robotArm = subsystem.get();
 
+            zeroPositionButton.onTrue(new ArmButtonCommand(ArmAngleEnum.ZeroPosition, m_robotArm));
             LowButton.onTrue(new ArmButtonCommand(ArmAngleEnum.FloorPosition, m_robotArm));
             MidButton.onTrue(new ArmButtonCommand(ArmAngleEnum.MidPosition, m_robotArm));
             HighButton.onTrue(new ArmButtonCommand(ArmAngleEnum.HighPosition, m_robotArm));
             SubstationButton
                 .onTrue(new ArmButtonCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
+
+            
+            resetPos.onTrue(new InstantCommand(m_robotArm::resetAngle, m_robotArm));
 
             m_robotArm.setDefaultCommand(
                 // Vertical movement of the arm is controlled by the Y axis of the right stick.

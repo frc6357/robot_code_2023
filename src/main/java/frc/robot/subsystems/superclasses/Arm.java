@@ -12,6 +12,8 @@ public abstract class Arm extends SubsystemBase
         MidPosition,
         /** Set the angle to reach the bottom cube node */
         FloorPosition,
+        /** Set the angle to reach the bottom cube node */
+        ZeroPosition,
         /** Set the angle to reach the substation */
         SubstationPosition
     }

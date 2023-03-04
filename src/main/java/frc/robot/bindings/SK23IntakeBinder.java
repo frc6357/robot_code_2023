@@ -52,7 +52,6 @@ public class SK23IntakeBinder implements CommandBinder
 
         retractIntakeBtn = new JoystickButton(controller.getHID(), kOperatorRetractIntake.value);
         extendIntakeBtn = new JoystickButton(controller.getHID(), kOperatorExtendIntake.value);
-
     }
 
     public void bindButtons()

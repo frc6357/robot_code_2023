@@ -84,7 +84,9 @@ public class Ports
         public static final Button kOperatorMidArm        = kX;
         public static final Button kOperatorLowArm        = kA;
         public static final Button kOperatorSubstationArm = kB;
+        public static final int    kOperatorZeroPosition  = 180;
         public static final Axis   kOperatorArmAxis       = kRightY;
+        public static final Button kOperatorResetArmPos   = kLeftStick;
 
     }
 

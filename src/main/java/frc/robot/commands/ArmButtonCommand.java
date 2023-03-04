@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
@@ -38,6 +39,10 @@ public class ArmButtonCommand extends CommandBase
         switch (position)
         {
             // Set arm to floor position
+            case ZeroPosition:
+                Arm.setTargetAngle(ArmAngleEnum.ZeroPosition);
+                break;
+            // Set arm to floor position
             case FloorPosition:
                 Arm.setTargetAngle(ArmAngleEnum.FloorPosition);
                 break;
@@ -61,6 +66,14 @@ public class ArmButtonCommand extends CommandBase
     @Override
     public boolean isFinished()
     {
-        return true;
+        if(DriverStation.isAutonomousEnabled())
+        {
+            return Arm.isAtTargetAngle();
+        }
+        else
+        {
+            return true;
+        }
+        
     }
 }

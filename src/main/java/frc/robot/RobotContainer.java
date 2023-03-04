@@ -104,16 +104,6 @@ public class RobotContainer
 
             // Instantiating subsystems if they are present
             // This is decided by looking at Subsystems.json
-            if (subsystems.isDrivePresent())
-            {
-                driveSubsystem = Optional.of(new SK23Drive());
-
-                // Configures the autonomous paths and smartdashboard chooser
-                autoGenerator = new SK23AutoGenerator(driveSubsystem.get(), armSubsystem, intakeSubsystem);
-                autoGenerator.displayAllPathCommands(
-                    (name, command) -> autoCommandSelector.addOption(name, command));
-                SmartDashboard.putData("Auto Chooser", autoCommandSelector);
-            }
             if (subsystems.isCameraPresent())
             {
                 // Start the driver camera streaming.
@@ -129,6 +119,16 @@ public class RobotContainer
             if (subsystems.isArmPresent())
             {
                 armSubsystem = Optional.of(new SK23Arm());
+            }
+            if (subsystems.isDrivePresent())
+            {
+                driveSubsystem = Optional.of(new SK23Drive());
+
+                // Configures the autonomous paths and smartdashboard chooser
+                autoGenerator = new SK23AutoGenerator(driveSubsystem.get(), armSubsystem, intakeSubsystem);
+                autoGenerator.displayAllPathCommands(
+                    (name, command) -> autoCommandSelector.addOption(name, command));
+                SmartDashboard.putData("Auto Chooser", autoCommandSelector);
             }
             // TODO: Uncomment this when we start using the vision subsystem.
             // if (subsystems.isVisionPresent())

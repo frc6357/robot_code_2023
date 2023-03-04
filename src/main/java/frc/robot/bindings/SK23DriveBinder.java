@@ -19,7 +19,6 @@ import frc.robot.commands.OnTheFlyCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.FilteredXboxController;
-import frc.robot.utils.filters.SlewRateFilter;
 
 public class SK23DriveBinder implements CommandBinder
 {

@@ -4,10 +4,10 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.ArmConstants.kJoystickChange;
-import static frc.robot.Constants.ArmConstants.kJoystickDeadband;
+import static frc.robot.Constants.ArmConstants.*;
 import static frc.robot.Ports.OperatorPorts.kOperatorArmAxis;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.utils.filters.FilteredXboxController;
@@ -18,7 +18,6 @@ public class ArmJoystickCommand extends CommandBase
 
     private final SK23Arm                Arm;
     private final FilteredXboxController controller;
-    private int                          joystickCount;
     private boolean                      isReversed;
 
     /**
@@ -47,9 +46,7 @@ public class ArmJoystickCommand extends CommandBase
 
     @Override
     public void initialize()
-    {
-        joystickCount = 0;
-    }
+    {}
 
     @Override
     public void execute()
@@ -62,9 +59,12 @@ public class ArmJoystickCommand extends CommandBase
 
         if (Math.abs(joystickInput) > kJoystickDeadband) // If joystick input is past deadband constant
         {
-            double currentAngle =
-                    Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plus or minus the constant change
-            Arm.setTargetAngle(currentAngle);
+            double setpoint =
+                    Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plusor minus the constant change
+
+            setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
+
+            Arm.setTargetAngle(setpoint);
         }
     }
 

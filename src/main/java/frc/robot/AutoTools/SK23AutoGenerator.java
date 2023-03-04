@@ -11,16 +11,22 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.commands.DoNothingCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
+import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.files.FileScanner;
 
 import static frc.robot.Constants.AutoConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.ArmConstants.*;
 import static frc.robot.Constants.DriveConstants.kDriveKinematics;
 
 /**
@@ -77,9 +83,11 @@ public class SK23AutoGenerator
         // Creates the arm commands if the arm subsystem is present (not null)
         if (armSubsystem.isPresent())
         {
-            eventMap.put("High Arm", null);
-            eventMap.put("Mid Arm", null);
-            eventMap.put("Low Arm", null);
+            SK23Arm arm = armSubsystem.get();
+
+            eventMap.put("High Arm", new ArmButtonCommand(ArmAngleEnum.HighPosition, arm));
+            eventMap.put("Mid Arm",  new ArmButtonCommand(ArmAngleEnum.MidPosition, arm));
+            eventMap.put("Low Arm",  new ArmButtonCommand(ArmAngleEnum.FloorPosition, arm));
         }
         else
         {
@@ -89,13 +97,15 @@ public class SK23AutoGenerator
         // Creates the intake commands if the intake subsystem is present (not null)
         if (intakeSubsystem.isPresent())
         {
-            eventMap.put("Intake Cone", null);
-            eventMap.put("Eject Cone", null);
-            eventMap.put("Intake Cube", null);
-            eventMap.put("Eject Cube", null);
+            SK23Intake intake = intakeSubsystem.get();
 
-            eventMap.put("Extend Intake", null);
-            eventMap.put("Retract Intake", null);
+            eventMap.put("Intake Cone", new IntakeCommand(kIntakeConeSpeed, intake));
+            eventMap.put("Eject Cone", new IntakeCommand(kEjectConeSpeed, intake));
+            eventMap.put("Intake Cube", new IntakeCommand(kIntakeCubeSpeed, intake));
+            eventMap.put("Eject Cube", new IntakeCommand(kEjectCubeSpeed, intake));
+
+            eventMap.put("Extend Intake", new InstantCommand(() -> {intake.setIntakeExtension(Value.kForward);}, intake));
+            eventMap.put("Retract Intake", new InstantCommand(() -> {intake.setIntakeExtension(Value.kReverse);}, intake));
         }
         else
         {
