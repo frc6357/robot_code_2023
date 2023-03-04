@@ -1,13 +1,15 @@
 package frc.robot.utils.armAngle;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 
 /**
  * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an
@@ -135,6 +137,8 @@ public class SparkMaxArm extends GenericArmMotor
         pidController.setI(Ki);
         pidController.setD(Kd);
         pidController.setIZone(Kiz);
+
+        pidController.setOutputRange(ArmConstants.kArmMotorMinOutput, ArmConstants.kArmMotorMaxOutput);
 
         isLowerPresent = false;
         isUpperPresent = false;

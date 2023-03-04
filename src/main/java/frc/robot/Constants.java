@@ -71,19 +71,19 @@ public final class Constants
         // Arm Constants
         //TODO - Determine these constants for the final arm
         public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
-        public static final double kArmMotorP = 100;       // Test Value for P
-        public static final double kArmMotorI = 0.0005;     // Test Value for I
-        public static final double kArmMotorD = 0.0;        // Test Value for D
+        public static final double kArmMotorP = 0.0375;       // Test Value for P
+        public static final double kArmMotorI = 0.0;       // Test Value for I
+        public static final double kArmMotorD = 0.0;       // Test Value for D
+        public static final double kArmMotorMaxOutput = 0.6;
+        public static final double kArmMotorMinOutput = -0.3;
 
         public static final double kHighPosition       = 90.0;  // Test Value for High Position
         public static final double kMidPosition        = 45.0;  // Test Value for Mid Position
         public static final double kLowPosition        = 12.0;   // Test Value for Low Position
         public static final double kSubstationPosition = 10.0;   // Test Value for Substation
 
-        public static final double kJoystickTime     = 0.1;     // Test Value for time between checking joystick in seconds
-        public static final double kJoystickChange   = 1;   // Test Value for Degrees moved per 1 kJoystickTime
-        public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
-        public static final int    periodicPerSecond = 50;   // Test Value Number of periodic calls per second
+        public static final double kJoystickChange   = 45.0;   // Manual setpoint value for degrees moved per second
+        public static final double kJoystickDeadband = 0.3;  // Test Value Joystick position at which it begins to move
 
         public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
         public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller

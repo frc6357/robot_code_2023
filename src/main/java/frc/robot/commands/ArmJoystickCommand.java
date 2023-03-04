@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.ArmConstants.kJoystickChange;
 import static frc.robot.Constants.ArmConstants.kJoystickDeadband;
-import static frc.robot.Constants.ArmConstants.kJoystickTime;
-import static frc.robot.Constants.ArmConstants.periodicPerSecond;
 import static frc.robot.Ports.OperatorPorts.kOperatorArmAxis;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -56,25 +54,18 @@ public class ArmJoystickCommand extends CommandBase
     @Override
     public void execute()
     {
-        double joystickTimePeriodic = kJoystickTime * periodicPerSecond; // Converts seconds into number of periodic calls
 
-        if (joystickCount == joystickTimePeriodic) // Only runs every joystickTimePeriod times it goes through
+        //TODO: Add code to input maximum input
+        double joystickInput = isReversed ? -1 * controller.getRawAxis(kOperatorArmAxis.value)
+            : controller.getRawAxis(kOperatorArmAxis.value); //Reverses input if isReversed is true
+        double angleChange = kJoystickChange / 50; //Degrees per 20ms
+
+        if (Math.abs(joystickInput) > kJoystickDeadband) // If joystick input is past deadband constant
         {
-            double joystickInput = isReversed ? -1 * controller.getRawAxis(kOperatorArmAxis.value)
-                : controller.getRawAxis(kOperatorArmAxis.value); //Reverses input if isReversed is true
-            double angleChange = kJoystickChange;
-
-            if (Math.abs(joystickInput) > kJoystickDeadband) // If joystick input is past deadband constant
-            {
-                double currentAngle =
-                        Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plus or minus the constant change
-                Arm.setTargetAngle(currentAngle);
-            }
-
-            joystickCount = 0;
+            double currentAngle =
+                    Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plus or minus the constant change
+            Arm.setTargetAngle(currentAngle);
         }
-
-        joystickCount++;
     }
 
     @Override
