@@ -74,9 +74,9 @@ public class SK23IntakeBinder implements CommandBinder
             ejectCubeBtn.whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
 
             // Sets the buttons with onTure so tha they will toggle extension and retraction of the intake
-            retractIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
+            retractIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
 
-            extendIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
+            extendIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
         }
 
     }

@@ -29,13 +29,13 @@ public final class Constants
     public static class IntakeConstants
     {
         public static final double kIntakeConeSpeed = 1;
-        public static final double kEjectConeSpeed  = -0.8;
+        public static final double kEjectConeSpeed  = -1;
         public static final double kIntakeCubeSpeed = -1;
         public static final double kEjectCubeSpeed  = 0.6;
 
         // TODO: Check and see if this is the correct number for the current limit.
         // Current limit for the neo 550 motors for the intake
-        public static final int kIntakeCurrentLimit = 7;
+        public static final int kIntakeCurrentLimit = 15;
 
     }
 
@@ -70,22 +70,22 @@ public final class Constants
     {
         // Arm Constants
         //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = (75.0 * (36.0/24.0)) * 4.0;        // Test Gear Ratio
-        public static final double kArmMotorP = 0.05;       // Test Value for P
+        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (4.0 / 3.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
+        public static final double kArmMotorP = 100;       // Test Value for P
         public static final double kArmMotorI = 0.0005;     // Test Value for I
         public static final double kArmMotorD = 0.0;        // Test Value for D
 
-        public static final double kHighPosition       = 45.0;  // Test Value for High Position
-        public static final double kMidPosition        = 25.0;  // Test Value for Mid Position
-        public static final double kLowPosition        = 0.0;   // Test Value for Low Position
+        public static final double kHighPosition       = 90.0;  // Test Value for High Position
+        public static final double kMidPosition        = 45.0;  // Test Value for Mid Position
+        public static final double kLowPosition        = 12.0;   // Test Value for Low Position
         public static final double kSubstationPosition = 10.0;   // Test Value for Substation
 
         public static final double kJoystickTime     = 0.1;     // Test Value for time between checking joystick in seconds
-        public static final double kJoystickChange   = 2.0;   // Test Value for Degrees moved per 1 kJoystickTime
+        public static final double kJoystickChange   = 1;   // Test Value for Degrees moved per 1 kJoystickTime
         public static final double kJoystickDeadband = 0.3; // Test Value Joystick position at which it begins to move
         public static final int    periodicPerSecond = 50;   // Test Value Number of periodic calls per second
 
-        public static final boolean isJoystickReversed = false;  // Determines if the joystick movement is reversed
+        public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
         public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
     }
 

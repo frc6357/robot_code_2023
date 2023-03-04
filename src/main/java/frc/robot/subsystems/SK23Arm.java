@@ -66,6 +66,9 @@ public class SK23Arm extends Arm
         return Arm.getTargetAngle();
     }
 
+    public void testInit(){
+        Arm.testInit();
+    }
     public void periodic()
     {
         Arm.periodic();

@@ -230,6 +230,9 @@ public class ArmAngleInternal
         }
     }
 
+    public void testInit(){
+        motor.testInit();
+    }
     public void periodic()
     {
         motor.periodic();

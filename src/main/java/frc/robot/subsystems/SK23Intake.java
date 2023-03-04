@@ -35,6 +35,8 @@ public class SK23Intake extends SubsystemBase
         //TODO: Find correct current limit 
         insideMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
+
+        intakeExtender.set(Value.kReverse);
     }
 
     /**

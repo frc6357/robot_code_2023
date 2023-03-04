@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.superclasses.SwerveModule;
 
@@ -59,23 +60,24 @@ public class SK23Drive extends SubsystemBase
         kRearRightAngleOffset);
 
     // The gyro sensor
-    private final WPI_Pigeon2 m_gyro = new WPI_Pigeon2(25, "DriveCAN");
+    private final WPI_Pigeon2 m_gyro = new WPI_Pigeon2(kPigeonPort.ID, kPigeonPort.bus);
 
     // Odometry class for tracking robot pose
-    SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-        kDriveKinematics,
-        m_gyro.getRotation2d(),
-        new SwerveModulePosition[]{
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()});
+    SwerveDriveOdometry m_odometry;
 
     /** Creates a new DriveSubsystem. */
     public SK23Drive()
     {
         m_gyro.reset();
-        zeroHeading();
+
+        m_odometry = new SwerveDriveOdometry(
+            kDriveKinematics,
+            m_gyro.getRotation2d(),
+            new SwerveModulePosition[]{
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_rearLeft.getPosition(),
+                m_rearRight.getPosition()});
     }
 
     @Override
@@ -89,7 +91,7 @@ public class SK23Drive extends SubsystemBase
                 m_frontRight.getPosition(),
                 m_rearLeft.getPosition(),
                 m_rearRight.getPosition()});
-    }
+}
 
     /**
      * Returns the currently-estimated pose of the robot.

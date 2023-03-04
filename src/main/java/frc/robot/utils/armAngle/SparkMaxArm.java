@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -139,7 +140,7 @@ public class SparkMaxArm extends GenericArmMotor
         isUpperPresent = false;
 
         encoder.setPositionConversionFactor(1.0);
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake); //TODO: Change back to brake
     }
 
     public double getAppliedOutput()
@@ -189,7 +190,7 @@ public class SparkMaxArm extends GenericArmMotor
 
     public double getCurrentAngle()
     {
-        double current_value = (encoder.getPosition() * 360) / 4; // Convert native encoder unit of rotations to degrees
+        double current_value = (encoder.getPosition() * 360) / gearRatio; // Convert native encoder unit of rotations to degrees
         return current_value;
     }
 
@@ -205,6 +206,9 @@ public class SparkMaxArm extends GenericArmMotor
         pidController.setReference(positionSetPoint, CANSparkMax.ControlType.kPosition);
     }
 
+    public void testInit(){
+        motor.setIdleMode(IdleMode.kCoast);
+    }
     public void periodic()
     {
         double applied_output = motor.getAppliedOutput();
