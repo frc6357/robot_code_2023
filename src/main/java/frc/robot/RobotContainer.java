@@ -173,6 +173,11 @@ public class RobotContainer
         return autoCommandSelector.getSelected();
     }
 
+    public void testPeriodic(){
+        if(armSubsystem.isPresent()){
+            armSubsystem.get().testPeriodic();
+        }
+    }
     public void testInit(){
         if(armSubsystem.isPresent()){
             armSubsystem.get().testInit();

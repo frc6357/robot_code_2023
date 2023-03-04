@@ -140,7 +140,7 @@ public class SparkMaxArm extends GenericArmMotor
         isUpperPresent = false;
 
         encoder.setPositionConversionFactor(1.0);
-        motor.setIdleMode(CANSparkMax.IdleMode.kBrake); //TODO: Change back to brake
+        motor.setIdleMode(CANSparkMax.IdleMode.kBrake); 
     }
 
     public double getAppliedOutput()
@@ -209,11 +209,13 @@ public class SparkMaxArm extends GenericArmMotor
     public void testInit(){
         motor.setIdleMode(IdleMode.kCoast);
     }
+
     public void periodic()
     {
         double applied_output = motor.getAppliedOutput();
         SmartDashboard.putNumber("Applied Output", applied_output);
         double current = motor.getOutputCurrent();
         SmartDashboard.putNumber("Current", current);
+        
     }
 }

@@ -70,7 +70,7 @@ public final class Constants
     {
         // Arm Constants
         //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (4.0 / 3.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
+        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
         public static final double kArmMotorP = 100;       // Test Value for P
         public static final double kArmMotorI = 0.0005;     // Test Value for I
         public static final double kArmMotorD = 0.0;        // Test Value for D

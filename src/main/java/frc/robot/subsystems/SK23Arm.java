@@ -69,6 +69,11 @@ public class SK23Arm extends Arm
     public void testInit(){
         Arm.testInit();
     }
+
+    public void testPeriodic(){
+        periodic();
+    }
+    @Override
     public void periodic()
     {
         Arm.periodic();
