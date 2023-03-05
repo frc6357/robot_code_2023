@@ -217,6 +217,17 @@ public class SK23Drive extends SubsystemBase
     }
 
     /**
+     * Sets the heading of the robot odometery to the new angle
+     * 
+     * @param angle The new angle in degrees
+     */
+    public void setHeading(double angle)
+    {
+        Pose2d newPose = new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(angle));
+        resetOdometry(newPose);
+    }
+
+    /**
      * Returns the heading of the robot.
      *
      * @return the robot's heading in degrees, from -180 to 180

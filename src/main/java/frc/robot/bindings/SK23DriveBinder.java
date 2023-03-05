@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Constants.DriveConstants;
@@ -24,19 +25,26 @@ public class SK23DriveBinder implements CommandBinder
 {
     Optional<SK23Drive> subsystem;
 
-    // Driver button commands
-    private final JoystickButton resetGyro;
+    // Driver Buttons
     private final Trigger robotCentric;
-    private final JoystickButton autoBalance;
-    private final JoystickButton rotateDSS;
-    private final JoystickButton rotateGrid;
+    private final Trigger autoBalance;
+    private final Trigger rotateDSS;
+    private final Trigger rotateGrid;
+    private final Trigger rotateLeft;
+    private final Trigger rotateRight;
+
+    // Gyro Reset Buttons
+    private final Trigger resetGyroDSS;
+    private final Trigger resetGyroGrid;
+    private final Trigger resetGyroLeft;
+    private final Trigger resetGyroRight;
 
     // Buttons for On The Fly Driving
-    private final JoystickButton GridLeftModifier;
-    private final JoystickButton GridRightModifier;
-    private final JoystickButton GPLeftButton;
-    private final JoystickButton GPMiddleButton;
-    private final JoystickButton GPRightButton;
+    private final Trigger GridLeftModifier;
+    private final Trigger GridRightModifier;
+    private final Trigger GPLeftButton;
+    private final Trigger GPMiddleButton;
+    private final Trigger GPRightButton;
 
     FilteredXboxController controller;
 
@@ -53,11 +61,18 @@ public class SK23DriveBinder implements CommandBinder
         this.controller = controller;
         this.subsystem = subsystem;
 
-        resetGyro = new JoystickButton(controller.getHID(), kResetGyro.value);
+        resetGyroDSS = new POVButton(controller.getHID(), kResetGyroDSS);
+        resetGyroGrid = new POVButton(controller.getHID(), kResetGyroGrid);
+        resetGyroLeft = new POVButton(controller.getHID(), kResetGyroLeft);
+        resetGyroRight = new POVButton(controller.getHID(), kResetGyroRight);
+
         robotCentric = controller.rightTrigger();
         autoBalance = new JoystickButton(controller.getHID(), kAutoLevel.value);
+
         rotateDSS = new JoystickButton(controller.getHID(), kRotateDSS.value);
         rotateGrid = new JoystickButton(controller.getHID(), kRotateGrid.value);
+        rotateLeft = new JoystickButton(controller.getHID(), kRotateLeft.value);
+        rotateRight = new JoystickButton(controller.getHID(), kRotateRight.value);
 
         GridLeftModifier = new JoystickButton(controller.getHID(), kGridLeftModifier.value);
         GridRightModifier = new JoystickButton(controller.getHID(), kGridRightModifier.value);
@@ -73,6 +88,7 @@ public class SK23DriveBinder implements CommandBinder
         {
             SK23Drive drive = subsystem.get();
 
+            // Sets filters for driving axes
             controller.setFilter(kVelocityXPort.value, new CubicDeadbandFilter(kDriveGain,
                 kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
@@ -83,15 +99,25 @@ public class SK23DriveBinder implements CommandBinder
                 new CubicDeadbandFilter(kRotationGain, kJoystickDeadband,
                     Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
 
-            resetGyro.onTrue(new InstantCommand(drive::zeroHeading));
+            // Resets gyro angles
+            resetGyroDSS.onTrue(new InstantCommand(() -> {drive.setHeading(0);}));
+            resetGyroGrid.onTrue(new InstantCommand(() -> {drive.setHeading(180);}));
+            resetGyroLeft.onTrue(new InstantCommand(() -> {drive.setHeading(90);}));
+            resetGyroRight.onTrue(new InstantCommand(() -> {drive.setHeading(270);}));
 
+            // Advanced features
             autoBalance.whileTrue(new AutoBalanceCommand(
                 () -> controller.getFilteredAxis(kVelocityOmegaPort.value), drive));
             rotateDSS
                 .whileTrue(new DriveTurnCommand(controller, robotCentric::getAsBoolean, 0, drive));
             rotateGrid.whileTrue(
                 new DriveTurnCommand(controller, robotCentric::getAsBoolean, 180, drive));
+            rotateLeft.whileTrue(
+                    new DriveTurnCommand(controller, robotCentric::getAsBoolean, 90, drive));
+            rotateRight.whileTrue(
+                new DriveTurnCommand(controller, robotCentric::getAsBoolean, 270, drive));
 
+            // Default command for driving
             drive.setDefaultCommand(
                 new DefaultSwerveCommand(controller, robotCentric::getAsBoolean, drive));
 
@@ -99,6 +125,11 @@ public class SK23DriveBinder implements CommandBinder
         }
     }
 
+    /**
+     * Creates all the on the fly command bindings
+     * 
+     * @param drive The drive subsystem requirement for the commands.
+     */
     private void configureOTFCommands(SK23Drive drive)
     {
         GridLeftModifier.and(GPLeftButton).whileTrue(new OnTheFlyCommand(LeftGrid_LeftCone, drive));

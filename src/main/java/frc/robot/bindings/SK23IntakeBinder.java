@@ -20,14 +20,14 @@ public class SK23IntakeBinder implements CommandBinder
     Optional<SK23Intake> subsystem;
 
     // Driver button command
-    private final Trigger        intakeConeBtn; // (Hold) Left Trigger
-    private final Trigger ejectConeBtn; // (Hold) Right Button
+    private final Trigger coneModifier;
+    private final Trigger cubeModifier;
 
-    private final JoystickButton intakeCubeBtn; // (Hold) Left Button
-    private final JoystickButton        ejectCubeBtn; // (Hold) Right Trigger
+    private final Trigger intake;
+    private final Trigger eject;
 
-    private final JoystickButton retractIntakeBtn; // (Press) Start Button
-    private final JoystickButton extendIntakeBtn; // (Press) Back Button
+    private final Trigger extendIntake;
+    private final Trigger retractIntake;
 
     FilteredXboxController controller;
 
@@ -45,13 +45,13 @@ public class SK23IntakeBinder implements CommandBinder
         this.subsystem = subsystem;
 
         // uses values from the xbox controller to control the port values
-        intakeConeBtn = controller.leftTrigger();
-        ejectCubeBtn = new JoystickButton(controller.getHID(), kOperatorEjectCube.value);
-        intakeCubeBtn = new JoystickButton(controller.getHID(), kOperatorIntakeCube.value);
-        ejectConeBtn = controller.rightTrigger();
+        coneModifier = new JoystickButton(controller.getHID(), kOperatorCone.value);
+        cubeModifier = new JoystickButton(controller.getHID(), kOperatorCube.value);
+        intake = new JoystickButton(controller.getHID(), kOperatorIntake.value);
+        eject = new JoystickButton(controller.getHID(), kOperatorEject.value);
+        extendIntake = controller.leftTrigger();
+        retractIntake = controller.rightTrigger();
 
-        retractIntakeBtn = new JoystickButton(controller.getHID(), kOperatorRetractIntake.value);
-        extendIntakeBtn = new JoystickButton(controller.getHID(), kOperatorExtendIntake.value);
     }
 
     public void bindButtons()
@@ -64,18 +64,15 @@ public class SK23IntakeBinder implements CommandBinder
             SK23Intake m_robotIntake = subsystem.get();
 
             // Sets buttons with whileTrue so that they will run continuously until the button is let go
-            intakeConeBtn.whileTrue(new IntakeCommand(kIntakeConeSpeed, m_robotIntake));
+            coneModifier.and(intake).whileTrue(new IntakeCommand(kIntakeConeSpeed, m_robotIntake));
+            cubeModifier.and(intake).whileTrue(new IntakeCommand(kIntakeCubeSpeed, m_robotIntake));
 
-            ejectConeBtn.whileTrue(new IntakeCommand(kEjectConeSpeed, m_robotIntake));
+            coneModifier.and(eject).whileTrue(new IntakeCommand(kEjectConeSpeed, m_robotIntake));
+            cubeModifier.and(eject).whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
 
-            intakeCubeBtn.whileTrue(new IntakeCommand(kIntakeCubeSpeed, m_robotIntake));
-
-            ejectCubeBtn.whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
-
-            // Sets the buttons with onTure so tha they will toggle extension and retraction of the intake
-            retractIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
-
-            extendIntakeBtn.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
+            // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
+            extendIntake.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
+            retractIntake.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
         }
 
     }

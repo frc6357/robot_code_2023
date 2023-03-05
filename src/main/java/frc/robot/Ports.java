@@ -55,11 +55,18 @@ public class Ports
         public static final Axis kVelocityOmegaPort = kRightX;
 
         // Buttons for driving
-        public static final Button kResetGyro        = kX;
         public static final Axis   kRobotCentricMode = kRightTrigger;
         public static final Button kRotateDSS        = kY;
         public static final Button kRotateGrid       = kA;
+        public static final Button kRotateLeft       = kX;
+        public static final Button kRotateRight      = kB;
         public static final Button kAutoLevel        = kBack;
+
+        // Buttons for driver angle reset
+        public static final int kResetGyroDSS   = 0;
+        public static final int kResetGyroGrid  = 180;
+        public static final int kResetGyroLeft  = 270;
+        public static final int kResetGyroRight = 90;
 
         // Buttons for On The Fly Driving
         public static final Button kGridLeftModifier  = kLeftBumper;
@@ -70,14 +77,15 @@ public class Ports
 
         public static final int kOperatorControllerPort = 1;
 
-        // Buttons for intake
-        public static final Axis   kOperatorIntakeCone = kLeftTrigger;
-        public static final Axis   kOperatorEjectCone  = kRightTrigger;
-        public static final Button kOperatorIntakeCube = kLeftBumper;
-        public static final Button kOperatorEjectCube  = kRightBumper;
+        // Modifiers
+        public static final Button kOperatorCone = kLeftBumper;
+        public static final Button kOperatorCube = kRightBumper;
 
-        public static final Button kOperatorRetractIntake = kStart;
-        public static final Button kOperatorExtendIntake  = kBack;
+        // Buttons for intake
+        public static final Button kOperatorIntake        = kBack;
+        public static final Button kOperatorEject         = kStart;
+        public static final Axis   kOperatorExtendIntake  = kLeftTrigger;
+        public static final Axis   kOperatorRetractIntake = kRightTrigger;
 
         // Buttons for arm
         public static final Button kOperatorHighArm       = kY;
