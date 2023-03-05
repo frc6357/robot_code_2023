@@ -4,16 +4,23 @@ on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - main
+      - develop
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   ci:
     runs-on: ubuntu-20.04
+    container:
+      image: docker://wpilib/roborio-cross-ubuntu:2022-20.04
     steps:
-      - uses: docker://wpilib/roborio-cross-ubuntu:2022-20.04
-      - run: |
-          echo "Hello World"
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Gradle Build
+        run: |
+          chmod +x gradlew
+          ./gradlew build
