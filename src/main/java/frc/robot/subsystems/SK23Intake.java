@@ -7,24 +7,23 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Ports;
-import frc.robot.Constants.IntakeConstants;
+
+import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Ports.IntakePorts.*;
 
 public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
-    DoubleSolenoid intakeExtender =
-            new DoubleSolenoid(Ports.IntakePorts.kPneumaticsModule, PneumaticsModuleType.REVPH,
-                Ports.IntakePorts.kIntakeForwardChannel, Ports.IntakePorts.kIntakeReverseChannel); 
+    DoubleSolenoid intakeExtender = new DoubleSolenoid(kPneumaticsModule, kModuleType,
+        kIntakeForwardChannel, kIntakeReverseChannel);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
-            new CANSparkMax(Ports.IntakePorts.kFrontIntakeMotorPort, MotorType.kBrushless);
+            new CANSparkMax(kFrontIntakeMotorPort, MotorType.kBrushless);
     // The motor responsible for controlling the back roller and the front roller far above the ground
     private final CANSparkMax outerMotor =
-            new CANSparkMax(Ports.IntakePorts.kBackTopIntakeMotorPort, MotorType.kBrushless);
+            new CANSparkMax(kBackTopIntakeMotorPort, MotorType.kBrushless);
 
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
@@ -33,10 +32,8 @@ public class SK23Intake extends SubsystemBase
         outerMotor.setInverted(true);
 
         //TODO: Find correct current limit 
-        insideMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
-        outerMotor.setSmartCurrentLimit(IntakeConstants.kIntakeCurrentLimit);
-
-        intakeExtender.set(Value.kReverse);
+        insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
+        outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
     }
 
     /**

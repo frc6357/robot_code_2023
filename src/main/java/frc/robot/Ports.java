@@ -7,6 +7,8 @@ import frc.robot.utils.CANPort;
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 public class Ports
 {
     // TODO: Whenever you add a CAN ID to the file, actually assign a number. A
@@ -18,7 +20,7 @@ public class Ports
     // say, 80 and increment.
     public static class ArmPorts
     {
-        //Port IDs for Arm have a tens digit of 5
+        // CAN IDs for Arm have a tens digit of 5
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(50, busName);
         public static final int     kLowerSwitch = -1;
@@ -27,7 +29,7 @@ public class Ports
 
     public static class IntakePorts
     {
-        //Port IDs for Intake have a tens digit of 4
+        // CAN IDs for Intake have a tens digit of 4
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 
@@ -36,8 +38,10 @@ public class Ports
         public static final int kIntakeForwardChannel = 0;
         public static final int kIntakeReverseChannel = 1;
 
-        //Intake Pneumatic Module Type
-        public static final int kPneumaticsModule = 1;
+        // Pneumatics Module Constants
+        // The PCM has a single digit CAN ID to increase CAN bus priority
+        public static final int                  kPneumaticsModule = 1;
+        public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.CTREPCM;
 
     }
 
