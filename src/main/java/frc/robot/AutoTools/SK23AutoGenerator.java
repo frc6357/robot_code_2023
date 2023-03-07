@@ -11,7 +11,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ArmButtonCommand;
@@ -26,7 +25,7 @@ import frc.robot.utils.files.FileScanner;
 
 import static frc.robot.Constants.AutoConstants.*;
 import static frc.robot.Constants.IntakeConstants.*;
-import static frc.robot.Constants.ArmConstants.*;
+// import static frc.robot.Constants.ArmConstants.*;
 import static frc.robot.Constants.DriveConstants.kDriveKinematics;
 
 /**
