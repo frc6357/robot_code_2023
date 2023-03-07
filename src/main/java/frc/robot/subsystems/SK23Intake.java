@@ -34,15 +34,24 @@ public class SK23Intake extends SubsystemBase
         //TODO: Find correct current limit 
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
+
+        intakeExtender.set(Value.kReverse);
     }
 
     /**
-     * Sets the extension solenoid to either kforwards for extend or kReverse for
-     * retraction
+     * Extends the intake to allow for gamepiece pick up
      */
-    public void setIntakeExtension(Value setExtend)
+    public void extendIntake()
     {
-        intakeExtender.set(setExtend);
+        intakeExtender.set(Value.kForward);
+    }
+
+    /**
+     * Retracts the intake for safer driving
+     */
+    public void retractIntake()
+    {
+        intakeExtender.set(Value.kReverse);
     }
 
     /**

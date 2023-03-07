@@ -2,7 +2,7 @@ package frc.robot.bindings;
 
 import java.util.Optional;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -10,7 +10,6 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 import static frc.robot.Ports.OperatorPorts.*;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeDeployerCommand;
 import frc.robot.subsystems.SK23Intake;
 
 import frc.robot.utils.filters.FilteredXboxController;
@@ -71,8 +70,8 @@ public class SK23IntakeBinder implements CommandBinder
             cubeModifier.and(eject).whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
 
             // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
-            extendIntake.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
-            retractIntake.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
+            extendIntake.onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
+            retractIntake.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
         }
 
     }

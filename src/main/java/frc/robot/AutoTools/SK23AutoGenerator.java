@@ -104,8 +104,8 @@ public class SK23AutoGenerator
             eventMap.put("Intake Cube", new IntakeCommand(kIntakeCubeSpeed, intake));
             eventMap.put("Eject Cube", new IntakeCommand(kEjectCubeSpeed, intake));
 
-            eventMap.put("Extend Intake", new InstantCommand(() -> {intake.setIntakeExtension(Value.kForward);}, intake));
-            eventMap.put("Retract Intake", new InstantCommand(() -> {intake.setIntakeExtension(Value.kReverse);}, intake));
+            eventMap.put("Extend Intake", new InstantCommand(intake::extendIntake, intake));
+            eventMap.put("Retract Intake", new InstantCommand(intake::retractIntake, intake));
         }
         else
         {

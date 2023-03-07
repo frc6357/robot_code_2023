@@ -40,8 +40,8 @@ public class Ports
 
         // Pneumatics Module Constants
         // The PCM has a single digit CAN ID to increase CAN bus priority
-        public static final int                  kPneumaticsModule = 1;
-        public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.CTREPCM;
+        public static final int                  kPneumaticsModule = 2;
+        public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.REVPH;
 
     }
 
@@ -52,7 +52,7 @@ public class Ports
     public static class OperatorPorts
     {
         public static final int kDriverControllerPort = 0;
-
+ 
         // Axes for driving
         public static final Axis kVelocityXPort     = kLeftY;
         public static final Axis kVelocityYPort     = kLeftX;
