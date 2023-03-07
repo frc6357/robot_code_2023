@@ -99,6 +99,7 @@ public class Ports
         public static final int    kOperatorZeroPosition  = 180;
         public static final Axis   kOperatorArmAxis       = kRightY;
         public static final Button kOperatorResetArmPos   = kLeftStick;
+        public static final Button kOperatorArmOverride   = kRightStick;
 
     }
 

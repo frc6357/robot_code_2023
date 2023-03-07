@@ -5,20 +5,21 @@
 package frc.robot.commands;
 
 import static frc.robot.Constants.ArmConstants.*;
-import static frc.robot.Ports.OperatorPorts.kOperatorArmAxis;
+
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Arm;
-import frc.robot.utils.filters.FilteredXboxController;
 
 public class ArmJoystickCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Arm                Arm;
-    private final FilteredXboxController controller;
-    private boolean                      isReversed;
+    private final SK23Arm           arm;
+    private final Supplier<Double>  controller;
+    private final Supplier<Boolean> override;
+    
 
     /**
      * Sets the angle of the arm based upon input from a joystick, adding or subtracting
@@ -26,22 +27,20 @@ public class ArmJoystickCommand extends CommandBase
      * downward movement on joystick turning motor clockwise and upward movement on
      * joystick turning motor counter clockwise.
      * 
-     * @param controller
-     *            Filtered controller object from which you get y axis
-     * @param y_channel
-     *            Y channel of the joystick axis
-     * @param isReversed
-     *            Reverses typical input from joystick
-     * @param Arm
+     * @param setpointChange
+     *            The method to get the setpoint change in degrees per second
+     * @param clampOverride
+     *            The method to determine if the angle limits should be overridden
+     * @param arm
      *            Subsystem used for this command
      */
-    public ArmJoystickCommand(FilteredXboxController controller, boolean isReversed, SK23Arm Arm)
+    public ArmJoystickCommand(Supplier<Double> setpointChange, Supplier<Boolean> clampOverride, SK23Arm arm)
     {
-        this.controller = controller;
-        this.Arm = Arm;
-        this.isReversed = isReversed;
+        this.controller = setpointChange;
+        this.override = clampOverride;
+        this.arm = arm;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Arm);
+        addRequirements(arm);
     }
 
     @Override
@@ -51,21 +50,17 @@ public class ArmJoystickCommand extends CommandBase
     @Override
     public void execute()
     {
+        double angleChange = controller.get() / 50; // Degrees per 20ms
 
-        //TODO: Add code to input maximum input
-        double joystickInput = isReversed ? -1 * controller.getRawAxis(kOperatorArmAxis.value)
-            : controller.getRawAxis(kOperatorArmAxis.value); //Reverses input if isReversed is true
-        double angleChange = kJoystickChange / 50; //Degrees per 20ms
+         // Sets the new angle to the current angle plusor minus the constant change
+        double setpoint = arm.getTargetAngle() + angleChange;
 
-        if (Math.abs(joystickInput) > kJoystickDeadband) // If joystick input is past deadband constant
+        if(!override.get())
         {
-            double setpoint =
-                    Arm.getTargetAngle() + (Math.signum(joystickInput) * angleChange); // Sets the new angle to the current angle plusor minus the constant change
-
             setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
-
-            Arm.setTargetAngle(setpoint);
         }
+
+        arm.setTargetAngle(setpoint);
     }
 
     @Override

@@ -69,28 +69,28 @@ public final class Constants
     public static class ArmConstants
     {
         // Arm Constants
-        //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
-        public static final double kArmMotorP = 0.0375;       // Test Value for P
+        // Motor rotations to arm rotations, 4/3 from expiremental calculations
+        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);
+        public static final double kArmMotorP = 0.0375;    // Test Value for P
         public static final double kArmMotorI = 0.0;       // Test Value for I
         public static final double kArmMotorD = 0.0;       // Test Value for D
         public static final double kArmMotorMaxOutput = 0.6;
         public static final double kArmMotorMinOutput = -0.3;
 
-        public static final double kHighPosition       = 90.0;  // Test Value for High Position
+        public static final double kHighPosition       = 90.0;  // Degrees for High Position
         public static final double kMidPosition        = 76.0;  // Degrees for Mid Position
         public static final double kLowPosition        = 23.0;  // Degrees for Low Position
-        public static final double kSubstationPosition = 92.0;  // Test Value for Substation
+        public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees
         public static final double kMinAngle = 0;   // Degrees
 
-        public static final double kJoystickChange   = 45.0;   // Manual setpoint value for degrees moved per second
-        public static final double kJoystickDeadband = 0.3;  // Test Value Joystick position at which it begins to move
+        public static final double kJoystickChange   = 45.0; // Manual setpoint value for degrees moved per second
+        public static final double kJoystickDeadband = 0.3;  // Manual arm movement axis deadband
 
-        public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
-        public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
+        public static final boolean kJoystickReversed = true;  // Determines if the joystick movement is reversed
+        public static final double  kArmMotorIZone     = 0.0;  // Test Value Number for I Zone of PID controller
 
         public static final double kAngleTolerance     = 5.0; // The tolerance for the arm position in both directions
     }

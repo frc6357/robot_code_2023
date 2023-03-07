@@ -13,6 +13,7 @@ import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
+import frc.robot.utils.filters.DeadbandFilter;
 import frc.robot.utils.filters.FilteredXboxController;
 
 public class SK23ArmBinder implements CommandBinder
@@ -57,6 +58,10 @@ public class SK23ArmBinder implements CommandBinder
         {
 
             SK23Arm m_robotArm = subsystem.get();
+            
+            
+            double joystickGain = kJoystickReversed ? -kJoystickChange : kJoystickChange;
+            controller.setFilter(kOperatorArmAxis.value, new DeadbandFilter(kJoystickDeadband, joystickGain));
 
             zeroPositionButton.onTrue(new ArmButtonCommand(ArmAngleEnum.ZeroPosition, m_robotArm));
             LowButton.onTrue(new ArmButtonCommand(ArmAngleEnum.FloorPosition, m_robotArm));
@@ -71,8 +76,10 @@ public class SK23ArmBinder implements CommandBinder
             m_robotArm.setDefaultCommand(
                 // Vertical movement of the arm is controlled by the Y axis of the right stick.
                 // Up on joystick moving arm up and down on stick moving arm down.
-                new ArmJoystickCommand(controller, isJoystickReversed, m_robotArm));
-
+                new ArmJoystickCommand(
+                    () -> {return controller.getFilteredAxis(kOperatorArmAxis.value);},
+                    controller.button(kOperatorArmOverride.value)::getAsBoolean,
+                    m_robotArm));
         }
     }
 

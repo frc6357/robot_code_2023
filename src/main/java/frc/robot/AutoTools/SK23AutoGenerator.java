@@ -78,7 +78,6 @@ public class SK23AutoGenerator
             return 0.0;
         }, driveSubsystem));
 
-        // TODO: Define commands for these markers
         // Creates the arm commands if the arm subsystem is present (not null)
         if (armSubsystem.isPresent())
         {
