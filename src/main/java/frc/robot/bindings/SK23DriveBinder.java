@@ -165,7 +165,7 @@ public class SK23DriveBinder implements CommandBinder
         Filter translation = new CubicDeadbandFilter(kDriveCoeff, kJoystickDeadband,
             DriveConstants.kMaxSpeedMetersPerSecond * percent, true);
         Filter rotation = new CubicDeadbandFilter(kDriveCoeff, kJoystickDeadband,
-            DriveConstants.kMaxRotationDegreesPerSecond * percent, true);
+            Math.toRadians(DriveConstants.kMaxRotationDegreesPerSecond) * percent, true);
 
         controller.setFilter(kVelocityXPort.value, translation);
         controller.setFilter(kVelocityYPort.value, translation);

@@ -206,7 +206,7 @@ public final class Constants
 
         // PID Constants
         public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3, 0, 0);
-        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(0.8, 0, 0);
+        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
     }
 
     /** The file that is used for system instantiation at runtime */

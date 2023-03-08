@@ -73,7 +73,7 @@ public class Ports
 
         // Buttons for On The Fly Driving
         public static final Button kGridLeftModifier  = kLeftBumper;
-        public static final Button kGridRightModifier = kLeftBumper;
+        public static final Button kGridRightModifier = kRightBumper;
         public static final Button kGPLeftButton      = kX;
         public static final Button kGPMiddleButton    = kA;
         public static final Button kGPRightButton     = kB;
