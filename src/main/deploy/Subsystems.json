@@ -2,6 +2,6 @@
     "drive"         : true,
     "arm"           : true,
     "intake"        : true,
-    "camera"        : false,
+    "camera"        : true,
     "vision"        : false
 }

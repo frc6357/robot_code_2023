@@ -7,6 +7,8 @@ import frc.robot.subsystems.superclasses.Arm;
 import frc.robot.utils.armAngle.ArmAngleInternal;
 import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
+import frc.robot.utils.armAngle.SparkMaxArm;
+
 /**
  * A class that represents the arm of the robot. Capable of moving the arm to a specified
  * angle and reading the current angle of the arm. Using only one CANSparkMax motor.
@@ -93,5 +95,7 @@ public class SK23Arm extends Arm
         double target_angle = Arm.getTargetAngle();
         SmartDashboard.putNumber("Current Angle", current_angle);
         SmartDashboard.putNumber("Target Angle", target_angle);
+
+        SmartDashboard.putNumber("Arm Current Draw", ((SparkMaxArm) Arm.getMotor()).getOutputCurrent());
     }
 }

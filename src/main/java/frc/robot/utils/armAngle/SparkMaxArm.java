@@ -151,6 +151,11 @@ public class SparkMaxArm extends GenericArmMotor
         return motor.getAppliedOutput();
     }
 
+    public double getOutputCurrent()
+    {
+        return motor.getOutputCurrent();
+    }
+
     public void resetEncoder()
     {
         encoder.setPosition(0.0); // Reset Position of encoder is 0.0

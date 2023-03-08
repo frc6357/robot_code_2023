@@ -237,4 +237,9 @@ public class ArmAngleInternal
     {
         motor.periodic();
     }
+
+    public GenericArmMotor getMotor()
+    {
+        return motor;
+    }
 }

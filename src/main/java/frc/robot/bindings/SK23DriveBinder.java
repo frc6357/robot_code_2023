@@ -6,6 +6,7 @@ import static frc.robot.AutoTools.GridPositions.*;
 
 import java.util.Optional;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -46,6 +47,8 @@ public class SK23DriveBinder implements CommandBinder
     private final Trigger GPMiddleButton;
     private final Trigger GPRightButton;
 
+    private final Trigger slowmode;
+
     FilteredXboxController controller;
 
     /**
@@ -80,6 +83,7 @@ public class SK23DriveBinder implements CommandBinder
         GPMiddleButton = new JoystickButton(controller.getHID(), kGPMiddleButton.value);
         GPRightButton = new JoystickButton(controller.getHID(), kGPRightButton.value);
 
+        slowmode = controller.leftTrigger();
     }
 
     public void bindButtons()
@@ -143,5 +147,10 @@ public class SK23DriveBinder implements CommandBinder
         GridRightModifier.and(GPLeftButton).whileTrue(new OnTheFlyCommand(RightGrid_LeftCone, drive));
         GridRightModifier.and(GPMiddleButton).whileTrue(new OnTheFlyCommand(RightGrid_MiddleCube, drive));
         GridRightModifier.and(GPRightButton).whileTrue(new OnTheFlyCommand(RightGrid_RightCone, drive));
+    }
+
+    public Command setGainCommand(double gain)
+    {
+        return null;
     }
 }

@@ -35,7 +35,7 @@ public final class Constants
 
         // TODO: Check and see if this is the correct number for the current limit.
         // Current limit for the neo 550 motors for the intake
-        public static final int kIntakeCurrentLimit = 15;
+        public static final int kIntakeCurrentLimit = 25;
 
     }
 
@@ -77,16 +77,16 @@ public final class Constants
         public static final double kArmMotorMaxOutput = 0.6;
         public static final double kArmMotorMinOutput = -0.3;
 
-        public static final double kHighPosition       = 90.0;  // Degrees for High Position
-        public static final double kMidPosition        = 76.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 23.0;  // Degrees for Low Position
+        public static final double kHighPosition       = 93.0;  // Degrees for High Position
+        public static final double kMidPosition        = 70.0;  // Degrees for Mid Position
+        public static final double kLowPosition        = 19.0;  // Degrees for Low Position
         public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees
         public static final double kMinAngle = 0;   // Degrees
 
-        public static final double kJoystickChange   = 45.0; // Manual setpoint value for degrees moved per second
+        public static final double kJoystickChange   = 30.0; // Manual setpoint value for degrees moved per second
         public static final double kJoystickDeadband = 0.3;  // Manual arm movement axis deadband
 
         public static final boolean kJoystickReversed = true;  // Determines if the joystick movement is reversed

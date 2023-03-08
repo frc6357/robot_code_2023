@@ -79,6 +79,8 @@ public class Ports
         public static final Button kGPMiddleButton    = kA;
         public static final Button kGPRightButton     = kB;
 
+        public static final Axis kSlowMode = kLeftTrigger;
+
         public static final int kOperatorControllerPort = 1;
 
         // Modifiers

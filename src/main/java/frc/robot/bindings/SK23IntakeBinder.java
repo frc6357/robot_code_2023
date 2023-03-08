@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.IntakeConstants.*;
@@ -27,6 +28,8 @@ public class SK23IntakeBinder implements CommandBinder
 
     private final Trigger extendIntake;
     private final Trigger retractIntake;
+    
+    private final Trigger zeroPositionButton;
 
     FilteredXboxController controller;
 
@@ -51,6 +54,7 @@ public class SK23IntakeBinder implements CommandBinder
         extendIntake = controller.leftTrigger();
         retractIntake = controller.rightTrigger();
 
+        zeroPositionButton = new POVButton(controller.getHID(), kOperatorZeroPosition);
     }
 
     public void bindButtons()
@@ -72,6 +76,9 @@ public class SK23IntakeBinder implements CommandBinder
             // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
             extendIntake.onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
             retractIntake.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
+
+            // Sets the intake position when bringing the arm down to the zero position
+            zeroPositionButton.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
         }
 
     }
