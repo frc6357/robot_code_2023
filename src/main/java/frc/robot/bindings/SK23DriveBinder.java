@@ -6,7 +6,6 @@ import static frc.robot.AutoTools.GridPositions.*;
 
 import java.util.Optional;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -20,6 +19,7 @@ import frc.robot.commands.DriveTurnCommand;
 import frc.robot.commands.OnTheFlyCommand;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.utils.filters.CubicDeadbandFilter;
+import frc.robot.utils.filters.Filter;
 import frc.robot.utils.filters.FilteredXboxController;
 
 public class SK23DriveBinder implements CommandBinder
@@ -93,15 +93,19 @@ public class SK23DriveBinder implements CommandBinder
             SK23Drive drive = subsystem.get();
 
             // Sets filters for driving axes
-            controller.setFilter(kVelocityXPort.value, new CubicDeadbandFilter(kDriveGain,
+            controller.setFilter(kVelocityXPort.value, new CubicDeadbandFilter(kDriveCoeff,
                 kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
-            controller.setFilter(kVelocityYPort.value, new CubicDeadbandFilter(kDriveGain,
+            controller.setFilter(kVelocityYPort.value, new CubicDeadbandFilter(kDriveCoeff,
                 kJoystickDeadband, DriveConstants.kMaxSpeedMetersPerSecond, true));
 
             controller.setFilter(kVelocityOmegaPort.value,
-                new CubicDeadbandFilter(kRotationGain, kJoystickDeadband,
+                new CubicDeadbandFilter(kRotationCoeff, kJoystickDeadband,
                     Math.toRadians(ModuleConstants.kMaxModuleAngularSpeedDegreesPerSecond), true));
+
+            slowmode.
+                onTrue(new InstantCommand(() -> {setGainCommand(kSlowModePercent);}, drive))
+                .onFalse(new InstantCommand(() -> {setGainCommand(1);}, drive));
 
             // Resets gyro angles
             resetGyroDSS.onTrue(new InstantCommand(() -> {drive.setHeading(0);}));
@@ -149,8 +153,22 @@ public class SK23DriveBinder implements CommandBinder
         GridRightModifier.and(GPRightButton).whileTrue(new OnTheFlyCommand(RightGrid_RightCone, drive));
     }
 
-    public Command setGainCommand(double gain)
+    /**
+     * Sets the gains on the filters for the joysticks
+     * 
+     * @param percent
+     *            The percent value of the full output that should be allowed (value
+     *            should be between 0 and 1)
+     */
+    public void setGainCommand(double percent)
     {
-        return null;
+        Filter translation = new CubicDeadbandFilter(kDriveCoeff, kJoystickDeadband,
+            DriveConstants.kMaxSpeedMetersPerSecond * percent, true);
+        Filter rotation = new CubicDeadbandFilter(kDriveCoeff, kJoystickDeadband,
+            DriveConstants.kMaxRotationDegreesPerSecond * percent, true);
+
+        controller.setFilter(kVelocityXPort.value, translation);
+        controller.setFilter(kVelocityYPort.value, translation);
+        controller.setFilter(kVelocityOmegaPort.value, rotation);
     }
 }

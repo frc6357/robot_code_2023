@@ -33,7 +33,6 @@ public final class Constants
         public static final double kIntakeCubeSpeed = -1;
         public static final double kEjectCubeSpeed  = 0.6;
 
-        // TODO: Check and see if this is the correct number for the current limit.
         // Current limit for the neo 550 motors for the intake
         public static final int kIntakeCurrentLimit = 25;
 
@@ -176,9 +175,10 @@ public final class Constants
     public static final class OIConstants
     {
         // Controller constraints
-        public static final double kDriveGain        = 0.95;
-        public static final double kRotationGain     = 0.95;
+        public static final double kDriveCoeff       = 0.95;
+        public static final double kRotationCoeff    = 0.95;
         public static final double kJoystickDeadband = 0.15;
+        public static final double kSlowModePercent  = 0.2;
 
         public static final double kAccelLimit = 2;
     }
