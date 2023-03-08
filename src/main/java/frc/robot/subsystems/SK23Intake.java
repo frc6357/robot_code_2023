@@ -35,7 +35,8 @@ public class SK23Intake extends SubsystemBase
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
 
-        intakeExtender.set(Value.kReverse);
+        // Start the robot in the retract position
+        retractIntake();
     }
 
     /**

@@ -66,14 +66,7 @@ public class AutoBalanceCommand extends CommandBase
 
         // Use the PID controllers to control the robot relative to itself,
         // NOT in field relative mode, as it is using robot angles.
-        if (DriverStation.isTeleop())
-        {
-            subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
-        }
-        else
-        {
-            subsystem.drive(xSpeed, ySpeed, 0, false);
-        }
+        subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
     }
 
     // Called once the command ends or is interrupted.
