@@ -220,10 +220,6 @@ public class SparkMaxArm extends GenericArmMotor
 
     public void periodic()
     {
-        double applied_output = motor.getAppliedOutput();
-        SmartDashboard.putNumber("Applied Output", applied_output);
-        double current = motor.getOutputCurrent();
-        SmartDashboard.putNumber("Current", current);
         
     }
 }

@@ -71,7 +71,7 @@ public class SK23ArmBinder implements CommandBinder
                 .onTrue(new ArmButtonCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
 
             
-            resetPos.onTrue(new InstantCommand(m_robotArm::resetAngle, m_robotArm));
+            resetPos.onTrue(new InstantCommand(m_robotArm::resetAngle));
 
             m_robotArm.setDefaultCommand(
                 // Vertical movement of the arm is controlled by the Y axis of the right stick.

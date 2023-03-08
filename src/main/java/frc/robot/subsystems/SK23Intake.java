@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GamePieceEnum;
 
@@ -28,6 +29,11 @@ public class SK23Intake extends SubsystemBase
 
     private GamePieceEnum GPState = GamePieceEnum.Cone;
 
+    Boolean pastGPState;
+    Boolean pastIntakeState;
+    Boolean pastOuttakeState;
+    Boolean pastExtendState;
+
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
     {
@@ -39,6 +45,17 @@ public class SK23Intake extends SubsystemBase
 
         // Start the robot in the retract position
         retractIntake();
+
+        pastGPState = getGamePieceState() == GamePieceEnum.Cone;
+        pastIntakeState = isIntaking();
+        pastOuttakeState = isOuttaking();
+        pastExtendState = isExtended();
+
+        SmartDashboard.putBoolean("Intake State", pastGPState);
+        SmartDashboard.putBoolean("Intaking", pastIntakeState);
+        SmartDashboard.putBoolean("Outtaking", pastOuttakeState);
+        SmartDashboard.putBoolean("Intake Extended", pastExtendState);
+
     }
 
     /**
@@ -111,6 +128,66 @@ public class SK23Intake extends SubsystemBase
     public GamePieceEnum getGamePieceState()
     {
         return GPState;
+    }
+
+    public boolean isIntaking()
+    {
+        if (getGamePieceState() == GamePieceEnum.Cone)
+        {
+            return getFrontRollerSpeed() > 0;
+        }
+        else
+        {
+            return getFrontRollerSpeed() < 0;
+        }
+
+    }
+
+    public boolean isOuttaking()
+    {
+        if (getGamePieceState() == GamePieceEnum.Cone)
+        {
+            return getFrontRollerSpeed() < 0;
+        }
+        else
+        {
+            return getFrontRollerSpeed() > 0;
+        }
+
+    }
+
+    public boolean isExtended()
+    {
+        return intakeExtender.get() == Value.kForward;
+    }
+
+    @Override
+    public void periodic()
+    {
+        Boolean curGPState = getGamePieceState() == GamePieceEnum.Cone;
+        if(curGPState != pastGPState){
+            SmartDashboard.putBoolean("Intake State", curGPState);
+            pastGPState = curGPState;
+        }
+
+        Boolean curIntakeState = isIntaking();
+        if(curIntakeState != pastIntakeState){
+            SmartDashboard.putBoolean("Intaking", curIntakeState);
+            pastIntakeState = curIntakeState;
+        }
+        
+        Boolean curOuttakeState = isOuttaking();
+        if(curOuttakeState != pastOuttakeState){
+            SmartDashboard.putBoolean("Outtaking", curOuttakeState);
+            pastOuttakeState = curOuttakeState;
+        }
+        
+        Boolean curExtendState = isExtended();
+        if(curExtendState != pastExtendState){
+            SmartDashboard.putBoolean("Intake Extended", curExtendState);
+            pastExtendState = curExtendState;
+        }
+        
     }
 
 }

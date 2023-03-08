@@ -34,7 +34,7 @@ public final class Constants
         public static final double kEjectCubeSpeed  = 0.6;
 
         // Current limit for the neo 550 motors for the intake
-        public static final int kIntakeCurrentLimit = 25;
+        public static final int kIntakeCurrentLimit = 35;
 
     }
 
@@ -78,7 +78,7 @@ public final class Constants
 
         public static final double kHighPosition       = 93.0;  // Degrees for High Position
         public static final double kMidPosition        = 70.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 19.0;  // Degrees for Low Position
+        public static final double kLowPosition        = 22.0;  // Degrees for Low Position
         public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
 
         // Angle limits for the arm positions
