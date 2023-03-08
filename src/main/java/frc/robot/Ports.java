@@ -33,7 +33,6 @@ public class Ports
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 
-        // TODO: Check if the intake channels are correct numbers
         // Intake PCM channels
         public static final int kIntakeForwardChannel = 0;
         public static final int kIntakeReverseChannel = 1;
