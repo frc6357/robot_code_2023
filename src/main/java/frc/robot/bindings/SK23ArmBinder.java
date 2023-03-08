@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.ArmJoystickCommand;
@@ -42,7 +41,8 @@ public class SK23ArmBinder implements CommandBinder
     {
         this.controller = controller;
         this.subsystem = subsystem;
-        zeroPositionButton = new POVButton(controller.getHID(), kOperatorZeroPosition);
+
+        zeroPositionButton = new JoystickButton(controller.getHID(), kOperatorZeroPosition.value);
         LowButton = new JoystickButton(controller.getHID(), kOperatorLowArm.value);
         MidButton = new JoystickButton(controller.getHID(), kOperatorMidArm.value);
         HighButton = new JoystickButton(controller.getHID(), kOperatorHighArm.value);

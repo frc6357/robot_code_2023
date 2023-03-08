@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.IntakeConstants.*;
 
 import static frc.robot.Ports.OperatorPorts.*;
-import frc.robot.commands.IntakeCommand;
+
+import frc.robot.Constants.GamePieceEnum;
+import frc.robot.commands.StateIntakeCommand;
 import frc.robot.subsystems.SK23Intake;
 
 import frc.robot.utils.filters.FilteredXboxController;
@@ -49,12 +51,14 @@ public class SK23IntakeBinder implements CommandBinder
         // uses values from the xbox controller to control the port values
         coneModifier = new JoystickButton(controller.getHID(), kOperatorCone.value);
         cubeModifier = new JoystickButton(controller.getHID(), kOperatorCube.value);
-        intake = new JoystickButton(controller.getHID(), kOperatorIntake.value);
-        eject = new JoystickButton(controller.getHID(), kOperatorEject.value);
-        extendIntake = controller.leftTrigger();
-        retractIntake = controller.rightTrigger();
 
-        zeroPositionButton = new POVButton(controller.getHID(), kOperatorZeroPosition);
+        intake = controller.leftTrigger();
+        eject = controller.rightTrigger();
+
+        extendIntake = new POVButton(controller.getHID(), kOperatorExtendIntake);
+        retractIntake = new POVButton(controller.getHID(), kOperatorRetractIntake);
+
+        zeroPositionButton = new JoystickButton(controller.getHID(), kOperatorZeroPosition.value);
     }
 
     public void bindButtons()
@@ -67,12 +71,12 @@ public class SK23IntakeBinder implements CommandBinder
             SK23Intake m_robotIntake = subsystem.get();
 
             // Sets buttons with whileTrue so that they will run continuously until the button is let go
-            coneModifier.and(intake).whileTrue(new IntakeCommand(kIntakeConeSpeed, m_robotIntake));
-            cubeModifier.and(intake).whileTrue(new IntakeCommand(kIntakeCubeSpeed, m_robotIntake));
-
-            coneModifier.and(eject).whileTrue(new IntakeCommand(kEjectConeSpeed, m_robotIntake));
-            cubeModifier.and(eject).whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
-
+            coneModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cone);}, m_robotIntake));
+            cubeModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cube);}, m_robotIntake));
+            
+            intake.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
+            eject.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+            
             // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
             extendIntake.onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
             retractIntake.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));

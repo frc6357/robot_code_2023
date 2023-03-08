@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.GamePieceEnum;
 
 import static frc.robot.Constants.IntakeConstants.*;
 import static frc.robot.Ports.IntakePorts.*;
@@ -24,6 +25,8 @@ public class SK23Intake extends SubsystemBase
     // The motor responsible for controlling the back roller and the front roller far above the ground
     private final CANSparkMax outerMotor =
             new CANSparkMax(kBackTopIntakeMotorPort, MotorType.kBrushless);
+
+    private GamePieceEnum GPState = GamePieceEnum.Cone;
 
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
@@ -86,6 +89,28 @@ public class SK23Intake extends SubsystemBase
     public double getRearTopRollerSpeed()
     {
         return outerMotor.get();
+    }
+
+    /**
+     * Sets the intake state to either cone, cube, or none
+     * 
+     * @param gp
+     *            The desired game piece
+     */
+    public void setGamePieceState(GamePieceEnum gp)
+    {
+        GPState = gp;
+    }
+
+    /**
+     * Gets the desired game piece the intake wants to manipulate
+     * 
+     * @param gp
+     *            The desired game piece (Cone, Cube, or None)
+     */
+    public GamePieceEnum getGamePieceState()
+    {
+        return GPState;
     }
 
 }

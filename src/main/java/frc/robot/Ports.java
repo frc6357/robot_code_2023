@@ -80,28 +80,32 @@ public class Ports
 
         public static final Axis kSlowMode = kLeftTrigger;
 
+
+
         public static final int kOperatorControllerPort = 1;
 
         // Modifiers
-        public static final Button kOperatorCone = kLeftBumper;
-        public static final Button kOperatorCube = kRightBumper;
+        public static final Button kOperatorCone = kRightBumper;
+        public static final Button kOperatorCube = kLeftBumper;
 
         // Buttons for intake
-        public static final Button kOperatorIntake        = kBack;
-        public static final Button kOperatorEject         = kStart;
-        public static final Axis   kOperatorExtendIntake  = kLeftTrigger;
-        public static final Axis   kOperatorRetractIntake = kRightTrigger;
+        public static final Axis kOperatorIntake        = kLeftTrigger;
+        public static final Axis kOperatorEject         = kRightTrigger;
 
-        // Buttons for arm
+        public static final int  kOperatorExtendIntake  = 180; // Down POV Button
+        public static final int  kOperatorRetractIntake = 0;   // Up POV Button
+
+        // Buttons for arm positions
         public static final Button kOperatorHighArm       = kY;
         public static final Button kOperatorMidArm        = kX;
         public static final Button kOperatorLowArm        = kA;
         public static final Button kOperatorSubstationArm = kB;
-        public static final int    kOperatorZeroPosition  = 180;
-        public static final Axis   kOperatorArmAxis       = kRightY;
-        public static final Button kOperatorResetArmPos   = kLeftStick;
-        public static final Button kOperatorArmOverride   = kRightStick;
+        public static final Button kOperatorZeroPosition  = kStart;
 
+        // Arm overrides
+        public static final Axis   kOperatorArmAxis       = kRightY;
+        public static final Button kOperatorResetArmPos   = kBack;
+        public static final Button kOperatorArmOverride   = kRightStick;
     }
 
     /**
