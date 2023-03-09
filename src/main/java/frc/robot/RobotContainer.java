@@ -183,4 +183,12 @@ public class RobotContainer
             armSubsystem.get().testInit();
         }
     }
+
+    public void matchInit()
+    {
+        if (armSubsystem.isPresent())
+        {
+            armSubsystem.get().resetAngle();
+        }
+    }
 }
