@@ -188,7 +188,9 @@ public class RobotContainer
     {
         if (armSubsystem.isPresent())
         {
-            armSubsystem.get().resetAngle();
+            SK23Arm arm = armSubsystem.get();
+            arm.resetAngle();
+            arm.setTargetAngle(0);
         }
     }
 }

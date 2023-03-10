@@ -31,7 +31,7 @@ public final class Constants
         public static final double kIntakeConeSpeed = 1;
         public static final double kEjectConeSpeed  = -1;
         public static final double kIntakeCubeSpeed = -1;
-        public static final double kEjectCubeSpeed  = 0.6;
+        public static final double kEjectCubeSpeed  = 0.4;
 
         // Current limit for the neo 550 motors for the intake
         public static final int kIntakeCurrentLimit = 35;
@@ -76,10 +76,10 @@ public final class Constants
         public static final double kArmMotorMaxOutput = 0.6;
         public static final double kArmMotorMinOutput = -0.3;
 
-        public static final double kHighPosition       = 93.0;  // Degrees for High Position
-        public static final double kMidPosition        = 70.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 22.0;  // Degrees for Low Position
-        public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
+        public static final double kHighPosition       = 90.0;  // Degrees for High Position
+        public static final double kMidPosition        = 64.0;  // Degrees for Mid Position
+        public static final double kLowPosition        = 15.0;  // Degrees for Low Position
+        public static final double kSubstationPosition = 87.0;  // Degrees Value for Substation
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees
@@ -207,6 +207,11 @@ public final class Constants
         // PID Constants
         public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3, 0, 0);
         public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
+
+        public static final double kHighPosition       = 93.0;  // Degrees for High Position
+        public static final double kMidPosition        = 70.0;  // Degrees for Mid Position
+        public static final double kLowPosition        = 22.0;  // Degrees for Low Position
+        public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
     }
 
     /** The file that is used for system instantiation at runtime */

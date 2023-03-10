@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Ports.ArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
 import frc.robot.utils.armAngle.ArmAngleInternal;
@@ -29,19 +31,19 @@ public class SK23Arm extends Arm
         switch (angle)
         {
             case HighPosition:
-                Arm.setTargetAngle(ArmConstants.kHighPosition);
+                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kHighPosition : ArmConstants.kHighPosition);
                 break;
             case MidPosition:
-                Arm.setTargetAngle(ArmConstants.kMidPosition);
+                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kMidPosition : ArmConstants.kMidPosition);
                 break;
             case FloorPosition:
-                Arm.setTargetAngle(ArmConstants.kLowPosition);
+                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kLowPosition : ArmConstants.kLowPosition);
                 break;
             case ZeroPosition:
                 Arm.setTargetAngle(0);
                 break;
             case SubstationPosition:
-                Arm.setTargetAngle(ArmConstants.kSubstationPosition);
+                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kSubstationPosition : ArmConstants.kSubstationPosition);
                 break;
         }
     }
