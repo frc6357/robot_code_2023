@@ -17,35 +17,34 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "High Arm",
-          "Extend Intake"
+          "High Arm"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 1.859977148773742,
-        "y": 4.9497945506307675
+        "x": 1.8058163911466711,
+        "y": 4.414681626238252
       },
       "prevControl": {
-        "x": 2.2487864420173285,
-        "y": 4.9404584885558664
+        "x": 2.341799134987159,
+        "y": 4.994271318403748
       },
       "nextControl": {
-        "x": 2.2487864420173285,
-        "y": 4.9404584885558664
+        "x": 2.341799134987159,
+        "y": 4.994271318403748
       },
       "holonomicAngle": 180.0,
       "isReversal": true,
       "velOverride": null,
-      "isLocked": true,
+      "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "Eject Cone"
+          "Eject Cube"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "deadline",
@@ -58,47 +57,47 @@
         "y": 4.597227734386024
       },
       "prevControl": {
-        "x": 5.510203456170802,
-        "y": 4.5964738908644485
+        "x": 5.736182548753987,
+        "y": 4.554606581435385
       },
       "nextControl": {
-        "x": 5.510203456170802,
-        "y": 4.5964738908644485
+        "x": 5.736182548753987,
+        "y": 4.554606581435385
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.01,
       "isReversal": true,
       "velOverride": null,
-      "isLocked": true,
-      "isStopPoint": false,
+      "isLocked": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
+        "waitBehavior": "deadline",
+        "waitTime": 0.5
       }
     },
     {
       "anchorPoint": {
-        "x": 1.8529026172635679,
-        "y": 3.8782929666553776
+        "x": 3.9189557580504055,
+        "y": 2.7617927232382242
       },
       "prevControl": {
-        "x": 1.8319689625490363,
-        "y": 5.32683228734513
+        "x": 6.9435499305026385,
+        "y": 2.836713171690232
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": true,
+      "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Eject Cone"
+          "Level"
         ],
         "executionBehavior": "sequential",
-        "waitBehavior": "deadline",
-        "waitTime": 1.5
+        "waitBehavior": "none",
+        "waitTime": 0
       }
     }
   ],
@@ -107,21 +106,14 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 1.7306463068181819,
+      "position": 1.6,
       "names": [
         "Intake Cone"
       ]
     },
     {
-      "position": 1.4665482954545455,
+      "position": 2.35,
       "names": [
-        "Low Arm"
-      ]
-    },
-    {
-      "position": 2.288884943181817,
-      "names": [
-        "High Arm",
         "Stop Intake"
       ]
     }
