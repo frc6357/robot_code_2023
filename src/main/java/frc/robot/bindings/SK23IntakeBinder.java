@@ -3,8 +3,6 @@ package frc.robot.bindings;
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.IntakeConstants.*;
@@ -14,8 +12,6 @@ import static frc.robot.Ports.OperatorPorts.*;
 import frc.robot.Constants.GamePieceEnum;
 import frc.robot.commands.StateIntakeCommand;
 import frc.robot.subsystems.SK23Intake;
-
-import frc.robot.utils.filters.FilteredXboxController;
 
 public class SK23IntakeBinder implements CommandBinder
 {
@@ -33,8 +29,6 @@ public class SK23IntakeBinder implements CommandBinder
     
     private final Trigger zeroPositionButton;
 
-    FilteredXboxController controller;
-
     /**
      * The class that is used to bind all the commands for the drive subsystem
      * 
@@ -43,22 +37,21 @@ public class SK23IntakeBinder implements CommandBinder
      * @param intakeSubsystem
      *            The required drive subsystem for the commands
      */
-    public SK23IntakeBinder(FilteredXboxController controller, Optional<SK23Intake> subsystem)
+    public SK23IntakeBinder(Optional<SK23Intake> subsystem)
     {
-        this.controller = controller;
         this.subsystem = subsystem;
 
         // uses values from the xbox controller to control the port values
-        coneModifier = new JoystickButton(controller.getHID(), kOperatorCone.value);
-        cubeModifier = new JoystickButton(controller.getHID(), kOperatorCube.value);
+        coneModifier = kConeState.button;
+        cubeModifier = kCubeState.button;
 
-        intake = controller.leftTrigger();
-        eject = controller.rightTrigger();
+        intake = kIntake.button;
+        eject  = kEject.button;
 
-        extendIntake = new POVButton(controller.getHID(), kOperatorExtendIntake);
-        retractIntake = new POVButton(controller.getHID(), kOperatorRetractIntake);
+        extendIntake  = kExtendIntake.button;
+        retractIntake = kRetractIntake.button;
 
-        zeroPositionButton = new JoystickButton(controller.getHID(), kOperatorZeroPosition.value);
+        zeroPositionButton = kZeroPosition.button;
     }
 
     public void bindButtons()
