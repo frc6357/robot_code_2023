@@ -61,7 +61,7 @@ public class Ports
         public static final FilteredAxis kVelocityOmegaPort = new FilteredAxis(() -> kDriver.getRawAxis(kRightX.value));
 
         // Buttons for driving
-        public static final SKTrigger kRobotCentricMode = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kRobotCentricMode = new SKTrigger(kDriver, kRightBumper.value, BUTTON);
         public static final SKTrigger kRotateDSS        = new SKTrigger(kDriver, kY.value, BUTTON);
         public static final SKTrigger kRotateGrid       = new SKTrigger(kDriver, kA.value, BUTTON);
         public static final SKTrigger kRotateLeft       = new SKTrigger(kDriver, kX.value, BUTTON);
@@ -75,13 +75,18 @@ public class Ports
         public static final SKTrigger kResetGyroRight = new SKTrigger(kDriver, 90, POV);
 
         // Buttons for On The Fly Driving
-        public static final SKTrigger kGridLeftModifier  = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
-        public static final SKTrigger kGridRightModifier = new SKTrigger(kDriver, kRightBumper.value, BUTTON);
-        public static final SKTrigger kGPLeftButton      = new SKTrigger(kDriver, kX.value, BUTTON);
-        public static final SKTrigger kGPMiddleButton    = new SKTrigger(kDriver, kA.value, BUTTON);
-        public static final SKTrigger kGPRightButton     = new SKTrigger(kDriver, kB.value, BUTTON);
+        // public static final SKTrigger kGridLeftModifier  = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
+        // public static final SKTrigger kGridRightModifier = new SKTrigger(kDriver, kRightBumper.value, BUTTON);
+        // public static final SKTrigger kGPLeftButton      = new SKTrigger(kDriver, kX.value, BUTTON);
+        // public static final SKTrigger kGPMiddleButton    = new SKTrigger(kDriver, kA.value, BUTTON);
+        // public static final SKTrigger kGPRightButton     = new SKTrigger(kDriver, kB.value, BUTTON);
 
-        public static final SKTrigger kSlowMode = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kSlowMode = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
+
+        // Buttons for Intake
+        public static final SKTrigger kDriverIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kDriverEject = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
+
 
         // Operator controller set to xbox controller
         public static final GenericHID kOperator = new FilteredXboxController(1).getHID();
