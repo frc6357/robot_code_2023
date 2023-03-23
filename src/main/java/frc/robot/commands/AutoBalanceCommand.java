@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Drive;
 
@@ -56,9 +57,26 @@ public class AutoBalanceCommand extends CommandBase
         xSpeed *= scaleFactor;
         ySpeed *= scaleFactor;
 
-        // Use the PID controllers to control the robot relative to itself,
-        // NOT in field relative mode, as it is using robot angles.
-        subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
+        // If the match is currently in autonomous with less than one second left, put the
+        // the robot in the default "defense" position to ensure that the robot does not
+        // slip when the robot is disabled. The reason that this is not the end condition
+        // is because the wheels require some time to get into the "defense" position, and
+        // ending the command when the condition is met will not allow the wheels to get
+        // into the "defense" position.
+        if ((DriverStation.isAutonomousEnabled() && (DriverStation.getMatchTime() < 1)))
+        {
+            subsystem.drive(0, 0, 0, false);
+            
+        }
+        // If the match is not in autonomous with less than one second left, level the
+        // robot as normal
+        else
+        {
+            // Use the PID controllers to control the robot relative to itself,
+            // NOT in field relative mode, as it is using robot angles.
+            subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
+        }
+        
     }
 
     // Called once the command ends or is interrupted.
