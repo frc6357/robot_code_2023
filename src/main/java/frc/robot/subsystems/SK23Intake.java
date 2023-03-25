@@ -3,23 +3,25 @@
 //
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.IntakeConstants.kIntakeCurrentLimit;
+import static frc.robot.Ports.IntakePorts.kBackTopIntakeMotorPort;
+import static frc.robot.Ports.IntakePorts.kFrontIntakeMotorPort;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GamePieceEnum;
-
-import static frc.robot.Constants.IntakeConstants.*;
-import static frc.robot.Ports.IntakePorts.*;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Ports.IntakePorts;
+import frc.robot.utils.armAngle.ArmAngleInternal;
+import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
-    DoubleSolenoid intakeExtender = new DoubleSolenoid(kPneumaticsModule, kModuleType,
-        kIntakeForwardChannel, kIntakeReverseChannel);
+    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, IntakePorts.kMainIntakeMotor, IntakeConstants.kGearRatio, IntakeConstants.kIntakeMotorP, IntakeConstants.kIntakeMotorI, IntakeConstants.kIntakeMotorD, IntakeConstants.kIntakeMotorIZone);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(kFrontIntakeMotorPort, MotorType.kBrushless);
@@ -63,7 +65,7 @@ public class SK23Intake extends SubsystemBase
      */
     public void extendIntake()
     {
-        intakeExtender.set(Value.kForward);
+        intakeExtender.setTargetAngle(IntakeConstants.kExtendAngle);
     }
 
     /**
@@ -71,7 +73,7 @@ public class SK23Intake extends SubsystemBase
      */
     public void retractIntake()
     {
-        intakeExtender.set(Value.kReverse);
+        intakeExtender.setTargetAngle(IntakeConstants.kRetractAngle);
     }
 
     /**
@@ -158,7 +160,7 @@ public class SK23Intake extends SubsystemBase
 
     public boolean isExtended()
     {
-        return intakeExtender.get() == Value.kForward;
+        return intakeExtender.getCurrentAngle() == IntakeConstants.kExtendAngle;
     }
 
     @Override

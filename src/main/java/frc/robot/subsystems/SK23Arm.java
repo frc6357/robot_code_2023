@@ -50,6 +50,8 @@ public class SK23Arm extends Arm
         config.sensorCoefficient = 360.0 / 4096;
 
         CANCoder.configAllSettings(config);
+
+        CANCoder.setPosition(0.0);
     }
     
 
@@ -140,10 +142,11 @@ public class SK23Arm extends Arm
     @Override
     public void periodic()
     {
-        motor.set(PID.calculate(getCurrentAngle())); //Sets PID value based on target angle every period call
 
         double current_angle = getCurrentAngle();
         double target_angle = getTargetAngle();
+
+        motor.set(PID.calculate(current_angle)); //Sets PID value with current angle as input every period call
 
         SmartDashboard.putNumber("Current Angle", current_angle);
         SmartDashboard.putNumber("Target Angle", target_angle);

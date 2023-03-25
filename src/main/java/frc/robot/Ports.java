@@ -35,6 +35,7 @@ public class Ports
         // The PCM has a single digit CAN ID to increase CAN bus priority
         public static final int                  kPneumaticsModule = 2;
         public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.REVPH;
+        public static int kMainIntakeMotor = 42;
 
     }
 
