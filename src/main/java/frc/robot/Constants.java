@@ -199,13 +199,13 @@ public final class Constants
 
         // Autonomous translation constraints
         public static final double          kMaxSpeedMetersPerSecond               = 3;
-        public static final double          kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double          kMaxAccelerationMetersPerSecondSquared = 2;
         public static final PathConstraints kPathConstraints                       =
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                     kMaxAccelerationMetersPerSecondSquared);
 
         // PID Constants
-        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3, 0, 0);
+        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(6, 0, 0);
         public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
 
         public static final double kHighPosition       = 93.0;  // Degrees for High Position
