@@ -1,7 +1,7 @@
 {
-    "drive"         : true,
+    "drive"         : false,
     "arm"           : false,
-    "intake"        : false,
+    "intake"        : true,
     "camera"        : false,
     "vision"        : false
 }

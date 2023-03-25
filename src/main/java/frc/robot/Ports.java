@@ -5,7 +5,6 @@ import static edu.wpi.first.wpilibj.XboxController.Button.*;
 import static frc.robot.utils.SKTrigger.INPUT_TYPE.*;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.utils.CANPort;
 import frc.robot.utils.SKTrigger;
 import frc.robot.utils.filters.FilteredAxis;
@@ -27,15 +26,7 @@ public class Ports
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 
-        // Intake PCM channels
-        public static final int kIntakeForwardChannel = 0;
-        public static final int kIntakeReverseChannel = 1;
-
-        // Pneumatics Module Constants
-        // The PCM has a single digit CAN ID to increase CAN bus priority
-        public static final int                  kPneumaticsModule = 2;
-        public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.REVPH;
-        public static int kMainIntakeMotor = 42;
+        public static final int kIntakeExtendMotor = 42;
 
     }
 
@@ -94,6 +85,8 @@ public class Ports
 
         public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
         public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button
+        public static final SKTrigger kMidLowIntake  = new SKTrigger(kOperator, 270, POV); // Left POV Button
+        public static final SKTrigger kMidHighIntake = new SKTrigger(kOperator, 90, POV);   // Right POV Button
 
         // Buttons for arm positions
         public static final SKTrigger kHighArm       = new SKTrigger(kOperator, kY.value, BUTTON);

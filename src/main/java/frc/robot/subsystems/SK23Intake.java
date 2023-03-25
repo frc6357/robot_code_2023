@@ -21,7 +21,7 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
-    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, IntakePorts.kMainIntakeMotor, IntakeConstants.kGearRatio, IntakeConstants.kIntakeMotorP, IntakeConstants.kIntakeMotorI, IntakeConstants.kIntakeMotorD, IntakeConstants.kIntakeMotorIZone);
+    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, IntakePorts.kIntakeExtendMotor, IntakeConstants.kGearRatio, IntakeConstants.kIntakeMotorP, IntakeConstants.kIntakeMotorI, IntakeConstants.kIntakeMotorD, IntakeConstants.kIntakeMotorIZone);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(kFrontIntakeMotorPort, MotorType.kBrushless);
@@ -45,14 +45,17 @@ public class SK23Intake extends SubsystemBase
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
 
-        // Start the robot in the retract position
-        retractIntake();
+        intakeExtender.resetEncoder();
 
         pastGPState = getGamePieceState() == GamePieceEnum.Cone;
         pastIntakeState = isIntaking();
         pastOuttakeState = isOuttaking();
         pastExtendState = isExtended();
+        double currentAngle = intakeExtender.getCurrentAngle();
+        double targetAngle = intakeExtender.getTargetAngle();
 
+        SmartDashboard.putNumber("Intake Current Angle", currentAngle);
+        SmartDashboard.putNumber("Intake Target Angle", targetAngle);
         SmartDashboard.putBoolean("Intake State", pastGPState);
         SmartDashboard.putBoolean("Intaking", pastIntakeState);
         SmartDashboard.putBoolean("Outtaking", pastOuttakeState);
@@ -65,7 +68,7 @@ public class SK23Intake extends SubsystemBase
      */
     public void extendIntake()
     {
-        intakeExtender.setTargetAngle(IntakeConstants.kExtendAngle);
+        intakeExtender.setTargetAngle(IntakeConstants.kExtendAngle); //Positive angle moves upward and Negative angle moves downward
     }
 
     /**
@@ -73,7 +76,11 @@ public class SK23Intake extends SubsystemBase
      */
     public void retractIntake()
     {
-        intakeExtender.setTargetAngle(IntakeConstants.kRetractAngle);
+        intakeExtender.setTargetAngle(IntakeConstants.kRetractAngle); //Positive angle moves upward and Negative angle moves downward
+    }
+
+    public void setTargetAngle(double angle){
+        intakeExtender.setTargetAngle(angle);
     }
 
     /**
@@ -166,6 +173,13 @@ public class SK23Intake extends SubsystemBase
     @Override
     public void periodic()
     {
+
+        double currentAngle = intakeExtender.getCurrentAngle();
+        double targetAngle = intakeExtender.getTargetAngle();
+
+        SmartDashboard.putNumber("Intake Current Angle", currentAngle);
+        SmartDashboard.putNumber("Intake Target Angle", targetAngle);
+
         Boolean curGPState = getGamePieceState() == GamePieceEnum.Cone;
         if(curGPState != pastGPState){
             SmartDashboard.putBoolean("Intake State", curGPState);
