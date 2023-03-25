@@ -70,7 +70,7 @@ public class SlewRateFilter implements Filter
     {
         if (Math.abs(rawAxis) < deadband)
         {
-            return 0.0;
+            return slewFilter.calculate(0.0);
         }
         else
         {
