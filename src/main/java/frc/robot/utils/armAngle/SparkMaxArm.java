@@ -7,10 +7,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.IntakeConstants;
-import pabeles.concurrency.IntOperatorTask.Max;
-import pabeles.concurrency.IntOperatorTask.Min;
 
 /**
  * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an
