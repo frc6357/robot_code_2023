@@ -13,20 +13,12 @@ import frc.robot.utils.filters.FilteredXboxController;
 
 public class Ports
 {
-    // TODO: Whenever you add a CAN ID to the file, actually assign a number. A
-    // definition of 0 is definitely wrong and the choice is essentially
-    // arbitrary so why create a job that someone needs to remember to do later
-    // when you could just stick in any non-clashing value when the port is 
-    // initially added? If we assign groups of 10 IDs per subsystem, we can also
-    // guard against clashes. For example, all ARM-related CAN IDs could start at,
-    // say, 80 and increment.
     public static class ArmPorts
     {
         // CAN IDs for Arm have a tens digit of 5
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(50, busName);
-        public static final int     kLowerSwitch = -1;
-        public static final int     kUpperSwitch = -1;
+        public static final CANPort kEncoder = new CANPort(51, busName); 
     }
 
     public static class IntakePorts
@@ -43,6 +35,7 @@ public class Ports
         // The PCM has a single digit CAN ID to increase CAN bus priority
         public static final int                  kPneumaticsModule = 2;
         public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.REVPH;
+        public static int kMainIntakeMotor = 42;
 
     }
 
