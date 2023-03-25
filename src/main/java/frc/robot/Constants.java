@@ -39,8 +39,8 @@ public final class Constants
         public static final double kIntakeMotorI = 0.00005;
         public static final double kIntakeMotorD = 0;
         public static final double kIntakeMotorIZone = 1.5;
-        public static final double MinOutput = -0.1;
-        public static final double MaxOutput = 0.9; //TODO - Don't use hardcoded values, use as parameters
+        public static final double MinOutput = -0.3;
+        public static final double MaxOutput = 0.9; 
         public static final double kGearRatio = 48.0;
         public static final double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward
         public static final double kRetractAngle = 0.0; //Positive angle moves upward and Negative angle moves downward
