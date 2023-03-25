@@ -3,9 +3,8 @@
 //
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.IntakeConstants.kIntakeCurrentLimit;
-import static frc.robot.Ports.IntakePorts.kBackTopIntakeMotorPort;
-import static frc.robot.Ports.IntakePorts.kFrontIntakeMotorPort;
+import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Ports.IntakePorts.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -13,15 +12,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GamePieceEnum;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Ports.IntakePorts;
 import frc.robot.utils.armAngle.ArmAngleInternal;
 import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 public class SK23Intake extends SubsystemBase
 {
     // The solonoid used for extending or retracting intake
-    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, IntakePorts.kIntakeExtendMotor, IntakeConstants.kGearRatio, IntakeConstants.kIntakeMotorP, IntakeConstants.kIntakeMotorI, IntakeConstants.kIntakeMotorD, IntakeConstants.kIntakeMotorIZone);
+    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, kIntakeExtendMotor, kGearRatio, kIntakeMotorP, kIntakeMotorI, kIntakeMotorD, kIntakeMotorIZone, MinOutput, MaxOutput);
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(kFrontIntakeMotorPort, MotorType.kBrushless);
@@ -45,7 +42,7 @@ public class SK23Intake extends SubsystemBase
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
 
-        intakeExtender.resetEncoder(); //TODO - 
+        intakeExtender.resetEncoder(); 
 
         pastGPState = getGamePieceState() == GamePieceEnum.Cone;
         pastIntakeState = isIntaking();
@@ -67,11 +64,11 @@ public class SK23Intake extends SubsystemBase
         intakeExtender.resetEncoder();
     }
     /**
-     * Extends the intake to allow for gamepiece pick up
+     * Extends the intake to allow for gamepiece pick up from the floor
      */
     public void extendIntake()
     {
-        intakeExtender.setTargetAngle(IntakeConstants.kExtendAngle); //Positive angle moves upward and Negative angle moves downward
+        intakeExtender.setTargetAngle(kExtendAngle); //Positive angle moves upward and Negative angle moves downward
     }
 
     /**
@@ -79,7 +76,15 @@ public class SK23Intake extends SubsystemBase
      */
     public void retractIntake()
     {
-        intakeExtender.setTargetAngle(IntakeConstants.kRetractAngle); //Positive angle moves upward and Negative angle moves downward
+        intakeExtender.setTargetAngle(kRetractAngle); //Positive angle moves upward and Negative angle moves downward
+    }
+
+    /**
+     * Extends the intake to allow for gamepiece pick up from the substation
+     */
+    public void substationIntake()
+    {
+        intakeExtender.setTargetAngle(kSubstationAngle); //Positive angle moves upward and Negative angle moves downward
     }
 
     public void setTargetAngle(double angle){
@@ -170,7 +175,7 @@ public class SK23Intake extends SubsystemBase
 
     public boolean isExtended()
     {
-        return intakeExtender.getCurrentAngle() == IntakeConstants.kExtendAngle;
+        return intakeExtender.getCurrentAngle() == kExtendAngle;
     }
 
     @Override

@@ -26,8 +26,8 @@ public class SK23IntakeBinder implements CommandBinder
 
     private final Trigger extendIntake;
     private final Trigger retractIntake;
-    private final Trigger midLowIntake;
-    private final Trigger midHighIntake;
+    private final Trigger SubstationLeftIntake;
+    private final Trigger SubstationRightIntake;
     
     private final Trigger zeroPositionButton;
 
@@ -52,8 +52,8 @@ public class SK23IntakeBinder implements CommandBinder
 
         extendIntake  = kExtendIntake.button;
         retractIntake = kRetractIntake.button;
-        midLowIntake = kMidLowIntake.button;
-        midHighIntake = kMidHighIntake.button;
+        SubstationLeftIntake = kSubstationLeftIntake.button;
+        SubstationRightIntake = kSubstationRightIntake.button;
         
 
         zeroPositionButton = kZeroPosition.button;
@@ -78,8 +78,8 @@ public class SK23IntakeBinder implements CommandBinder
             // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
             extendIntake.onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
             retractIntake.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
-            midLowIntake.onTrue(new InstantCommand(() -> {m_robotIntake.setTargetAngle(kMidLowAngle);}));
-            midHighIntake.onTrue(new InstantCommand(() -> {m_robotIntake.setTargetAngle(kMidHighAngle);}));
+            SubstationLeftIntake.onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
+            SubstationRightIntake.onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
 
             // Sets the intake position when bringing the arm down to the zero position
             zeroPositionButton.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));

@@ -9,6 +9,8 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
+import pabeles.concurrency.IntOperatorTask.Max;
+import pabeles.concurrency.IntOperatorTask.Min;
 
 /**
  * Specific class to set the angle of an arm using a CAN Spark Max Brushless motor with an
@@ -53,10 +55,10 @@ public class SparkMaxArm extends GenericArmMotor
      *            ID for digital input sensor that determines max limit point of arm or -1
      *            to indicate no switch is present
      */
-    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz,
+    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz, double MinOutput, double MaxOutput,
         int LowerSensorID, int UpperSensorID)
     {
-        this(CanID, gearRatio, Kp, Ki, Kd, Kiz, LowerSensorID);
+        this(CanID, gearRatio, Kp, Ki, Kd, Kiz, MinOutput, MaxOutput, LowerSensorID);
         this.gearRatio = gearRatio;
 
         if (UpperSensorID != -1)
@@ -90,10 +92,10 @@ public class SparkMaxArm extends GenericArmMotor
      * @param LowerSensorID
      *            ID for digital input sensor that determines reset point of arm
      */
-    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz,
+    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz, double MinOutput, double MaxOutput,
         int LowerSensorID)
     {
-        this(CanID, gearRatio, Kp, Ki, Kd, Kiz);
+        this(CanID, gearRatio, Kp, Ki, Kd, Kiz, MinOutput, MaxOutput);
 
         if (LowerSensorID != -1)
         {
@@ -124,7 +126,7 @@ public class SparkMaxArm extends GenericArmMotor
      *            Value for I Zone constant in PID controller
      */
 
-    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz)
+    public SparkMaxArm(int CanID, double gearRatio, double Kp, double Ki, double Kd, double Kiz, double MinOutput, double MaxOutput)
     {
         this.gearRatio = gearRatio;
         motor = new CANSparkMax(CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -136,9 +138,8 @@ public class SparkMaxArm extends GenericArmMotor
         pidController.setI(Ki);
         pidController.setD(Kd);
         pidController.setIZone(Kiz);
-        pidController.setOutputRange(IntakeConstants.MinOutput, IntakeConstants.MaxOutput);
 
-        pidController.setOutputRange(ArmConstants.kArmMotorMinOutput, ArmConstants.kArmMotorMaxOutput);
+        pidController.setOutputRange(MinOutput, MaxOutput);
 
         isLowerPresent = false;
         isUpperPresent = false;

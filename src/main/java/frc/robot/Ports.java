@@ -85,8 +85,8 @@ public class Ports
 
         public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
         public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button
-        public static final SKTrigger kMidLowIntake  = new SKTrigger(kOperator, 270, POV); // Left POV Button
-        public static final SKTrigger kMidHighIntake = new SKTrigger(kOperator, 90, POV);   // Right POV Button
+        public static final SKTrigger kSubstationLeftIntake  = new SKTrigger(kOperator, 270, POV); // Left POV Button
+        public static final SKTrigger kSubstationRightIntake = new SKTrigger(kOperator, 90, POV);   // Right POV Button
 
         // Buttons for arm positions
         public static final SKTrigger kHighArm       = new SKTrigger(kOperator, kY.value, BUTTON);
