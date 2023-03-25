@@ -35,15 +35,17 @@ public final class Constants
 
         // Current limit for the neo 550 motors for the intake
         public static final int kIntakeCurrentLimit = 35;
-        public static final double kIntakeMotorP = 0.05;
-        public static final double kIntakeMotorI = 0;
+        public static final double kIntakeMotorP = 0.0475;
+        public static final double kIntakeMotorI = 0.0001;
         public static final double kIntakeMotorD = 0;
-        public static final double kIntakeMotorIZone = 0;
-        public static double kGearRatio = 48.0;
-        public static double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward
-        public static double kRetractAngle = 0.0; //Positive angle moves upward and Negative angle moves downward
-        public static double kMidLowAngle = -60;
-        public static double kMidHighAngle = -30;
+        public static final double kIntakeMotorIZone = 1.5;
+        public static final double MinOutput = -0.3;
+        public static final double MaxOutput = 0.8;
+        public static final double kGearRatio = 48.0;
+        public static final double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward
+        public static final double kRetractAngle = 0.0; //Positive angle moves upward and Negative angle moves downward
+        public static final double kMidLowAngle = -60;
+        public static final double kMidHighAngle = -30;
 
     }
 

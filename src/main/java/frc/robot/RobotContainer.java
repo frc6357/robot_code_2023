@@ -178,5 +178,9 @@ public class RobotContainer
             arm.resetAngle();
             arm.setTargetAngle(0);
         }
+        if(intakeSubsystem.isPresent()){
+            SK23Intake intake = intakeSubsystem.get();
+            intake.register();
+        }
     }
 }

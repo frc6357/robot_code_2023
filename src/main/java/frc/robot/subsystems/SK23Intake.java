@@ -45,7 +45,7 @@ public class SK23Intake extends SubsystemBase
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
 
-        intakeExtender.resetEncoder();
+        intakeExtender.resetEncoder(); //TODO - 
 
         pastGPState = getGamePieceState() == GamePieceEnum.Cone;
         pastIntakeState = isIntaking();
@@ -63,6 +63,9 @@ public class SK23Intake extends SubsystemBase
 
     }
 
+    public void resetEncoder(){
+        intakeExtender.resetEncoder();
+    }
     /**
      * Extends the intake to allow for gamepiece pick up
      */
