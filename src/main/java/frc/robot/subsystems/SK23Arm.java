@@ -1,100 +1,152 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Ports.ArmPorts.*;
+
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.*;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Ports.ArmPorts;
 import frc.robot.subsystems.superclasses.Arm;
-import frc.robot.utils.armAngle.ArmAngleInternal;
-import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 /**
  * A class that represents the arm of the robot. Capable of moving the arm to a specified
- * angle and reading the current angle of the arm. Using only one CANSparkMax motor.
+ * angle and reading the current angle of the arm. Using only one CANSparkMax motor and a CANCoder.
  */
 public class SK23Arm extends Arm
 {
-    ArmAngleInternal Arm;
+    PIDController    PID;
+    CANSparkMax      motor;
     int              joystickCount;
-
+    CANCoder         CANCoder;
+    double           targetAngle;
+    double           currentAngle;
+    
     public SK23Arm()
     {
-        Arm = new ArmAngleInternal(AngleMotorType.SparkMax, ArmPorts.kMainMotor.ID,
-            ArmConstants.kGearRatio, ArmConstants.kArmMotorP, ArmConstants.kArmMotorI,
-            ArmConstants.kArmMotorD, ArmConstants.kArmMotorIZone);
-        Arm.resetEncoder();
-    }
+        PID = new PIDController(kArmMotorP, kArmMotorI, kArmMotorD);
+        PID.setSetpoint(0.0);
 
+        motor = new CANSparkMax(kMainMotor.ID, MotorType.kBrushless);
+        motor.restoreFactoryDefaults();
+        motor.setIdleMode(IdleMode.kBrake);
+
+        targetAngle = 0.0;
+        currentAngle = 0.0;
+
+        CANCoder = new CANCoder(kEncoder.ID, kEncoder.bus);
+        CANCoderConfiguration config = new CANCoderConfiguration();
+        
+        config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+        config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+        config.unitString = "deg";
+        config.sensorDirection = false; //Counter clockwise positive
+        config.sensorCoefficient = 360.0 / 4096;
+
+        CANCoder.configAllSettings(config);
+    }
+    
+
+    /**
+     * {@inheritDoc}
+     */
     public void setTargetAngle(ArmAngleEnum angle)
     {
         switch (angle)
         {
             case HighPosition:
-                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kHighPosition : ArmConstants.kHighPosition);
+                targetAngle = kHighPosition;
                 break;
             case MidPosition:
-                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kMidPosition : ArmConstants.kMidPosition);
+                targetAngle = kMidPosition;
                 break;
             case FloorPosition:
-                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kLowPosition : ArmConstants.kLowPosition);
+                targetAngle = kLowPosition;
                 break;
             case ZeroPosition:
-                Arm.setTargetAngle(0);
+                targetAngle = 0.0;
                 break;
             case SubstationPosition:
-                Arm.setTargetAngle(DriverStation.isAutonomousEnabled() ? AutoConstants.kSubstationPosition : ArmConstants.kSubstationPosition);
+                targetAngle = kSubstationPosition;
                 break;
         }
+
+        PID.setSetpoint(targetAngle);
     }
+
+    /**
+     * {@inheritDoc}
+     */
 
     public void setTargetAngle(double angle)
     {
-        Arm.setTargetAngle(angle);
-    }
-
-    public boolean isAtTargetAngle()
-    {
-        return Math.abs(Arm.getCurrentAngle() - Arm.getTargetAngle()) < ArmConstants.kAngleTolerance;
-    }
-
-    public double getCurrentAngle()
-    {
-        return Arm.getCurrentAngle();
+        targetAngle = angle;
+        PID.setSetpoint(angle);
+    
     }
 
     /**
-     * @return Returns the current target angle of the arm
+     * {@inheritDoc}
+     */
+    public boolean isAtTargetAngle()
+    {
+        return Math.abs(getCurrentAngle() - getTargetAngle()) < kAngleTolerance;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public double getCurrentAngle()
+    {
+        return CANCoder.getPosition();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public double getTargetAngle()
     {
-        return Arm.getTargetAngle();
+        return targetAngle;
     }
 
     /**
-     * Sets the encoder position of the arm to read zero
+     * {@inheritDoc}
      */
     public void resetAngle()
     {
-        Arm.resetEncoder();
+        CANCoder.setPosition(0.0);
     }
 
+    /**
+     * Code to run at the initialization of test mode being enabled
+     */
     public void testInit(){
-        Arm.testInit();
+        
     }
 
+    /**
+     * Code to run periodically when test mode is enabled
+     */
     public void testPeriodic(){
         periodic();
     }
+
     @Override
     public void periodic()
     {
-        Arm.periodic();
-        Arm.checkLimitSensors();
-        double current_angle = Arm.getCurrentAngle();
-        double target_angle = Arm.getTargetAngle();
+        motor.set(PID.calculate(getCurrentAngle())); //Sets PID value based on target angle every period call
+
+        double current_angle = getCurrentAngle();
+        double target_angle = getTargetAngle();
+
         SmartDashboard.putNumber("Current Angle", current_angle);
         SmartDashboard.putNumber("Target Angle", target_angle);
-        SmartDashboard.putBoolean("Arm at Setpoint", Math.abs(Arm.getCurrentAngle() - Arm.getTargetAngle()) < ArmConstants.kAngleTolerance);
+        SmartDashboard.putBoolean("Arm at Setpoint", isAtTargetAngle());
     }
 }
