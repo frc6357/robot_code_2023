@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SK23Arm;
 
 public class ArmJoystickCommand extends CommandBase
@@ -17,8 +18,9 @@ public class ArmJoystickCommand extends CommandBase
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
     private final SK23Arm           arm;
-    private final Supplier<Double>  controller;
-    private final Supplier<Boolean> override;
+    private final Supplier<Boolean>  upButton;
+    private final Supplier<Boolean> downButton;
+    private final double joystickGain;
     
 
     /**
@@ -27,18 +29,21 @@ public class ArmJoystickCommand extends CommandBase
      * downward movement on joystick turning motor clockwise and upward movement on
      * joystick turning motor counter clockwise.
      * 
-     * @param setpointChange
-     *            The method to get the setpoint change in degrees per second
-     * @param clampOverride
-     *            The method to determine if the angle limits should be overridden
+     * @param upButton
+     *            The method to see if the up button is pressed
+     * @param downButton
+     *            The method to see if the down button is pressed
+     * @param joystickGain
+     *            The degrees by which the arm moves every 20 s
      * @param arm
      *            Subsystem used for this command
      */
-    public ArmJoystickCommand(Supplier<Double> setpointChange, Supplier<Boolean> clampOverride, SK23Arm arm)
+    public ArmJoystickCommand(Supplier<Boolean> upButton, Supplier<Boolean> downButton, double joystickGain, SK23Arm arm)
     {
-        this.controller = setpointChange;
-        this.override = clampOverride;
+        this.upButton = upButton;
+        this.downButton = downButton;
         this.arm = arm;
+        this.joystickGain = joystickGain;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(arm);
     }
@@ -50,15 +55,21 @@ public class ArmJoystickCommand extends CommandBase
     @Override
     public void execute()
     {
-        double angleChange = controller.get() / 50; // Degrees per 20ms
+        double angleSign = 0;
+
+        if(upButton.get()){
+            angleSign = 1;
+        }else if(downButton.get()){
+            angleSign = -1;
+        }
+
+        double angleChange = (joystickGain / 50) * angleSign; // Degrees per 20ms
 
          // Sets the new angle to the current angle plusor minus the constant change
         double setpoint = arm.getTargetAngle() + angleChange;
 
-        if(!override.get())
-        {
-            setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
-        }
+        setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
+        
 
         arm.setTargetAngle(setpoint);
     }

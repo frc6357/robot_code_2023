@@ -76,29 +76,28 @@ public class Ports
         public static final GenericHID kOperator = new FilteredXboxController(1).getHID();
 
         // Modifiers
-        public static final SKTrigger kConeState = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
-        public static final SKTrigger kCubeState = new SKTrigger(kOperator, kLeftBumper.value, BUTTON);
+        public static final SKTrigger kConeState = new SKTrigger(kOperator, 11, ROCKBAND);
+        public static final SKTrigger kCubeState = new SKTrigger(kOperator, 12, ROCKBAND);
 
         // Buttons for intake
-        public static final SKTrigger kIntake = new SKTrigger(kOperator, kLeftTrigger.value, AXIS);
-        public static final SKTrigger kEject  = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
+        public static final SKTrigger kIntake = new SKTrigger(kOperator, 9, ROCKBAND);
+        public static final SKTrigger kEject  = new SKTrigger(kOperator, 10, ROCKBAND);
 
-        public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
-        public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button
-        public static final SKTrigger kSubstationLeftIntake  = new SKTrigger(kOperator, 270, POV); // Left POV Button
-        public static final SKTrigger kSubstationRightIntake = new SKTrigger(kOperator, 90, POV);   // Right POV Button
+        public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 7, ROCKBAND);
+        public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 6, ROCKBAND); 
+        public static final SKTrigger kSubstationLeftIntake  = new SKTrigger(kOperator, 8, ROCKBAND); 
 
         // Buttons for arm positions
-        public static final SKTrigger kHighArm       = new SKTrigger(kOperator, kY.value, BUTTON);
-        public static final SKTrigger kMidArm        = new SKTrigger(kOperator, kX.value, BUTTON);
-        public static final SKTrigger kLowArm        = new SKTrigger(kOperator, kA.value, BUTTON);
-        public static final SKTrigger kSubstationArm = new SKTrigger(kOperator, kB.value, BUTTON);
-        public static final SKTrigger kZeroPosition  = new SKTrigger(kOperator, kStart.value, BUTTON);
+        public static final SKTrigger kHighArm       = new SKTrigger(kOperator, 1, ROCKBAND);
+        public static final SKTrigger kMidArm        = new SKTrigger(kOperator, 2, ROCKBAND);
+        public static final SKTrigger kLowArm        = new SKTrigger(kOperator, 4, ROCKBAND);
+        public static final SKTrigger kSubstationArm = new SKTrigger(kOperator, 3, ROCKBAND);
+        public static final SKTrigger kZeroPosition  = new SKTrigger(kOperator, 5, ROCKBAND);
 
         // Arm overrides
-        public static final FilteredAxis kArmAxis       = new FilteredAxis(() -> kOperator.getRawAxis(kRightY.value));
-        public static final SKTrigger    kResetArmPos   = new SKTrigger(kOperator, kBack.value, BUTTON);
-        public static final SKTrigger    kArmOverride   = new SKTrigger(kOperator, kRightStick.value, BUTTON);
+        public static final SKTrigger kArmUpAxis       = new SKTrigger(kOperator, 180, POV); //TODO - Test POV Direction
+        public static final SKTrigger kArmDownAxis       = new SKTrigger(kOperator, 0, POV); //TODO - Test POV Direction
+        public static final SKTrigger kResetArmPos   = new SKTrigger(kOperator, 270, POV); //Left POV Button
     }
 
     /**

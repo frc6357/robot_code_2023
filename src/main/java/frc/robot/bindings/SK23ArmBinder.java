@@ -11,7 +11,6 @@ import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
-import frc.robot.utils.filters.DeadbandFilter;
 
 public class SK23ArmBinder implements CommandBinder
 {
@@ -56,7 +55,6 @@ public class SK23ArmBinder implements CommandBinder
             
             
             double joystickGain = kJoystickReversed ? -kJoystickChange : kJoystickChange;
-            kArmAxis.setFilter(new DeadbandFilter(kJoystickDeadband, joystickGain));
 
             zeroPositionButton.onTrue(new ArmButtonCommand(ArmAngleEnum.ZeroPosition, m_robotArm));
             LowButton.onTrue(new ArmButtonCommand(ArmAngleEnum.FloorPosition, m_robotArm));
@@ -72,8 +70,9 @@ public class SK23ArmBinder implements CommandBinder
                 // Vertical movement of the arm is controlled by the Y axis of the right stick.
                 // Up on joystick moving arm up and down on stick moving arm down.
                 new ArmJoystickCommand(
-                    () -> {return kArmAxis.getFilteredAxis();},
-                    kArmOverride.button::getAsBoolean,
+                    kArmUpAxis.button::getAsBoolean,
+                    kArmDownAxis.button::getAsBoolean,
+                    joystickGain,
                     m_robotArm));
         }
     }
