@@ -176,11 +176,12 @@ public class RobotContainer
         {
             SK23Arm arm = armSubsystem.get();
             arm.resetAngle();
-            arm.setTargetAngle(0);
+            arm.setTargetAngle(0.0);
         }
         if(intakeSubsystem.isPresent()){
             SK23Intake intake = intakeSubsystem.get();
-            intake.register();
+            intake.resetEncoder();
+            intake.setTargetAngle(0.0);
         }
     }
 }
