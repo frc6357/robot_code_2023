@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.ArmConstants.*;
 import static frc.robot.Ports.ArmPorts.*;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -17,17 +16,18 @@ import frc.robot.subsystems.superclasses.Arm;
 
 /**
  * A class that represents the arm of the robot. Capable of moving the arm to a specified
- * angle and reading the current angle of the arm. Using only one CANSparkMax motor and a CANCoder.
+ * angle and reading the current angle of the arm. Using only one CANSparkMax motor and a
+ * CANCoder.
  */
 public class SK23Arm extends Arm
 {
-    PIDController    PID;
-    CANSparkMax      motor;
-    int              joystickCount;
-    CANCoder         CANCoder;
-    double           targetAngle;
-    double           currentAngle;
-    
+    PIDController PID;
+    CANSparkMax   motor;
+    int           joystickCount;
+    CANCoder      CANCoder;
+    double        targetAngle;
+    double        currentAngle;
+
     public SK23Arm()
     {
         PID = new PIDController(kArmMotorP, kArmMotorI, kArmMotorD);
@@ -42,44 +42,23 @@ public class SK23Arm extends Arm
 
         CANCoder = new CANCoder(kEncoder.ID, kEncoder.bus);
         CANCoderConfiguration config = new CANCoderConfiguration();
-        
-        config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
-        config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+
+        config.initializationStrategy = SensorInitializationStrategy.BootToZero; // Relative positioning
         config.unitString = "deg";
-        config.sensorDirection = false; //Counter clockwise positive
-        config.sensorCoefficient = 360.0 / 4096;
+        config.sensorDirection = false; // CCW+
+        config.sensorCoefficient = 360.0 / 4096 / kCANCoderGearRatio;
 
         CANCoder.configAllSettings(config);
 
         CANCoder.setPosition(0.0);
     }
-    
 
     /**
      * {@inheritDoc}
      */
-    public void setTargetAngle(ArmAngleEnum angle)
+    public void setTargetAngle(ArmPosition angle)
     {
-        switch (angle)
-        {
-            case HighPosition:
-                targetAngle = kHighPosition;
-                break;
-            case MidPosition:
-                targetAngle = kMidPosition;
-                break;
-            case FloorPosition:
-                targetAngle = kLowPosition;
-                break;
-            case ZeroPosition:
-                targetAngle = 0.0;
-                break;
-            case SubstationPosition:
-                targetAngle = kSubstationPosition;
-                break;
-        }
-
-        PID.setSetpoint(targetAngle);
+        setTargetAngle(angle.angle);
     }
 
     /**
@@ -90,7 +69,6 @@ public class SK23Arm extends Arm
     {
         targetAngle = angle;
         PID.setSetpoint(angle);
-    
     }
 
     /**
@@ -128,14 +106,16 @@ public class SK23Arm extends Arm
     /**
      * Code to run at the initialization of test mode being enabled
      */
-    public void testInit(){
-        
+    public void testInit()
+    {
+
     }
 
     /**
      * Code to run periodically when test mode is enabled
      */
-    public void testPeriodic(){
+    public void testPeriodic()
+    {
         periodic();
     }
 

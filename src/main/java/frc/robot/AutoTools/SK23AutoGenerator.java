@@ -20,12 +20,11 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
-import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.files.FileScanner;
 
 import static frc.robot.Constants.AutoConstants.*;
 import static frc.robot.Constants.IntakeConstants.*;
-// import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Constants.ArmConstants.ArmPosition.*;
 import static frc.robot.Constants.DriveConstants.kDriveKinematics;
 
 /**
@@ -83,9 +82,9 @@ public class SK23AutoGenerator
         {
             SK23Arm arm = armSubsystem.get();
 
-            eventMap.put("High Arm", new ArmButtonCommand(ArmAngleEnum.HighPosition, arm));
-            eventMap.put("Mid Arm",  new ArmButtonCommand(ArmAngleEnum.MidPosition, arm));
-            eventMap.put("Low Arm",  new ArmButtonCommand(ArmAngleEnum.FloorPosition, arm));
+            eventMap.put("High Arm", new ArmButtonCommand(HighPosition, arm));
+            eventMap.put("Mid Arm",  new ArmButtonCommand(MidPosition, arm));
+            eventMap.put("Low Arm",  new ArmButtonCommand(FloorPosition, arm));
         }
         else
         {

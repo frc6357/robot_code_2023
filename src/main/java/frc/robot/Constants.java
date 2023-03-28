@@ -25,9 +25,36 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants
 {
+    /** Defines the game pieces for the 2023 season */
+    public static enum GamePieceEnum
+    {
+        /** Represents a case where there is no game object */
+        None,
+        /** Represents a Cone game object */
+        Cone,
+        /** Represents a Cube game object */
+        Cube
+    }
+    
     /** Constants that define characteristics for the intake */
     public static class IntakeConstants
     {
+        // TODO: Do we really need/use this?
+        public static enum IntakeStateEnum
+        {
+            /** State of intaking a cone */
+            IntakeCone,
+
+            /** State of ejecting a cone */
+            EjectCone,
+
+            /** State of intaking a cube */
+            IntakeCube,
+
+            /** State of ejecting a cube */
+            EjectCube
+        }
+
         public static final double kIntakeConeSpeed = 1;
         public static final double kEjectConeSpeed  = -1;
         public static final double kIntakeCubeSpeed = -1;
@@ -41,56 +68,51 @@ public final class Constants
         public static final double kIntakeMotorIZone = 1.5;
         public static final double MinOutput = -0.3;
         public static final double MaxOutput = 0.9; 
+
         public static final double kGearRatio = 48.0;
+
         public static final double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward
         public static final double kRetractAngle = 0.0; //Positive angle moves upward and Negative angle moves downward
         public static final double kSubstationAngle = -60;
 
     }
 
-
-    public static enum IntakeStateEnum
-    {
-        // The state of the intake when it is intaking the cone while also ejecting the cube
-        IntakeCone,
-
-        // The state of the intake when it is ejecting the cone while also intaking the cube
-        EjectCone,
-
-        // The state of the intake when it is intaking the cube while also ejecting the cone
-        IntakeCube,
-
-        // The state of the intake when it is ejecting the cube while also intaking the cone
-        EjectCube
-    }
-
-    /** Defines the game pieces for the 2023 season */
-    public static enum GamePieceEnum
-    {
-        /** Represents a case where there is no game object */
-        None,
-        /** Represents a Cone game object */
-        Cone,
-        /** Represents a Cube game object */
-        Cube
-    }
-
     /** Constants that define characteristics for the arm */
     public static class ArmConstants
     {
+        /** Angles for the different arm positions */
+        public static enum ArmPosition
+        {
+            /** Set the angle to reach the top cube node */
+            HighPosition(90.0),
+            /** Set the angle to reach the middle cube node */
+            MidPosition(64.0),
+            /** Set the angle to reach the bottom cube node */
+            FloorPosition(15.0),
+            /** Set the angle to reach the bottom cube node */
+            ZeroPosition(0.0),
+            /** Set the angle to reach the substation */
+            SubstationPosition(87.0);
+
+            public final double angle;
+
+            ArmPosition(double angle)
+            {
+                this.angle = angle;
+            }
+        }
+
         // Arm Constants
         // Motor rotations to arm rotations, 4/3 from expiremental calculations
         public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);
+        // Encoder rotations to arm rotations
+        public static final double kCANCoderGearRatio = 1.0; // TODO: Calculate/determine this value
+
         public static final double kArmMotorP = 0.0375;    // Test Value for P
         public static final double kArmMotorI = 0.0;       // Test Value for I
         public static final double kArmMotorD = 0.0;       // Test Value for D
         public static final double kArmMotorMaxOutput = 0.6;
         public static final double kArmMotorMinOutput = -0.3;
-
-        public static final double kHighPosition       = 90.0;  // Degrees for High Position
-        public static final double kMidPosition        = 64.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 15.0;  // Degrees for Low Position
-        public static final double kSubstationPosition = 87.0;  // Degrees Value for Substation
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees
@@ -218,11 +240,6 @@ public final class Constants
         // PID Constants
         public static final PIDConstants kTranslationPIDConstants = new PIDConstants(6, 0, 0);
         public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
-
-        public static final double kHighPosition       = 93.0;  // Degrees for High Position
-        public static final double kMidPosition        = 70.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 22.0;  // Degrees for Low Position
-        public static final double kSubstationPosition = 92.0;  // Degrees Value for Substation
     }
 
     /** The file that is used for system instantiation at runtime */

@@ -2,6 +2,7 @@ package frc.robot.bindings;
 
 import static frc.robot.Constants.ArmConstants.*;
 import static frc.robot.Ports.OperatorPorts.*;
+import static frc.robot.Constants.ArmConstants.ArmPosition.*;
 
 import java.util.Optional;
 
@@ -10,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.ArmJoystickCommand;
 import frc.robot.subsystems.SK23Arm;
-import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 import frc.robot.utils.filters.DeadbandFilter;
 
 public class SK23ArmBinder implements CommandBinder
@@ -58,12 +58,11 @@ public class SK23ArmBinder implements CommandBinder
             double joystickGain = kJoystickReversed ? -kJoystickChange : kJoystickChange;
             kArmAxis.setFilter(new DeadbandFilter(kJoystickDeadband, joystickGain));
 
-            zeroPositionButton.onTrue(new ArmButtonCommand(ArmAngleEnum.ZeroPosition, m_robotArm));
-            LowButton.onTrue(new ArmButtonCommand(ArmAngleEnum.FloorPosition, m_robotArm));
-            MidButton.onTrue(new ArmButtonCommand(ArmAngleEnum.MidPosition, m_robotArm));
-            HighButton.onTrue(new ArmButtonCommand(ArmAngleEnum.HighPosition, m_robotArm));
-            SubstationButton
-                .onTrue(new ArmButtonCommand(ArmAngleEnum.SubstationPosition, m_robotArm));
+            zeroPositionButton.onTrue(new ArmButtonCommand(ZeroPosition, m_robotArm));
+            LowButton.onTrue(new ArmButtonCommand(FloorPosition, m_robotArm));
+            MidButton.onTrue(new ArmButtonCommand(MidPosition, m_robotArm));
+            HighButton.onTrue(new ArmButtonCommand(HighPosition, m_robotArm));
+            SubstationButton.onTrue(new ArmButtonCommand(SubstationPosition, m_robotArm));
 
             
             resetPos.onTrue(new InstantCommand(m_robotArm::resetAngle));

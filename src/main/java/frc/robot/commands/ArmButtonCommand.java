@@ -4,17 +4,17 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.ArmConstants.ArmPosition;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK23Arm;
-import frc.robot.subsystems.superclasses.Arm.ArmAngleEnum;
 
 public class ArmButtonCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
     private final SK23Arm      Arm;
-    private final ArmAngleEnum position;
+    private final ArmPosition position;
 
     /**
      * This command allows the operator to set the angle of the arm to a specified
@@ -25,7 +25,7 @@ public class ArmButtonCommand extends CommandBase
      * @param Arm
      *            The Arm subsystem the command operates on.
      */
-    public ArmButtonCommand(ArmAngleEnum position, SK23Arm Arm)
+    public ArmButtonCommand(ArmPosition position, SK23Arm Arm)
     {
         this.position = position;
         this.Arm = Arm;
@@ -36,30 +36,7 @@ public class ArmButtonCommand extends CommandBase
     @Override
     public void initialize()
     {
-        switch (position)
-        {
-            // Set arm to floor position
-            case ZeroPosition:
-                Arm.setTargetAngle(ArmAngleEnum.ZeroPosition);
-                break;
-            // Set arm to floor position
-            case FloorPosition:
-                Arm.setTargetAngle(ArmAngleEnum.FloorPosition);
-                break;
-            // Set arm to mid position
-            case MidPosition:
-                Arm.setTargetAngle(ArmAngleEnum.MidPosition);
-                break;
-            // Set arm to high position
-            case HighPosition:
-                Arm.setTargetAngle(ArmAngleEnum.HighPosition);
-                break;
-            // Set arm to substation position
-            case SubstationPosition:
-                Arm.setTargetAngle(ArmAngleEnum.SubstationPosition);
-
-        }
-
+        Arm.setTargetAngle(position);
     }
 
     // Returns true when the command should end.
