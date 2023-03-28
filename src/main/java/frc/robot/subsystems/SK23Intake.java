@@ -17,8 +17,12 @@ import frc.robot.utils.armAngle.ArmAngleInternal.AngleMotorType;
 
 public class SK23Intake extends SubsystemBase
 {
-    // The solonoid used for extending or retracting intake
-    ArmAngleInternal intakeExtender = new ArmAngleInternal(AngleMotorType.SparkMax, kIntakeExtendMotor, kGearRatio, kIntakeMotorP, kIntakeMotorI, kIntakeMotorD, kIntakeMotorIZone, MinOutput, MaxOutput);
+    // The motor used for extending or retracting intake
+    ArmAngleInternal intakeExtender =
+            new ArmAngleInternal(AngleMotorType.SparkMax, kIntakeExtendMotor, kGearRatio,
+                kIntakeMotorP, kIntakeMotorI, kIntakeMotorD, kIntakeMotorIZone,
+                MinOutput, MaxOutput);
+
     // The motor responsible for controlling the front roller close the ground
     private final CANSparkMax insideMotor =
             new CANSparkMax(kFrontIntakeMotorPort, MotorType.kBrushless);
@@ -26,12 +30,14 @@ public class SK23Intake extends SubsystemBase
     private final CANSparkMax outerMotor =
             new CANSparkMax(kBackTopIntakeMotorPort, MotorType.kBrushless);
 
+    // Which game piece the intake is ready to manipulate
     private GamePieceEnum GPState = GamePieceEnum.Cone;
 
-    Boolean pastGPState;
-    Boolean pastIntakeState;
-    Boolean pastOuttakeState;
-    Boolean pastExtendState;
+    // Booleans for SmartDashboard
+    private boolean pastGPState;
+    private boolean pastIntakeState;
+    private boolean pastOuttakeState;
+    private boolean pastExtendState;
 
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
@@ -60,15 +66,20 @@ public class SK23Intake extends SubsystemBase
 
     }
 
-    public void resetEncoder(){
+    /**
+     * Resets the arm encoder to read zero at the current position
+     */
+    public void resetEncoder()
+    {
         intakeExtender.resetEncoder();
     }
+
     /**
      * Extends the intake to allow for gamepiece pick up from the floor
      */
     public void extendIntake()
     {
-        intakeExtender.setTargetAngle(kExtendAngle); //Positive angle moves upward and Negative angle moves downward
+        setTargetAngle(kExtendAngle);
     }
 
     /**
@@ -76,7 +87,7 @@ public class SK23Intake extends SubsystemBase
      */
     public void retractIntake()
     {
-        intakeExtender.setTargetAngle(kRetractAngle); //Positive angle moves upward and Negative angle moves downward
+        setTargetAngle(kRetractAngle);
     }
 
     /**
@@ -84,9 +95,16 @@ public class SK23Intake extends SubsystemBase
      */
     public void substationIntake()
     {
-        intakeExtender.setTargetAngle(kSubstationAngle); //Positive angle moves upward and Negative angle moves downward
+        setTargetAngle(kSubstationAngle);
     }
 
+    /**
+     * Sets the intake angle to the desired position
+     * 
+     * @param angle
+     *            The angle in degrees with 0º being fully retracted and the angle
+     *            becoming more negative as it extends
+     */
     public void setTargetAngle(double angle){
         intakeExtender.setTargetAngle(angle);
     }
@@ -94,6 +112,9 @@ public class SK23Intake extends SubsystemBase
     /**
      * Sets the intake to intake game pieces of the motor that controls the front roller.
      * Changes the mode of intake based on whether it is intaking a cube or cone
+     * 
+     * @param speed
+     *            The speed of the motor in percent from -1 to 1
      */
     public void setInnerRollerSpeed(double speed)
     {
@@ -103,6 +124,9 @@ public class SK23Intake extends SubsystemBase
     /**
      * Sets the intake to intake game pieces of the motor that controls the top and rear
      * roller. Changes the mode of intake based on whether it is intaking a cube or cone
+     * 
+     * @param speed
+     *            The speed of the motor in percent from -1 to 1
      */
     public void setOuterRollerSpeed(double speed)
     {
@@ -147,6 +171,10 @@ public class SK23Intake extends SubsystemBase
         return GPState;
     }
 
+    /**
+     * @return Whether or not the intake motor speeds are set to intake with the current
+     *         game piece state
+     */
     public boolean isIntaking()
     {
         if (getGamePieceState() == GamePieceEnum.Cone)
@@ -160,6 +188,10 @@ public class SK23Intake extends SubsystemBase
 
     }
 
+    /**
+     * @return Whether or not the intake motor speeds are set to outtake with the current
+     *         game piece state
+     */
     public boolean isOuttaking()
     {
         if (getGamePieceState() == GamePieceEnum.Cone)
@@ -173,6 +205,8 @@ public class SK23Intake extends SubsystemBase
 
     }
 
+    // TODO: Change this implementation to match the new motor based intake
+    // TODO: Update SmartDashboard with new intake extension features
     public boolean isExtended()
     {
         return intakeExtender.getCurrentAngle() == kExtendAngle;
@@ -188,25 +222,25 @@ public class SK23Intake extends SubsystemBase
         SmartDashboard.putNumber("Intake Current Angle", currentAngle);
         SmartDashboard.putNumber("Intake Target Angle", targetAngle);
 
-        Boolean curGPState = getGamePieceState() == GamePieceEnum.Cone;
+        boolean curGPState = getGamePieceState() == GamePieceEnum.Cone;
         if(curGPState != pastGPState){
             SmartDashboard.putBoolean("Intake State", curGPState);
             pastGPState = curGPState;
         }
 
-        Boolean curIntakeState = isIntaking();
+        boolean curIntakeState = isIntaking();
         if(curIntakeState != pastIntakeState){
             SmartDashboard.putBoolean("Intaking", curIntakeState);
             pastIntakeState = curIntakeState;
         }
         
-        Boolean curOuttakeState = isOuttaking();
+        boolean curOuttakeState = isOuttaking();
         if(curOuttakeState != pastOuttakeState){
             SmartDashboard.putBoolean("Outtaking", curOuttakeState);
             pastOuttakeState = curOuttakeState;
         }
         
-        Boolean curExtendState = isExtended();
+        boolean curExtendState = isExtended();
         if(curExtendState != pastExtendState){
             SmartDashboard.putBoolean("Intake Extended", curExtendState);
             pastExtendState = curExtendState;
