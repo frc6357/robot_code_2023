@@ -157,6 +157,11 @@ public class SparkMaxArm extends GenericArmMotor
     public void resetEncoder()
     {
         encoder.setPosition(0.0); // Reset Position of encoder is 0.0
+    }
+
+    public void resetEncoder(double angle)
+    {
+        encoder.setPosition(angle * gearRatio / 360); // Reset position to native unit (rotations)
 
     }
 

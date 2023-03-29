@@ -69,10 +69,10 @@ public final class Constants
         public static final double MinOutput = -0.3;
         public static final double MaxOutput = 0.9; 
 
-        public static final double kJoystickChange   = 30.0; // TODO - Manual setpoint value for degrees moved per second
+        public static final double kJoystickChange   = 10.0; // Manual setpoint value for degrees moved per second
         public static final double kJoystickDeadband = 0.3;  // Manual intake movement axis deadband
 
-        public static final boolean kJoystickReversed = false;  // TODO - Determines if the joystick movement is reversed
+        public static final boolean kJoystickReversed = true;
 
         // Angle limits for the intake positions
         public static final double kMaxAngle = 0; // Degrees, Starting position of intake
@@ -80,8 +80,10 @@ public final class Constants
 
         public static final double kGearRatio = 48.0;
 
-        public static final double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward
-        public static final double kRetractAngle = 0.0; //Positive angle moves upward and Negative angle moves downward
+        //Positive angle moves upward and Negative angle moves downward
+        public static final double kStartAngle      = -10.0;
+        public static final double kExtendAngle     = -95.0;
+        public static final double kRetractAngle    = -10.0; 
         public static final double kSubstationAngle = -60;
 
     }
@@ -93,15 +95,15 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(90.0),
+            HighPosition(74.0),
             /** Set the angle to reach the middle cube node */
-            MidPosition(64.0),
+            MidPosition(55.0),
             /** Set the angle to reach the bottom cube node */
-            FloorPosition(15.0),
+            FloorPosition(12.0),
             /** Set the angle to reach the bottom cube node */
             ZeroPosition(0.0),
             /** Set the angle to reach the substation */
-            SubstationPosition(87.0);
+            SubstationPosition(78.0);
 
             public final double angle;
 
@@ -117,14 +119,18 @@ public final class Constants
         // Encoder rotations to arm rotations
         public static final double kCANCoderGearRatio = 160.0 / 48.0; //Convert encoder degree units to arm degrees
 
-        public static final double kArmMotorP = 0.0075;    // TODO - Test Value for P (Working alright)
-        public static final double kArmMotorI = 0.0001;       // TODO - Test Value for I (Working Alright)
-        public static final double kArmMotorD = 0.0;       // TODO - Test Value for D
-        // public static final double kArmMotorMaxOutput = 0.6;
-        // public static final double kArmMotorMinOutput = -0.3;
+        // TODO: Tune PID values
+        public static final double kArmMotorP = 0.0375;
+        public static final double kArmMotorI = 0.0;
+        public static final double kArmMotorD = 0.0005;
 
-        public static final int kArmCurrentLimit = 60; //TODO - Make sure this is high enough
-        //TODO - Potentially Set Velocity Limit
+        public static final double kArmMotorMaxOutput = 0.8;
+        public static final double kArmMotorMinOutput = -0.5;
+
+        public static final double kPositiveAccelLimit = 1.0; // in %/sec
+        public static final double kNegativeAccelLimit = -5.0; // in %/sec
+
+        public static final int kArmCurrentLimit = 30;
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees

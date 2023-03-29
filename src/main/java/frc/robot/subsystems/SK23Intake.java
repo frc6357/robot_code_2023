@@ -42,18 +42,19 @@ public class SK23Intake extends SubsystemBase
     /** Creates a new SK23RollerIntake. */
     public SK23Intake()
     {
+        resetEncoder(kStartAngle);
+
         insideMotor.setInverted(true);
         outerMotor.setInverted(true);
 
         insideMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         outerMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
 
-        intakeExtender.resetEncoder(); 
-
         pastGPState = getGamePieceState() == GamePieceEnum.Cone;
         pastIntakeState = isIntaking();
         pastOuttakeState = isOuttaking();
         pastExtendState = isExtended();
+        
         double currentAngle = intakeExtender.getCurrentAngle();
         double targetAngle = intakeExtender.getTargetAngle();
 
@@ -72,6 +73,17 @@ public class SK23Intake extends SubsystemBase
     public void resetEncoder()
     {
         intakeExtender.resetEncoder();
+    }
+
+    /**
+     * Resets position of encoder to given angle
+     * 
+     * @param angle
+     *          The desired angle to reset the position to
+     */
+    public void resetEncoder(double angle)
+    {
+        intakeExtender.resetEncoder(angle);
     }
 
     /**

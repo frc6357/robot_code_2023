@@ -22,7 +22,10 @@ public class SK23ArmBinder implements CommandBinder
     private final Trigger MidButton;
     private final Trigger HighButton;
     private final Trigger SubstationButton;
+
     private final Trigger zeroPositionButton;
+    private final Trigger zeroPositionButtonDriver;
+
     private final Trigger resetPos;
 
     /**
@@ -37,7 +40,9 @@ public class SK23ArmBinder implements CommandBinder
     {
         this.subsystem = subsystem;
 
-        zeroPositionButton  = kZeroPositionOperator.button;
+        zeroPositionButton       = kZeroPositionOperator.button;
+        zeroPositionButtonDriver = kZeroPositionDriver.button;
+
         LowButton           = kLowArm.button;
         MidButton           = kMidArm.button;
         HighButton          = kHighArm.button;
@@ -58,7 +63,9 @@ public class SK23ArmBinder implements CommandBinder
             double joystickGain = kJoystickReversed ? -kJoystickChange : kJoystickChange;
             kArmAxis.setFilter(new DeadbandFilter(kJoystickDeadband, joystickGain));
 
-            zeroPositionButton.onTrue(new ArmButtonCommand(ZeroPosition, m_robotArm));
+            zeroPositionButton.or(zeroPositionButtonDriver).
+                onTrue(new ArmButtonCommand(ZeroPosition, m_robotArm));
+
             LowButton.onTrue(new ArmButtonCommand(FloorPosition, m_robotArm));
             MidButton.onTrue(new ArmButtonCommand(MidPosition, m_robotArm));
             HighButton.onTrue(new ArmButtonCommand(HighPosition, m_robotArm));

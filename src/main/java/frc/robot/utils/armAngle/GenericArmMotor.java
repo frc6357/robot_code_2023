@@ -11,6 +11,14 @@ public abstract class GenericArmMotor
     public abstract void resetEncoder();
 
     /**
+     * Resets position of encoder to given angle
+     * 
+     * @param angle
+     *          The desired angle to reset the position to
+     */
+    public abstract void resetEncoder(double angle);
+
+    /**
      * Adds a new motor that follows the actions of the lead motor
      * 
      * @param CanID

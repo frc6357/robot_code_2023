@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.*;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.superclasses.Arm;
 
@@ -21,17 +23,21 @@ import frc.robot.subsystems.superclasses.Arm;
  */
 public class SK23Arm extends Arm
 {
-    PIDController PID;
     CANSparkMax   motor;
     int           joystickCount;
     CANCoder      CANCoder;
     double        targetAngle;
     double        currentAngle;
+    
+    PIDController   PID;
+    SlewRateLimiter accelLimit;
 
     public SK23Arm()
     {
         PID = new PIDController(kArmMotorP, kArmMotorI, kArmMotorD);
         PID.setSetpoint(0.0);
+
+        accelLimit = new SlewRateLimiter(kPositiveAccelLimit, kNegativeAccelLimit, 0.0);
 
         motor = new CANSparkMax(kMainMotor.ID, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
@@ -69,7 +75,7 @@ public class SK23Arm extends Arm
     public void setTargetAngle(double angle)
     {
         targetAngle = angle;
-        PID.setSetpoint(angle);
+        PID.setSetpoint(targetAngle);
     }
 
     /**
@@ -127,7 +133,10 @@ public class SK23Arm extends Arm
         double current_angle = getCurrentAngle();
         double target_angle = getTargetAngle();
 
-        motor.set(PID.calculate(current_angle)); //Sets PID value with current angle as input every period call
+        // Calculates motor speed and puts it within operating range
+        double speed = MathUtil.clamp(PID.calculate(current_angle), kArmMotorMinOutput, kArmMotorMaxOutput);
+        speed = accelLimit.calculate(speed);
+        motor.set(speed); 
 
         SmartDashboard.putNumber("Current Angle", current_angle);
         SmartDashboard.putNumber("Target Angle", target_angle);

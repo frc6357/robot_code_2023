@@ -140,6 +140,18 @@ public class ArmAngleInternal
     }
 
     /**
+     * Resets position of encoder to given angle
+     * 
+     * @param angle
+     *          The desired angle to reset the position to
+     */
+    public void resetEncoder(double angle)
+    {
+        motor.resetEncoder(angle);
+    }
+    
+
+    /**
      * Adds a new motor that follows the actions of the lead motor
      * 
      * @param CanID

@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
 
 import java.util.function.Supplier;
 

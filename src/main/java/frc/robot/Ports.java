@@ -80,8 +80,8 @@ public class Ports
         public static final SKTrigger kCubeState = new SKTrigger(kOperator, kLeftBumper.value, BUTTON);
 
         // Buttons for intake
-        public static final SKTrigger kIntake = new SKTrigger(kOperator, kLeftTrigger.value, AXIS);
-        public static final SKTrigger kEject  = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
+        public static final SKTrigger kIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kEject  = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
 
         public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
         public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button

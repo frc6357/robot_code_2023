@@ -5,14 +5,16 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import static frc.robot.Constants.IntakeConstants.*;
-
 import static frc.robot.Ports.OperatorPorts.*;
+import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.OIConstants.*;
 
 import frc.robot.Constants.GamePieceEnum;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.IntakeJoystickCommand;
 import frc.robot.commands.StateIntakeCommand;
 import frc.robot.subsystems.SK23Intake;
+import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.DeadbandFilter;
 
 public class SK23IntakeBinder implements CommandBinder
@@ -72,9 +74,12 @@ public class SK23IntakeBinder implements CommandBinder
             // Gets the intake subsystem and puts it into m_robotIntake
             SK23Intake m_robotIntake = subsystem.get();
 
-
-            double joystickGain = kJoystickReversed ? -kJoystickChange : kJoystickChange;
-            kArmAxis.setFilter(new DeadbandFilter(kJoystickDeadband, joystickGain));
+            kArmAxis.setFilter(
+                new CubicDeadbandFilter(
+                    kDriveCoeff,
+                    IntakeConstants.kJoystickDeadband,
+                    kJoystickChange,
+                    true));
             
             // Sets buttons with whileTrue so that they will run continuously until the button is let go
             coneModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cone);}, m_robotIntake));
@@ -90,8 +95,8 @@ public class SK23IntakeBinder implements CommandBinder
             SubstationRightIntake.onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
 
             // Sets the intake position when bringing the arm down to the zero position
-            zeroPositionButtonOperator.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
-            zeroPositionButtonDriver.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
+            zeroPositionButtonOperator.or(zeroPositionButtonDriver)
+                .onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
 
             m_robotIntake.setDefaultCommand(
                 // Vertical movement of the intake is controlled by the Y axis of the right stick.
