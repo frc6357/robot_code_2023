@@ -69,6 +69,15 @@ public final class Constants
         public static final double MinOutput = -0.3;
         public static final double MaxOutput = 0.9; 
 
+        public static final double kJoystickChange   = 30.0; // TODO - Manual setpoint value for degrees moved per second
+        public static final double kJoystickDeadband = 0.3;  // Manual intake movement axis deadband
+
+        public static final boolean kJoystickReversed = false;  // TODO - Determines if the joystick movement is reversed
+
+        // Angle limits for the intake positions
+        public static final double kMaxAngle = 0; // Degrees, Starting position of intake
+        public static final double kMinAngle = -120;   // Degrees, negative moves downwards TODO - Find minimum angle of intake
+
         public static final double kGearRatio = 48.0;
 
         public static final double kExtendAngle = -90.0; //Positive angle moves upward and Negative angle moves downward

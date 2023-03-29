@@ -37,7 +37,7 @@ public class SK23ArmBinder implements CommandBinder
     {
         this.subsystem = subsystem;
 
-        zeroPositionButton  = kZeroPosition.button;
+        zeroPositionButton  = kZeroPositionOperator.button;
         LowButton           = kLowArm.button;
         MidButton           = kMidArm.button;
         HighButton          = kHighArm.button;

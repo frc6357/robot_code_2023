@@ -93,12 +93,17 @@ public class Ports
         public static final SKTrigger kMidArm        = new SKTrigger(kOperator, kX.value, BUTTON);
         public static final SKTrigger kLowArm        = new SKTrigger(kOperator, kA.value, BUTTON);
         public static final SKTrigger kSubstationArm = new SKTrigger(kOperator, kB.value, BUTTON);
-        public static final SKTrigger kZeroPosition  = new SKTrigger(kOperator, kStart.value, BUTTON);
+        public static final SKTrigger kZeroPositionOperator  = new SKTrigger(kOperator, kStart.value, BUTTON);
+        public static final SKTrigger kZeroPositionDriver = new SKTrigger(kDriver, kStart.value, BUTTON);
 
         // Arm overrides
         public static final FilteredAxis kArmAxis       = new FilteredAxis(() -> kOperator.getRawAxis(kRightY.value));
         public static final SKTrigger    kResetArmPos   = new SKTrigger(kOperator, kBack.value, BUTTON);
         public static final SKTrigger    kArmOverride   = new SKTrigger(kOperator, kRightStick.value, BUTTON);
+
+        //Intake overrides
+        public static final FilteredAxis kIntakeAxis    = new FilteredAxis(() -> kOperator.getRawAxis(kLeftY.value));
+        public static final SKTrigger kIntakeOverride = new SKTrigger(kOperator, kLeftStick.value, BUTTON);
     }
 
     /**
