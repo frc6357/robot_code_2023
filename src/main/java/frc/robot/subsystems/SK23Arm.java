@@ -35,6 +35,7 @@ public class SK23Arm extends Arm
     public SK23Arm()
     {
         PID = new PIDController(kArmMotorP, kArmMotorI, kArmMotorD);
+        PID.setIntegratorRange(kMinInteg, kMaxInteg);
         PID.setSetpoint(0.0);
 
         accelLimit = new SlewRateLimiter(kPositiveAccelLimit, kNegativeAccelLimit, 0.0);

@@ -69,7 +69,7 @@ public class SK23ArmBinder implements CommandBinder
             LowButton.onTrue(new ArmButtonCommand(FloorPosition, m_robotArm));
             MidButton.onTrue(new ArmButtonCommand(MidPosition, m_robotArm));
             HighButton.onTrue(new ArmButtonCommand(HighPosition, m_robotArm));
-            SubstationButton.onTrue(new ArmButtonCommand(SubstationPosition, m_robotArm));
+            SubstationButton.onTrue(new ArmButtonCommand(SSS, m_robotArm));
 
             
             resetPos.onTrue(new InstantCommand(m_robotArm::resetAngle));

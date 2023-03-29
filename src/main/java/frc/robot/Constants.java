@@ -81,10 +81,10 @@ public final class Constants
         public static final double kGearRatio = 48.0;
 
         //Positive angle moves upward and Negative angle moves downward
-        public static final double kStartAngle      = -10.0;
-        public static final double kExtendAngle     = -95.0;
+        public static final double kStartAngle      = -42.5;
+        public static final double kExtendAngle     = -90.0;
         public static final double kRetractAngle    = -10.0; 
-        public static final double kSubstationAngle = -60;
+        public static final double kSubstationAngle = -28.0;
 
     }
 
@@ -95,15 +95,15 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(74.0),
+            HighPosition(77.0),
             /** Set the angle to reach the middle cube node */
-            MidPosition(55.0),
+            MidPosition(60.0),
             /** Set the angle to reach the bottom cube node */
-            FloorPosition(12.0),
+            FloorPosition(12.5),
             /** Set the angle to reach the bottom cube node */
             ZeroPosition(0.0),
             /** Set the angle to reach the substation */
-            SubstationPosition(78.0);
+            SSS(9.0);
 
             public final double angle;
 
@@ -121,8 +121,11 @@ public final class Constants
 
         // TODO: Tune PID values
         public static final double kArmMotorP = 0.0375;
-        public static final double kArmMotorI = 0.0;
-        public static final double kArmMotorD = 0.0005;
+        public static final double kArmMotorI = 0.00075;
+        public static final double kArmMotorD = 0.001;
+
+        public static final double kMinInteg = 0.0;
+        public static final double kMaxInteg = 0.15;
 
         public static final double kArmMotorMaxOutput = 0.8;
         public static final double kArmMotorMinOutput = -0.5;

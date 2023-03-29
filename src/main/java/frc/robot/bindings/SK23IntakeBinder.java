@@ -15,7 +15,6 @@ import frc.robot.commands.IntakeJoystickCommand;
 import frc.robot.commands.StateIntakeCommand;
 import frc.robot.subsystems.SK23Intake;
 import frc.robot.utils.filters.CubicDeadbandFilter;
-import frc.robot.utils.filters.DeadbandFilter;
 
 public class SK23IntakeBinder implements CommandBinder
 {
@@ -35,6 +34,11 @@ public class SK23IntakeBinder implements CommandBinder
     
     private final Trigger zeroPositionButtonOperator;
     private final Trigger zeroPositionButtonDriver;
+
+    private final Trigger LowButton;
+    private final Trigger MidButton;
+    private final Trigger HighButton;
+    private final Trigger SubstationButton;
 
     /**
      * The class that is used to bind all the commands for the drive subsystem
@@ -59,10 +63,14 @@ public class SK23IntakeBinder implements CommandBinder
         retractIntake = kRetractIntake.button;
         SubstationLeftIntake = kSubstationLeftIntake.button;
         SubstationRightIntake = kSubstationRightIntake.button;
-        
 
         zeroPositionButtonOperator = kZeroPositionOperator.button;
         zeroPositionButtonDriver = kZeroPositionDriver.button;
+
+        LowButton        = kLowArm.button;
+        MidButton        = kMidArm.button;
+        HighButton       = kHighArm.button;
+        SubstationButton = kSubstationArm.button;
     }
 
     public void bindButtons()
@@ -74,7 +82,7 @@ public class SK23IntakeBinder implements CommandBinder
             // Gets the intake subsystem and puts it into m_robotIntake
             SK23Intake m_robotIntake = subsystem.get();
 
-            kArmAxis.setFilter(
+            kIntakeAxis.setFilter(
                 new CubicDeadbandFilter(
                     kDriveCoeff,
                     IntakeConstants.kJoystickDeadband,
@@ -89,14 +97,12 @@ public class SK23IntakeBinder implements CommandBinder
             eject.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
             
             // Sets the buttons with onTrue so that they will toggle extension and retraction of the intake
-            extendIntake.onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
-            retractIntake.onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
-            SubstationLeftIntake.onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
-            SubstationRightIntake.onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
-
-            // Sets the intake position when bringing the arm down to the zero position
-            zeroPositionButtonOperator.or(zeroPositionButtonDriver)
+            extendIntake.or(LowButton).or(MidButton).or(HighButton)
+                .onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
+            retractIntake.or(zeroPositionButtonOperator).or(zeroPositionButtonDriver)
                 .onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
+            SubstationLeftIntake.or(SubstationRightIntake).or(SubstationButton)
+                .onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
 
             m_robotIntake.setDefaultCommand(
                 // Vertical movement of the intake is controlled by the Y axis of the right stick.
