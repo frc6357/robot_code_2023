@@ -106,13 +106,16 @@ public final class Constants
         // Motor rotations to arm rotations, 4/3 from expiremental calculations
         public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);
         // Encoder rotations to arm rotations
-        public static final double kCANCoderGearRatio = 1.0; // TODO: Calculate/determine this value
+        public static final double kCANCoderGearRatio = 160.0 / 48.0; //Convert encoder degree units to arm degrees
 
-        public static final double kArmMotorP = 0.0375;    // Test Value for P
-        public static final double kArmMotorI = 0.0;       // Test Value for I
-        public static final double kArmMotorD = 0.0;       // Test Value for D
-        public static final double kArmMotorMaxOutput = 0.6;
-        public static final double kArmMotorMinOutput = -0.3;
+        public static final double kArmMotorP = 0.0075;    // TODO - Test Value for P (Working alright)
+        public static final double kArmMotorI = 0.0001;       // TODO - Test Value for I (Working Alright)
+        public static final double kArmMotorD = 0.0;       // TODO - Test Value for D
+        // public static final double kArmMotorMaxOutput = 0.6;
+        // public static final double kArmMotorMinOutput = -0.3;
+
+        public static final int kArmCurrentLimit = 60; //TODO - Make sure this is high enough
+        //TODO - Potentially Set Velocity Limit
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees

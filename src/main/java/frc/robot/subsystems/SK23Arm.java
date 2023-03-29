@@ -35,7 +35,8 @@ public class SK23Arm extends Arm
 
         motor = new CANSparkMax(kMainMotor.ID, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
-        motor.setIdleMode(IdleMode.kBrake);
+        motor.setIdleMode(IdleMode.kBrake); 
+        motor.setSmartCurrentLimit(kArmCurrentLimit);
 
         targetAngle = 0.0;
         currentAngle = 0.0;
