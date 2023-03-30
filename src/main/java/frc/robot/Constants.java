@@ -102,6 +102,8 @@ public final class Constants
             FloorPosition(12.5),
             /** Set the angle to reach the bottom cube node */
             ZeroPosition(0.0),
+            /** Set the angle to a dipped position */
+            DipPosition(10.5),
             /** Set the angle to reach the substation */
             SSS(9.0);
 
