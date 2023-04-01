@@ -32,8 +32,8 @@ public class AutoBalanceCommand extends CommandBase
         this.subsystem = drive;
         this.rotation = rotation;
 
-        xPID = new PIDController(0.04075, 0, 0, 0.02);
-        yPID = new PIDController(0.04075, 0, 0, 0.02);
+        xPID = new PIDController(0.04015, 0, 0, 0.02);
+        yPID = new PIDController(0.04015, 0, 0, 0.02);
 
         addRequirements(subsystem);
     }
