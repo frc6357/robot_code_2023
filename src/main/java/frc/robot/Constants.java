@@ -69,7 +69,7 @@ public final class Constants
         public static final double MinOutput = -0.3;
         public static final double MaxOutput = 0.9; 
 
-        public static final double kJoystickChange   = 10.0; // Manual setpoint value for degrees moved per second
+        public static final double kJoystickChange   = 45.0; // Manual setpoint value for degrees moved per second
         public static final double kJoystickDeadband = 0.3;  // Manual intake movement axis deadband
 
         public static final boolean kJoystickReversed = true;
@@ -84,7 +84,7 @@ public final class Constants
         public static final double kStartAngle      = -42.5;
         public static final double kExtendAngle     = -90.0;
         public static final double kRetractAngle    = -10.0; 
-        public static final double kSubstationAngle = -28.0;
+        public static final double kSubstationAngle = -20.0;
 
     }
 
@@ -105,7 +105,7 @@ public final class Constants
             /** Set the angle to a dipped position */
             DipPosition(10.5),
             /** Set the angle to reach the substation */
-            SSS(9.0);
+            SSS(0.0);
 
             public final double angle;
 
@@ -234,7 +234,7 @@ public final class Constants
         public static final double kDriveCoeff       = 0.95;
         public static final double kRotationCoeff    = 0.95;
         public static final double kJoystickDeadband = 0.15;
-        public static final double kSlowModePercent  = 0.2;
+        public static final double kSlowModePercent  = 0.1;
 
         public static final double kAccelLimit = 2;
     }
