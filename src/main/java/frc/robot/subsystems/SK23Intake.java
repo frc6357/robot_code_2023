@@ -94,6 +94,16 @@ public class SK23Intake extends SubsystemBase
         setTargetAngle(kExtendAngle);
     }
 
+    /*
+     * Moves the intake down by a redefined angle basied around its current position
+     */
+
+    public void incrementIntakeDown(){
+        
+        setTargetAngle(getCurrentAngle() + kIncrementDownAngle);
+    }
+
+
     /**
      * Retracts the intake for safer driving
      */

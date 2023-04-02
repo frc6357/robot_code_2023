@@ -80,6 +80,8 @@ public final class Constants
 
         public static final double kGearRatio = 48.0;
 
+        public static final double kIncrementDownAngle = -32.5; // Amount the intake moves down per press of button, is positive as the intake angles down with positive values
+
         //Positive angle moves upward and Negative angle moves downward
         public static final double kStartAngle      = -42.5;
         public static final double kExtendAngle     = -90.0;

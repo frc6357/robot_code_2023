@@ -28,6 +28,8 @@ public class SK23IntakeBinder implements CommandBinder
     private final Trigger eject;
 
     private final Trigger extendIntake;
+    private final Trigger incrementIntakeDown;
+     
     private final Trigger retractIntake;
     private final Trigger SubstationLeftIntake;
     private final Trigger SubstationRightIntake;
@@ -39,6 +41,8 @@ public class SK23IntakeBinder implements CommandBinder
     private final Trigger MidButton;
     private final Trigger HighButton;
     private final Trigger SubstationButton;
+
+
 
     /**
      * The class that is used to bind all the commands for the drive subsystem
@@ -64,6 +68,8 @@ public class SK23IntakeBinder implements CommandBinder
         SubstationLeftIntake = kSubstationLeftIntake.button;
         SubstationRightIntake = kSubstationRightIntake.button;
 
+        incrementIntakeDown = kIncrementDown.button;
+
         zeroPositionButtonOperator = kZeroPositionOperator.button;
         zeroPositionButtonDriver = kZeroPositionDriver.button;
 
@@ -78,6 +84,7 @@ public class SK23IntakeBinder implements CommandBinder
         // If subsystem is present then this method will bind the buttons
         if (subsystem.isPresent())
         {
+            
 
             // Gets the intake subsystem and puts it into m_robotIntake
             SK23Intake m_robotIntake = subsystem.get();
@@ -93,6 +100,10 @@ public class SK23IntakeBinder implements CommandBinder
             coneModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cone);}, m_robotIntake));
             cubeModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cube);}, m_robotIntake));
             
+
+            incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
+            
+
             intake.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
             eject.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
             
