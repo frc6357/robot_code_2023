@@ -235,8 +235,6 @@ public class SK23Intake extends SubsystemBase
         return intakeExtender.getTargetAngle();
     }
 
-    // TODO: Change this implementation to match the new motor based intake
-    // TODO: Update SmartDashboard with new intake extension features
     public boolean isExtended()
     {
         return intakeExtender.getCurrentAngle() == kExtendAngle;

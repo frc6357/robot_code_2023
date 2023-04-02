@@ -76,7 +76,7 @@ public final class Constants
 
         // Angle limits for the intake positions
         public static final double kMaxAngle = 0; // Degrees, Starting position of intake
-        public static final double kMinAngle = -160;   // Degrees, negative moves downwards TODO - Find minimum angle of intake
+        public static final double kMinAngle = -160;   // Degrees, negative moves downwards 
 
         public static final double kGearRatio = 48.0;
 
@@ -123,7 +123,6 @@ public final class Constants
         // Encoder rotations to arm rotations
         public static final double kCANCoderGearRatio = 160.0 / 48.0; //Convert encoder degree units to arm degrees
 
-        // TODO: Tune PID values
         public static final double kArmMotorP = 0.0375;
         public static final double kArmMotorI = 0.00075;
         public static final double kArmMotorD = 0.001;
