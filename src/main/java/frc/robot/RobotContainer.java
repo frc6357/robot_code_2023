@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.bindings.*;
+import frc.robot.subsystems.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,19 +26,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Ports.OperatorPorts;
 import frc.robot.AutoTools.SK23AutoGenerator;
 import frc.robot.bindings.CommandBinder;
-import frc.robot.bindings.SK23ArmBinder;
-import frc.robot.bindings.SK23DriveBinder;
-import frc.robot.bindings.SK23IntakeBinder;
-import frc.robot.subsystems.SK23Arm;
-import frc.robot.subsystems.SK23Drive;
-import frc.robot.subsystems.SK23Intake;
-//import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
-import frc.robot.utils.filters.FilteredXboxController;
 
 import static frc.robot.Constants.CameraConstants.*;
 
@@ -56,14 +50,6 @@ public class RobotContainer
     // TODO: Uncomment this when we want to start using the vision subsystem
     //private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private UsbCamera            driverCamera;
-
-    // The driver's controller
-    private final FilteredXboxController driveController =
-            new FilteredXboxController(OperatorPorts.kDriverControllerPort);
-
-    // Operator controller set to xbox controller
-    private final FilteredXboxController operatorController =
-            new FilteredXboxController(OperatorPorts.kOperatorControllerPort);
 
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
@@ -152,9 +138,9 @@ public class RobotContainer
     {
 
         // Adding all the binding classes to the list
-        buttonBinders.add(new SK23DriveBinder(driveController, driveSubsystem));
-        buttonBinders.add(new SK23IntakeBinder(operatorController, intakeSubsystem));
-        buttonBinders.add(new SK23ArmBinder(operatorController, armSubsystem));
+        buttonBinders.add(new SK23DriveBinder(driveSubsystem));
+        buttonBinders.add(new SK23IntakeBinder(intakeSubsystem));
+        buttonBinders.add(new SK23ArmBinder(armSubsystem));
 
         // Traversing through all the binding classes to actually bind the buttons
         for (CommandBinder subsystemGroup : buttonBinders)
@@ -181,6 +167,20 @@ public class RobotContainer
     public void testInit(){
         if(armSubsystem.isPresent()){
             armSubsystem.get().testInit();
+        }
+    }
+
+    public void matchInit()
+    {
+        if (armSubsystem.isPresent())
+        {
+            SK23Arm arm = armSubsystem.get();
+            arm.resetAngle();
+            arm.setTargetAngle(0.0);
+        }
+        if(intakeSubsystem.isPresent()){
+            SK23Intake intake = intakeSubsystem.get();
+            intake.setTargetAngle(0.0);
         }
     }
 }

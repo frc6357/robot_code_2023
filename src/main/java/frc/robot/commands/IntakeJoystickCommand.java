@@ -4,19 +4,19 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.ArmConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SK23Arm;
+import frc.robot.subsystems.SK23Intake;
 
-public class ArmJoystickCommand extends CommandBase
+public class IntakeJoystickCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-    private final SK23Arm           arm;
+    private final SK23Intake           intake;
     private final Supplier<Double>  controller;
     private final Supplier<Boolean> override;
     
@@ -34,13 +34,13 @@ public class ArmJoystickCommand extends CommandBase
      * @param arm
      *            Subsystem used for this command
      */
-    public ArmJoystickCommand(Supplier<Double> setpointChange, Supplier<Boolean> clampOverride, SK23Arm arm)
+    public IntakeJoystickCommand(Supplier<Double> setpointChange, Supplier<Boolean> clampOverride, SK23Intake intake)
     {
         this.controller = setpointChange;
         this.override = clampOverride;
-        this.arm = arm;
+        this.intake = intake;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(arm);
+        addRequirements(intake);
     }
 
     @Override
@@ -53,14 +53,14 @@ public class ArmJoystickCommand extends CommandBase
         double angleChange = controller.get() / 50; // Degrees per 20ms
 
          // Sets the new angle to the current angle plusor minus the constant change
-        double setpoint = arm.getTargetAngle() + angleChange;
+        double setpoint = intake.getTargetAngle() + angleChange;
 
         if(!override.get())
         {
             setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
         }
 
-        arm.setTargetAngle(setpoint);
+        intake.setTargetAngle(setpoint);
     }
 
     @Override

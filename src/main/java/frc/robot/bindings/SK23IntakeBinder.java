@@ -2,18 +2,19 @@ package frc.robot.bindings;
 
 import java.util.Optional;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import static frc.robot.Constants.IntakeConstants.*;
-
 import static frc.robot.Ports.OperatorPorts.*;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeDeployerCommand;
-import frc.robot.subsystems.SK23Intake;
+import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.OIConstants.*;
 
-import frc.robot.utils.filters.FilteredXboxController;
+import frc.robot.Constants.GamePieceEnum;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.IntakeJoystickCommand;
+import frc.robot.commands.StateIntakeCommand;
+import frc.robot.subsystems.SK23Intake;
+import frc.robot.utils.filters.CubicDeadbandFilter;
 
 public class SK23IntakeBinder implements CommandBinder
 {
@@ -27,9 +28,21 @@ public class SK23IntakeBinder implements CommandBinder
     private final Trigger eject;
 
     private final Trigger extendIntake;
+    private final Trigger incrementIntakeDown;
+     
     private final Trigger retractIntake;
+    private final Trigger SubstationLeftIntake;
+    private final Trigger SubstationRightIntake;
+    
+    private final Trigger zeroPositionButtonOperator;
+    private final Trigger zeroPositionButtonDriver;
 
-    FilteredXboxController controller;
+    private final Trigger LowButton;
+    private final Trigger MidButton;
+    private final Trigger HighButton;
+    private final Trigger SubstationButton;
+
+
 
     /**
      * The class that is used to bind all the commands for the drive subsystem
@@ -39,19 +52,31 @@ public class SK23IntakeBinder implements CommandBinder
      * @param intakeSubsystem
      *            The required drive subsystem for the commands
      */
-    public SK23IntakeBinder(FilteredXboxController controller, Optional<SK23Intake> subsystem)
+    public SK23IntakeBinder(Optional<SK23Intake> subsystem)
     {
-        this.controller = controller;
         this.subsystem = subsystem;
 
         // uses values from the xbox controller to control the port values
-        coneModifier = new JoystickButton(controller.getHID(), kOperatorCone.value);
-        cubeModifier = new JoystickButton(controller.getHID(), kOperatorCube.value);
-        intake = new JoystickButton(controller.getHID(), kOperatorIntake.value);
-        eject = new JoystickButton(controller.getHID(), kOperatorEject.value);
-        extendIntake = controller.leftTrigger();
-        retractIntake = controller.rightTrigger();
+        coneModifier = kConeState.button;
+        cubeModifier = kCubeState.button;
 
+        intake = kIntake.button;
+        eject  = kEject.button;
+
+        extendIntake  = kExtendIntake.button;
+        retractIntake = kRetractIntake.button;
+        SubstationLeftIntake = kSubstationLeftIntake.button;
+        SubstationRightIntake = kSubstationRightIntake.button;
+
+        incrementIntakeDown = kIncrementDown.button;
+
+        zeroPositionButtonOperator = kZeroPositionOperator.button;
+        zeroPositionButtonDriver = kZeroPositionDriver.button;
+
+        LowButton        = kLowArm.button;
+        MidButton        = kMidArm.button;
+        HighButton       = kHighArm.button;
+        SubstationButton = kSubstationArm.button;
     }
 
     public void bindButtons()
@@ -59,20 +84,44 @@ public class SK23IntakeBinder implements CommandBinder
         // If subsystem is present then this method will bind the buttons
         if (subsystem.isPresent())
         {
+            
 
             // Gets the intake subsystem and puts it into m_robotIntake
             SK23Intake m_robotIntake = subsystem.get();
 
+            kIntakeAxis.setFilter(
+                new CubicDeadbandFilter(
+                    kDriveCoeff,
+                    IntakeConstants.kJoystickDeadband,
+                    kJoystickChange,
+                    true));
+            
             // Sets buttons with whileTrue so that they will run continuously until the button is let go
-            coneModifier.and(intake).whileTrue(new IntakeCommand(kIntakeConeSpeed, m_robotIntake));
-            cubeModifier.and(intake).whileTrue(new IntakeCommand(kIntakeCubeSpeed, m_robotIntake));
+            coneModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cone);}, m_robotIntake));
+            cubeModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cube);}, m_robotIntake));
+            
 
-            coneModifier.and(eject).whileTrue(new IntakeCommand(kEjectConeSpeed, m_robotIntake));
-            cubeModifier.and(eject).whileTrue(new IntakeCommand(kEjectCubeSpeed, m_robotIntake));
+            incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
+            
 
-            // Sets the buttons with onTrue so tha they will toggle extension and retraction of the intake
-            extendIntake.onTrue(new IntakeDeployerCommand(Value.kForward, m_robotIntake));
-            retractIntake.onTrue(new IntakeDeployerCommand(Value.kReverse, m_robotIntake));
+            intake.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
+            eject.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+            
+            // Sets the buttons with onTrue so that they will toggle extension and retraction of the intake
+            extendIntake.or(LowButton).or(MidButton).or(HighButton)
+                .onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
+            retractIntake.or(zeroPositionButtonOperator).or(zeroPositionButtonDriver)
+                .onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));
+            SubstationLeftIntake.or(SubstationRightIntake).or(SubstationButton)
+                .onTrue(new InstantCommand(m_robotIntake::substationIntake, m_robotIntake));
+
+            m_robotIntake.setDefaultCommand(
+                // Vertical movement of the intake is controlled by the Y axis of the right stick.
+                // Up on joystick moving intake up and down on stick moving intake down.
+                new IntakeJoystickCommand(
+                    () -> {return kIntakeAxis.getFilteredAxis();},
+                    kIntakeOverride.button::getAsBoolean,
+                    m_robotIntake));
         }
 
     }

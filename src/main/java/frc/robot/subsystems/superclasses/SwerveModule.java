@@ -14,7 +14,6 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.utils.CANPort;
 import frc.robot.utils.MotorEncoder;
@@ -117,14 +116,6 @@ public class SwerveModule
         double speed = desiredState.speedMetersPerSecond / ModuleConstants.kDriveEncoderDistancePerPulse;
         // Hand in speed in pulses per 100ms
         m_driveMotor.set(ControlMode.Velocity, speed / 10);
-
-        if(m_driveMotor.getDeviceID()==10)
-        {
-            SmartDashboard.putNumber("Setpoint (Pulses per 100ms)", speed/10);
-            SmartDashboard.putNumber("Setpoint (Meters per Second)", desiredState.speedMetersPerSecond);
-            SmartDashboard.putNumber("Actual Speed (Pulses per 100ms)", m_driveEncoder.getVelocityPulses());
-            SmartDashboard.putNumber("Actual Speed (Meters per Second)", m_driveEncoder.getVelocityMetersPerSecond());
-        }
     }
 
     public void setAngle(SwerveModuleState desiredState)

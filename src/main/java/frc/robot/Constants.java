@@ -25,35 +25,6 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants
 {
-    /** Constants that define characteristics for the intake */
-    public static class IntakeConstants
-    {
-        public static final double kIntakeConeSpeed = 1;
-        public static final double kEjectConeSpeed  = -1;
-        public static final double kIntakeCubeSpeed = -1;
-        public static final double kEjectCubeSpeed  = 0.6;
-
-        // TODO: Check and see if this is the correct number for the current limit.
-        // Current limit for the neo 550 motors for the intake
-        public static final int kIntakeCurrentLimit = 15;
-
-    }
-
-    public static enum IntakeStateEnum
-    {
-        // The state of the intake when it is intaking the cone while also ejecting the cube
-        IntakeCone,
-
-        // The state of the intake when it is ejecting the cone while also intaking the cube
-        EjectCone,
-
-        // The state of the intake when it is intaking the cube while also ejecting the cone
-        IntakeCube,
-
-        // The state of the intake when it is ejecting the cube while also intaking the cone
-        EjectCube
-    }
-
     /** Defines the game pieces for the 2023 season */
     public static enum GamePieceEnum
     {
@@ -64,33 +35,118 @@ public final class Constants
         /** Represents a Cube game object */
         Cube
     }
+    
+    /** Constants that define characteristics for the intake */
+    public static class IntakeConstants
+    {
+        // TODO: Do we really need/use this?
+        public static enum IntakeStateEnum
+        {
+            /** State of intaking a cone */
+            IntakeCone,
+
+            /** State of ejecting a cone */
+            EjectCone,
+
+            /** State of intaking a cube */
+            IntakeCube,
+
+            /** State of ejecting a cube */
+            EjectCube
+        }
+
+        public static final double kIntakeConeSpeed = 1;
+        public static final double kEjectConeSpeed  = -1;
+        public static final double kIntakeCubeSpeed = -1;
+        public static final double kEjectCubeSpeed  = 0.4;
+
+        // Current limit for the neo 550 motors for the intake
+        public static final int kIntakeCurrentLimit = 35;
+        public static final double kIntakeMotorP = 0.0475;
+        public static final double kIntakeMotorI = 0.00005;
+        public static final double kIntakeMotorD = 0;
+        public static final double kIntakeMotorIZone = 1.5;
+        public static final double MinOutput = -0.3;
+        public static final double MaxOutput = 0.9; 
+
+        public static final double kJoystickChange   = 75.0; // Manual setpoint value for degrees moved per second
+        public static final double kJoystickDeadband = 0.3;  // Manual intake movement axis deadband
+
+        public static final boolean kJoystickReversed = true;
+
+        // Angle limits for the intake positions
+        public static final double kMaxAngle = 0; // Degrees, Starting position of intake
+        public static final double kMinAngle = -160;   // Degrees, negative moves downwards 
+
+        public static final double kGearRatio = 48.0;
+
+        public static final double kIncrementDownAngle = -32.5; // Amount the intake moves down per press of button, is positive as the intake angles down with positive values
+
+        //Positive angle moves upward and Negative angle moves downward
+        public static final double kStartAngle      = -42.5;
+        public static final double kExtendAngle     = -90.0;
+        public static final double kRetractAngle    = -10.0; 
+        public static final double kSubstationAngle = -20.0;
+
+    }
 
     /** Constants that define characteristics for the arm */
     public static class ArmConstants
     {
-        // Arm Constants
-        //TODO - Determine these constants for the final arm
-        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);   // Motor rotations to arm rotations, 4/3 from expiremental calculations
-        public static final double kArmMotorP = 0.0375;       // Test Value for P
-        public static final double kArmMotorI = 0.0;       // Test Value for I
-        public static final double kArmMotorD = 0.0;       // Test Value for D
-        public static final double kArmMotorMaxOutput = 0.6;
-        public static final double kArmMotorMinOutput = -0.3;
+        /** Angles for the different arm positions */
+        public static enum ArmPosition
+        {
+            /** Set the angle to reach the top cube node */
+            HighPosition(87.0),
+            /** Set the angle to reach the middle cube node */
+            MidPosition(60.0),
+            /** Set the angle to reach the bottom cube node */
+            FloorPosition(12.5),
+            /** Set the angle to reach the bottom cube node */
+            ZeroPosition(0.0),
+            /** Set the angle to a dipped position */
+            DipPosition(10.5),
+            /** Set the angle to reach the substation */
+            SSS(0.0);
 
-        public static final double kHighPosition       = 90.0;  // Test Value for High Position
-        public static final double kMidPosition        = 76.0;  // Degrees for Mid Position
-        public static final double kLowPosition        = 23.0;  // Degrees for Low Position
-        public static final double kSubstationPosition = 92.0;  // Test Value for Substation
+            public final double angle;
+
+            ArmPosition(double angle)
+            {
+                this.angle = angle;
+            }
+        }
+
+        // Arm Constants
+        // Motor rotations to arm rotations, 4/3 from expiremental calculations
+        public static final double kGearRatio = ((75.0 * (36.0/24.0)) * 4.0) * (3.0 / 4.0);
+        // Encoder rotations to arm rotations
+        public static final double kCANCoderGearRatio = 160.0 / 48.0; //Convert encoder degree units to arm degrees
+
+        public static final double kArmMotorP = 0.0375;
+        public static final double kArmMotorI = 0.00075;
+        public static final double kArmMotorD = 0.001;
+
+        public static final double kMinInteg = 0.0;
+        public static final double kMaxInteg = 0.15;
+
+        public static final double kArmMotorMaxOutput = 0.8;
+        public static final double kArmMotorMinOutput = -0.5;
+
+        public static final double kPositiveAccelLimit = 1.0; // in %/sec
+        public static final double kNegativeAccelLimit = -5.0; // in %/sec
+
+        public static final int kArmCurrentLimit = 30;
 
         // Angle limits for the arm positions
         public static final double kMaxAngle = 130; // Degrees
         public static final double kMinAngle = 0;   // Degrees
 
-        public static final double kJoystickChange   = 45.0;   // Manual setpoint value for degrees moved per second
-        public static final double kJoystickDeadband = 0.3;  // Test Value Joystick position at which it begins to move
+        public static final double kJoystickChange   = 30.0; // Manual setpoint value for degrees moved per second
+        public static final double kJoystickDeadband = 0.3;  // Manual arm movement axis deadband
 
-        public static final boolean isJoystickReversed = true;  // Determines if the joystick movement is reversed
-        public static final double  kArmMotorIZone     = 0.0;        // Test Value Number for I Zone of PID controller
+        public static final boolean kJoystickReversed = true;  // Determines if the joystick movement is reversed
+        public static final double  kArmMotorIZone     = 0.0;  // Test Value Number for I Zone of PID controller
 
         public static final double kAngleTolerance     = 5.0; // The tolerance for the arm position in both directions
     }
@@ -176,9 +232,10 @@ public final class Constants
     public static final class OIConstants
     {
         // Controller constraints
-        public static final double kDriveGain        = 0.95;
-        public static final double kRotationGain     = 0.95;
+        public static final double kDriveCoeff       = 0.95;
+        public static final double kRotationCoeff    = 0.95;
         public static final double kJoystickDeadband = 0.15;
+        public static final double kSlowModePercent  = 0.1;
 
         public static final double kAccelLimit = 2;
     }
@@ -199,14 +256,14 @@ public final class Constants
 
         // Autonomous translation constraints
         public static final double          kMaxSpeedMetersPerSecond               = 3;
-        public static final double          kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double          kMaxAccelerationMetersPerSecondSquared = 2;
         public static final PathConstraints kPathConstraints                       =
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                     kMaxAccelerationMetersPerSecondSquared);
 
         // PID Constants
-        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(3, 0, 0);
-        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(0.8, 0, 0);
+        public static final PIDConstants kTranslationPIDConstants = new PIDConstants(6, 0, 0);
+        public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
     }
 
     /** The file that is used for system instantiation at runtime */

@@ -14,16 +14,15 @@ import frc.robot.subsystems.SK23Drive;
  */
 public class AutoBalanceCommand extends CommandBase
 {
-    private SK23Drive        subsystem;
+    private SK23Drive subsystem;
     private Supplier<Double> rotation;
-    private PIDController    xPID;
-    private PIDController    yPID;
-    private double           maxSpeed      = 2.5;
-    private double           angleDeadband = 2.5;
+    private PIDController xPID;
+    private PIDController yPID;
+    private double maxSpeed = 2.5;
 
     /**
-     * Creates a command used to balance the robot on the charge station using the pitch
-     * and roll
+     * Creates a command used to balance the robot on the charge station using the
+     * pitch and roll
      * 
      * @param controller
      * @param drive
@@ -33,8 +32,8 @@ public class AutoBalanceCommand extends CommandBase
         this.subsystem = drive;
         this.rotation = rotation;
 
-        xPID = new PIDController(0.05, 0, 0, 0.02);
-        yPID = new PIDController(0.05, 0, 0, 0.02);
+        xPID = new PIDController(0.03, 0, 0, 0.02);
+        yPID = new PIDController(0.03, 0, 0, 0.02);
 
         addRequirements(subsystem);
     }
@@ -44,12 +43,6 @@ public class AutoBalanceCommand extends CommandBase
     {
         xPID.setSetpoint(0);
         yPID.setSetpoint(0);
-
-        // Dividing the angle deadband by √2 allows the maximum possible error to be
-        // the magnitude of vector sum of the two tolerances, which ends up having 
-        // a magnitude of the original angle deadband. 
-        xPID.setTolerance(angleDeadband / Math.sqrt(2));
-        yPID.setTolerance(angleDeadband / Math.sqrt(2));
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -64,16 +57,26 @@ public class AutoBalanceCommand extends CommandBase
         xSpeed *= scaleFactor;
         ySpeed *= scaleFactor;
 
-        // Use the PID controllers to control the robot relative to itself,
-        // NOT in field relative mode, as it is using robot angles.
-        if (DriverStation.isTeleop())
+        // If the match is currently in autonomous with less than one second left, put the
+        // the robot in the default "defense" position to ensure that the robot does not
+        // slip when the robot is disabled. The reason that this is not the end condition
+        // is because the wheels require some time to get into the "defense" position, and
+        // ending the command when the condition is met will not allow the wheels to get
+        // into the "defense" position.
+        if ((DriverStation.isAutonomousEnabled() && (DriverStation.getMatchTime() < 1)))
         {
-            subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
+            subsystem.drive(0, 0, 0, false);
+            
         }
+        // If the match is not in autonomous with less than one second left, level the
+        // robot as normal
         else
         {
-            subsystem.drive(xSpeed, ySpeed, 0, false);
+            // Use the PID controllers to control the robot relative to itself,
+            // NOT in field relative mode, as it is using robot angles.
+            subsystem.drive(xSpeed, ySpeed, rotation.get(), false);
         }
+        
     }
 
     // Called once the command ends or is interrupted.
@@ -83,14 +86,10 @@ public class AutoBalanceCommand extends CommandBase
         subsystem.drive(0, 0, 0, false);
     }
 
-    // Returns true when the command should end.
+    // The command should only end if interrupted
     @Override
     public boolean isFinished()
     {
-        // Only ever return true during autonomous because other robots can cause disturbance during
-        // the teloperated period, and allowing the command to continue running may deem beneficial
-        // during that period. In autonomous, however, there is no need to continue the command when
-        // the robot is engaged with the charge station.
-        return DriverStation.isAutonomousEnabled() && xPID.atSetpoint() && yPID.atSetpoint();
+        return false;
     }
 }

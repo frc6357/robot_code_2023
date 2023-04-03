@@ -7,8 +7,6 @@ import java.nio.channels.DatagramChannel;
  * Subsystem for vision data handling
  */
 
-//TODO: Discuss how to further complete the skeleton class
-
 class Datagram
 {
     // Datagram returns data from odroid

@@ -1,30 +1,23 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController.Axis;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.utils.CANPort;
-
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
+import static frc.robot.utils.SKTrigger.INPUT_TYPE.*;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.GenericHID;
+import frc.robot.utils.CANPort;
+import frc.robot.utils.SKTrigger;
+import frc.robot.utils.filters.FilteredAxis;
+import frc.robot.utils.filters.FilteredXboxController;
 
 public class Ports
 {
-    // TODO: Whenever you add a CAN ID to the file, actually assign a number. A
-    // definition of 0 is definitely wrong and the choice is essentially
-    // arbitrary so why create a job that someone needs to remember to do later
-    // when you could just stick in any non-clashing value when the port is 
-    // initially added? If we assign groups of 10 IDs per subsystem, we can also
-    // guard against clashes. For example, all ARM-related CAN IDs could start at,
-    // say, 80 and increment.
     public static class ArmPorts
     {
         // CAN IDs for Arm have a tens digit of 5
         private static final String busName      = "";
         public static final CANPort kMainMotor   = new CANPort(50, busName);
-        public static final int     kLowerSwitch = -1;
-        public static final int     kUpperSwitch = -1;
+        public static final CANPort kEncoder = new CANPort(51, busName); 
     }
 
     public static class IntakePorts
@@ -33,15 +26,7 @@ public class Ports
         public static final int kFrontIntakeMotorPort   = 40;
         public static final int kBackTopIntakeMotorPort = 41;
 
-        // TODO: Check if the intake channels are correct numbers
-        // Intake PCM channels
-        public static final int kIntakeForwardChannel = 0;
-        public static final int kIntakeReverseChannel = 1;
-
-        // Pneumatics Module Constants
-        // The PCM has a single digit CAN ID to increase CAN bus priority
-        public static final int                  kPneumaticsModule = 1;
-        public static final PneumaticsModuleType kModuleType       = PneumaticsModuleType.CTREPCM;
+        public static final int kIntakeExtendMotor = 42;
 
     }
 
@@ -51,55 +36,77 @@ public class Ports
      */
     public static class OperatorPorts
     {
-        public static final int kDriverControllerPort = 0;
-
+        // The driver's controller
+        public static final GenericHID kDriver = new FilteredXboxController(0).getHID();
+ 
         // Axes for driving
-        public static final Axis kVelocityXPort     = kLeftY;
-        public static final Axis kVelocityYPort     = kLeftX;
-        public static final Axis kVelocityOmegaPort = kRightX;
+        public static final FilteredAxis kVelocityXPort     = new FilteredAxis(() -> kDriver.getRawAxis(kLeftY.value));
+        public static final FilteredAxis kVelocityYPort     = new FilteredAxis(() -> kDriver.getRawAxis(kLeftX.value));
+        public static final FilteredAxis kVelocityOmegaPort = new FilteredAxis(() -> kDriver.getRawAxis(kRightX.value));
 
         // Buttons for driving
-        public static final Axis   kRobotCentricMode = kRightTrigger;
-        public static final Button kRotateDSS        = kY;
-        public static final Button kRotateGrid       = kA;
-        public static final Button kRotateLeft       = kX;
-        public static final Button kRotateRight      = kB;
-        public static final Button kAutoLevel        = kBack;
+        public static final SKTrigger kRobotCentricMode = new SKTrigger(kDriver, kRightBumper.value, BUTTON);
+        public static final SKTrigger kRotateDSS        = new SKTrigger(kDriver, kY.value, BUTTON);
+        public static final SKTrigger kRotateGrid       = new SKTrigger(kDriver, kA.value, BUTTON);
+        public static final SKTrigger kRotateLeft       = new SKTrigger(kDriver, kX.value, BUTTON);
+        public static final SKTrigger kRotateRight      = new SKTrigger(kDriver, kB.value, BUTTON);
+        public static final SKTrigger kAutoLevel        = new SKTrigger(kDriver, kBack.value, BUTTON);
 
         // Buttons for driver angle reset
-        public static final int kResetGyroDSS   = 0;
-        public static final int kResetGyroGrid  = 180;
-        public static final int kResetGyroLeft  = 270;
-        public static final int kResetGyroRight = 90;
+        public static final SKTrigger kResetGyroDSS   = new SKTrigger(kDriver, 0, POV);
+        public static final SKTrigger kResetGyroGrid  = new SKTrigger(kDriver, 180, POV);
+        public static final SKTrigger kResetGyroLeft  = new SKTrigger(kDriver, 270, POV);
+        public static final SKTrigger kResetGyroRight = new SKTrigger(kDriver, 90, POV);
 
         // Buttons for On The Fly Driving
-        public static final Button kGridLeftModifier  = kLeftBumper;
-        public static final Button kGridRightModifier = kLeftBumper;
-        public static final Button kGPLeftButton      = kX;
-        public static final Button kGPMiddleButton    = kA;
-        public static final Button kGPRightButton     = kB;
+        // public static final SKTrigger kGridLeftModifier  = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
+        // public static final SKTrigger kGridRightModifier = new SKTrigger(kDriver, kRightBumper.value, BUTTON);
+        // public static final SKTrigger kGPLeftButton      = new SKTrigger(kDriver, kX.value, BUTTON);
+        // public static final SKTrigger kGPMiddleButton    = new SKTrigger(kDriver, kA.value, BUTTON);
+        // public static final SKTrigger kGPRightButton     = new SKTrigger(kDriver, kB.value, BUTTON);
 
-        public static final int kOperatorControllerPort = 1;
+        public static final SKTrigger kSlowMode = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
+
+        // Buttons for Intake
+        public static final SKTrigger kDriverIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kDriverEject = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
+
+
+        // Operator controller set to xbox controller
+        public static final GenericHID kOperator = new FilteredXboxController(1).getHID();
 
         // Modifiers
-        public static final Button kOperatorCone = kLeftBumper;
-        public static final Button kOperatorCube = kRightBumper;
+        public static final SKTrigger kConeState = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
+        public static final SKTrigger kCubeState = new SKTrigger(kOperator, kLeftBumper.value, BUTTON);
 
         // Buttons for intake
-        public static final Button kOperatorIntake        = kBack;
-        public static final Button kOperatorEject         = kStart;
-        public static final Axis   kOperatorExtendIntake  = kLeftTrigger;
-        public static final Axis   kOperatorRetractIntake = kRightTrigger;
+        public static final SKTrigger kIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kEject  = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
 
-        // Buttons for arm
-        public static final Button kOperatorHighArm       = kY;
-        public static final Button kOperatorMidArm        = kX;
-        public static final Button kOperatorLowArm        = kA;
-        public static final Button kOperatorSubstationArm = kB;
-        public static final int    kOperatorZeroPosition  = 180;
-        public static final Axis   kOperatorArmAxis       = kRightY;
-        public static final Button kOperatorResetArmPos   = kLeftStick;
+        // public static final SKTrigger kIncrementUp = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
+        public static final SKTrigger kIncrementDown = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
 
+        public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
+        public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button
+        public static final SKTrigger kSubstationLeftIntake  = new SKTrigger(kOperator, 270, POV); // Left POV Button
+        public static final SKTrigger kSubstationRightIntake = new SKTrigger(kOperator, 90, POV);   // Right POV Button
+
+        // Buttons for arm positions
+        public static final SKTrigger kHighArm       = new SKTrigger(kOperator, kY.value, BUTTON);
+        public static final SKTrigger kMidArm        = new SKTrigger(kOperator, kX.value, BUTTON);
+        public static final SKTrigger kLowArm        = new SKTrigger(kOperator, kA.value, BUTTON);
+        public static final SKTrigger kSubstationArm = new SKTrigger(kOperator, kB.value, BUTTON);
+        public static final SKTrigger kZeroPositionOperator  = new SKTrigger(kOperator, kStart.value, BUTTON);
+        public static final SKTrigger kZeroPositionDriver = new SKTrigger(kDriver, kStart.value, BUTTON);
+
+        // Arm overrides
+        public static final FilteredAxis kArmAxis       = new FilteredAxis(() -> kOperator.getRawAxis(kRightY.value));
+        public static final SKTrigger    kResetArmPos   = new SKTrigger(kOperator, kBack.value, BUTTON);
+        public static final SKTrigger    kArmOverride   = new SKTrigger(kOperator, kRightStick.value, BUTTON);
+
+        //Intake overrides
+        public static final FilteredAxis kIntakeAxis    = new FilteredAxis(() -> kOperator.getRawAxis(kLeftY.value));
+        public static final SKTrigger kIntakeOverride = new SKTrigger(kOperator, kLeftStick.value, BUTTON);
     }
 
     /**
