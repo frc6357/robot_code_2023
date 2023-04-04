@@ -73,12 +73,6 @@ public class StateIntakeCommand extends CommandBase
 
     }
 
-    public void end(boolean interrupted)
-    {
-        intake.setInnerRollerSpeed(0.0);
-        intake.setOuterRollerSpeed(0.0);
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished()

@@ -11,6 +11,7 @@ import static frc.robot.Constants.OIConstants.*;
 
 import frc.robot.Constants.GamePieceEnum;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeJoystickCommand;
 import frc.robot.commands.StateIntakeCommand;
 import frc.robot.subsystems.SK23Intake;
@@ -102,10 +103,12 @@ public class SK23IntakeBinder implements CommandBinder
             
 
             incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
-            
 
-            intake.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
-            eject.whileTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+            // Set intake speeds when the trigger is pressed
+            intake.onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
+            eject.onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+            // Turn off intake when trigger is released
+            intake.or(eject).onFalse(new IntakeCommand(0.0, m_robotIntake));
             
             // Sets the buttons with onTrue so that they will toggle extension and retraction of the intake
             extendIntake.or(LowButton).or(MidButton).or(HighButton)
