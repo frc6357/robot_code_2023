@@ -97,7 +97,7 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(87.0),
+            HighPosition(77.0),
             /** Set the angle to reach the middle cube node */
             MidPosition(60.0),
             /** Set the angle to reach the bottom cube node */
@@ -235,7 +235,7 @@ public final class Constants
         public static final double kDriveCoeff       = 0.95;
         public static final double kRotationCoeff    = 0.95;
         public static final double kJoystickDeadband = 0.15;
-        public static final double kSlowModePercent  = 0.1;
+        public static final double kSlowModePercent  = 0.2;
 
         public static final double kAccelLimit = 2;
     }

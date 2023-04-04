@@ -86,6 +86,7 @@ public class SK23AutoGenerator
             eventMap.put("Mid Arm",  new ArmButtonCommand(MidPosition, arm));
             eventMap.put("Low Arm",  new ArmButtonCommand(FloorPosition, arm));
             eventMap.put("Dip Arm",  new ArmButtonCommand(DipPosition, arm));
+            eventMap.put("Zero Arm",  new ArmButtonCommand(ZeroPosition, arm));
         }
         else
         {
