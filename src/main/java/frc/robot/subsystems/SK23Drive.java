@@ -65,11 +65,12 @@ public class SK23Drive extends SubsystemBase
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry;
 
+    public int tempCount;
     /** Creates a new DriveSubsystem. */
     public SK23Drive()
     {
         m_gyro.reset();
-
+        tempCount = 0;
         m_odometry = new SwerveDriveOdometry(
             kDriveKinematics,
             m_gyro.getRotation2d(),
@@ -92,7 +93,25 @@ public class SK23Drive extends SubsystemBase
                 m_rearLeft.getPosition(),
                 m_rearRight.getPosition()});
         
+        
         SmartDashboard.putNumber("Current Robot Angle", getPose().getRotation().getDegrees());
+        if(tempCount <= 500)
+        {
+            tempCount++;
+            
+        }else{
+            tempCount = 0;
+            SmartDashboard.putNumber("Front Left Drive Temp", m_frontLeft.getDriveMotorTemp());
+            SmartDashboard.putNumber("Front Right Drive Temp", m_frontRight.getDriveMotorTemp());
+            SmartDashboard.putNumber("Back Left Drive Temp", m_frontLeft.getDriveMotorTemp());
+            SmartDashboard.putNumber("Back Right Drive Temp", m_frontRight.getDriveMotorTemp());
+            SmartDashboard.putNumber("Front Left Turn Temp", m_frontLeft.getTurnMotorTemp());
+            SmartDashboard.putNumber("Front Right Turn Temp", m_frontRight.getTurnMotorTemp());
+            SmartDashboard.putNumber("Back Left Turn Temp", m_frontLeft.getTurnMotorTemp());
+            SmartDashboard.putNumber("Back Right Turn Temp", m_frontRight.getTurnMotorTemp());
+        }
+    
+
 }
 
     /**

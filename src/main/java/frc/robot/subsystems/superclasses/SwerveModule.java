@@ -95,6 +95,24 @@ public class SwerveModule
     }
 
     /**
+     * Returns the current temperature of the drive motor
+     * @return Temperature of motor in degrees Celsius
+     */
+    public double getDriveMotorTemp()
+    {
+        return m_driveMotor.getTemperature();
+    }
+
+    /**
+     * Returns the current temperature of the drive motor
+     * @return Temperature of motor in degrees Celsius
+     */
+    public double getTurnMotorTemp()
+    {
+        return m_turnMotor.getTemperature();
+    }
+
+    /**
      * Sets the desired state for the module.
      *
      * @param desiredState
