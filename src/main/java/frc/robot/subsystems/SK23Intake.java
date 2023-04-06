@@ -31,7 +31,7 @@ public class SK23Intake extends SubsystemBase
             new CANSparkMax(kBackTopIntakeMotorPort, MotorType.kBrushless);
 
     // Which game piece the intake is ready to manipulate
-    private GamePieceEnum GPState = GamePieceEnum.Cone;
+    private GamePieceEnum GPState = GamePieceEnum.Cube;
 
     // Booleans for SmartDashboard
     private boolean pastGPState;
