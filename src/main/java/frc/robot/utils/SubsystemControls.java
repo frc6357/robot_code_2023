@@ -12,7 +12,6 @@ public class SubsystemControls
     private final boolean drive;
     private final boolean arm;
     private final boolean intake;
-    private final boolean camera;
     private final boolean vision;
 
     /**
@@ -23,8 +22,6 @@ public class SubsystemControls
      *            indicates if the arm system is present and should be enabled
      * @param intake
      *            indicates if the intake system is present and should be enabled
-     * @param camera
-     *            indicates if the driver camera is present and should be enables
      * @param vision
      *            indicates if the vision system is present and should be enabled
      */
@@ -32,13 +29,11 @@ public class SubsystemControls
         @JsonProperty(required = true, value = "drive")     boolean drive,
         @JsonProperty(required = true, value = "arm")       boolean arm,
         @JsonProperty(required = true, value = "intake")    boolean intake,
-        @JsonProperty(required = true, value = "camera")    boolean camera,
         @JsonProperty(required = true, value = "vision")    boolean vision)
     {
         this.drive = drive;
         this.arm = arm;
         this.intake = intake;
-        this.camera = camera;
         this.vision = vision;
     }
 
@@ -73,17 +68,6 @@ public class SubsystemControls
     public boolean isIntakePresent()
     {
         return intake;
-    }
-
-    /**
-     * Returns true if the driver camera is indicated as present and should be enabled.
-     * 
-     * @return true if the driver camera is indicated as present and should be enabled;
-     *         false otherwise
-     */
-    public boolean isCameraPresent()
-    {
-        return camera;
     }
 
     /**

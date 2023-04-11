@@ -31,8 +31,6 @@ import frc.robot.bindings.CommandBinder;
 import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilteredJoystick;
 
-import static frc.robot.Constants.CameraConstants.*;
-
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -90,14 +88,6 @@ public class RobotContainer
 
             // Instantiating subsystems if they are present
             // This is decided by looking at Subsystems.json
-            if (subsystems.isCameraPresent())
-            {
-                // Start the driver camera streaming.
-                driverCamera = CameraServer.startAutomaticCapture("Driver Camera", 0);
-                driverCamera.setResolution(kDriverCameraResolutionX, kDriverCameraResolutionY);
-                driverCamera.setFPS(kDriverCameraFPS);
-                driverCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-            }
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem = Optional.of(new SK23Intake());

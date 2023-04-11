@@ -240,14 +240,6 @@ public final class Constants
         public static final double kAccelLimit = 2;
     }
 
-    /** Constants that define the settings of the driver camera */
-    public static final class CameraConstants
-    {
-        public static final int kDriverCameraResolutionX = 640;
-        public static final int kDriverCameraResolutionY = 360;
-        public static final int kDriverCameraFPS         = 15;
-    }
-
     /** Defines constraints and information for autonomous development */
     public static final class AutoConstants
     {
