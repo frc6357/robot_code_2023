@@ -26,11 +26,11 @@ public class CenterPoleCommand extends CommandBase
 
         manualSpeed = forwardSpeed;
 
-        rotPID = new PIDController(0.1, 0, 0, 0.02);
+        rotPID = new PIDController(0.15, 0, 0, 0.02);
         rotPID.enableContinuousInput(-180, 180);
         rotPID.setSetpoint(180);
 
-        transPID = new PIDController(0.1, 0, 0, 0.02);
+        transPID = new PIDController(0.2, 0, 0, 0.02);
         transPID.setSetpoint(0);
 
         addRequirements(drive, vision);
@@ -51,12 +51,12 @@ public class CenterPoleCommand extends CommandBase
 
         if (vision.isTargetPresent())
         {
-            drive.drive(manualSpeed.get(), transPID.calculate(vision.getHorizontalOffset()), rot,
-                true);
+            double translation = transPID.calculate(vision.getHorizontalOffset());
+            drive.drive(manualSpeed.get(), translation, rot, false);
         }
         else
         {
-            drive.drive(manualSpeed.get(), 0.0, rot, true);
+            drive.drive(manualSpeed.get(), 0.0, rot, false);
         }
     }
 

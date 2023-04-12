@@ -12,16 +12,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.CenterPoleCommand;
 import frc.robot.commands.DefaultSwerveCommand;
 import frc.robot.commands.DriveTurnCommand;
 // import frc.robot.commands.OnTheFlyCommand;
 import frc.robot.subsystems.SK23Drive;
+import frc.robot.subsystems.SK23Vision;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.Filter;
 
 public class SK23DriveBinder implements CommandBinder
 {
-    Optional<SK23Drive> subsystem;
+    Optional<SK23Drive>  subsystem;
+    Optional<SK23Vision> vision;
 
     // Driver Buttons
     private final Trigger robotCentric;
@@ -52,9 +55,10 @@ public class SK23DriveBinder implements CommandBinder
      * @param subsystem
      *            The required drive subsystem for the commands
      */
-    public SK23DriveBinder(Optional<SK23Drive> subsystem)
+    public SK23DriveBinder(Optional<SK23Drive> subsystem, Optional<SK23Vision> vision)
     {
         this.subsystem  = subsystem;
+        this.vision = vision;
 
         resetGyroDSS    = kResetGyroDSS.button;
         resetGyroGrid   = kResetGyroGrid.button;
@@ -112,7 +116,7 @@ public class SK23DriveBinder implements CommandBinder
                     () -> kVelocityXPort.getFilteredAxis(),
                     () -> kVelocityYPort.getFilteredAxis(),
                     robotCentric::getAsBoolean, 0, drive));
-            rotateGrid.whileTrue(
+            rotateGrid.and(robotCentric.negate()).whileTrue(
                 new DriveTurnCommand(
                     () -> kVelocityXPort.getFilteredAxis(),
                     () -> kVelocityYPort.getFilteredAxis(),
@@ -135,6 +139,17 @@ public class SK23DriveBinder implements CommandBinder
                     () -> kVelocityYPort.getFilteredAxis(),
                     () -> kVelocityOmegaPort.getFilteredAxis(),
                     robotCentric::getAsBoolean, drive));
+
+            if(vision.isPresent())
+            {
+                SK23Vision limelight = vision.get();
+
+                rotateGrid.and(robotCentric).whileTrue(
+                    new CenterPoleCommand(
+                        () -> kVelocityXPort.getFilteredAxis(),
+                        drive,
+                        limelight));
+            }
 
             // configureOTFCommands(drive);
         }

@@ -45,8 +45,7 @@ public class RobotContainer
     private Optional<SK23Drive>  driveSubsystem  = Optional.empty();
     private Optional<SK23Intake> intakeSubsystem = Optional.empty();
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
-    // TODO: Uncomment this when we want to start using the vision subsystem
-    //private Optional<SK23Vision> visionSubsystem = Optional.empty();
+    private Optional<SK23Vision> visionSubsystem = Optional.empty();
     private UsbCamera            driverCamera;
 
     // The list containing all the command binding classes
@@ -106,11 +105,10 @@ public class RobotContainer
                     (name, command) -> autoCommandSelector.addOption(name, command));
                 SmartDashboard.putData("Auto Chooser", autoCommandSelector);
             }
-            // TODO: Uncomment this when we start using the vision subsystem.
-            // if (subsystems.isVisionPresent())
-            // {
-            //     visionSubsystem = Optional.of(new SK23Vision());
-            // }
+            if (subsystems.isVisionPresent())
+            {
+                visionSubsystem = Optional.of(new SK23Vision());
+            }
         }
         catch (IOException e)
         {
@@ -128,7 +126,7 @@ public class RobotContainer
     {
 
         // Adding all the binding classes to the list
-        buttonBinders.add(new SK23DriveBinder(driveSubsystem));
+        buttonBinders.add(new SK23DriveBinder(driveSubsystem, visionSubsystem));
         buttonBinders.add(new SK23IntakeBinder(intakeSubsystem));
         buttonBinders.add(new SK23ArmBinder(armSubsystem));
 

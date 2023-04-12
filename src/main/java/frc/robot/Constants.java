@@ -55,7 +55,7 @@ public final class Constants
             EjectCube
         }
 
-        public static final double kIntakeConeSpeed = 1;
+        public static final double kIntakeConeSpeed = 0.5;
         public static final double kEjectConeSpeed  = -1;
         public static final double kIntakeCubeSpeed = -1;
         public static final double kEjectCubeSpeed  = 0.4;
