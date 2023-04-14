@@ -1,0 +1,189 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 2.8899013631360595,
+        "y": 5.08
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.3383198571952697,
+        "y": 5.071765709225863
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": true,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "High Arm",
+          "Extend Intake"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.8526840472484365,
+        "y": 4.967338139804485
+      },
+      "prevControl": {
+        "x": 2.172420755097921,
+        "y": 5.024433980491892
+      },
+      "nextControl": {
+        "x": 2.172420755097921,
+        "y": 5.024433980491892
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Eject Cone"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "deadline",
+        "waitTime": 0.75
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.449722010555132,
+        "y": 4.624763095680038
+      },
+      "prevControl": {
+        "x": 5.347025306636376,
+        "y": 4.636845060846951
+      },
+      "nextControl": {
+        "x": 5.64384786889232,
+        "y": 4.601924759405074
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.922794700290257,
+        "y": 4.5905055912675925
+      },
+      "prevControl": {
+        "x": 5.826554559092025,
+        "y": 4.579086423130112
+      },
+      "nextControl": {
+        "x": 5.826554559092025,
+        "y": 4.579086423130112
+      },
+      "holonomicAngle": 0.01,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Dip Arm"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0.5
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.022325993369936,
+        "y": 4.727535608917372
+      },
+      "prevControl": {
+        "x": 4.216451851707123,
+        "y": 4.71611644077989
+      },
+      "nextControl": {
+        "x": 2.9646917121468714,
+        "y": 4.789749390165789
+      },
+      "holonomicAngle": 179.99,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.841264879110955,
+        "y": 4.247930547143145
+      },
+      "prevControl": {
+        "x": 2.24093576392281,
+        "y": 4.442056405480331
+      },
+      "nextControl": null,
+      "holonomicAngle": -180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "Eject Cube"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.0,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 1.6,
+      "names": [
+        "Extend Intake",
+        "Intake Cube"
+      ]
+    },
+    {
+      "position": 3.55,
+      "names": [
+        "Stop Intake",
+        "Mid Arm",
+        "Retract Intake"
+      ]
+    },
+    {
+      "position": 1.15,
+      "names": [
+        "Low Arm"
+      ]
+    },
+    {
+      "position": 0.0,
+      "names": [
+        "Intake Cone"
+      ]
+    }
+  ]
+}

@@ -70,6 +70,8 @@ public class Ports
         // Buttons for Intake
         public static final SKTrigger kDriverIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
         public static final SKTrigger kDriverEject = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
+        
+        public static final SKTrigger kVisionOverride = new SKTrigger(kDriver, kLeftStick.value, BUTTON);
 
 
         // Operator controller set to xbox controller

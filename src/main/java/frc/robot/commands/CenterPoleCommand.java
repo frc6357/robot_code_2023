@@ -13,24 +13,26 @@ public class CenterPoleCommand extends CommandBase
     private SK23Vision vision;
 
     private Supplier<Double> manualSpeed;
+    private Supplier<Boolean> override;
     private PIDController    rotPID;
     private PIDController    transPID;
 
     // In radians per second
     private double maxRot = 4;
 
-    public CenterPoleCommand(Supplier<Double> forwardSpeed, SK23Drive drive, SK23Vision vision)
+    public CenterPoleCommand(Supplier<Double> forwardSpeed, Supplier<Boolean> override, SK23Drive drive, SK23Vision vision)
     {
         this.drive = drive;
         this.vision = vision;
 
+        this.override = override;
         manualSpeed = forwardSpeed;
 
-        rotPID = new PIDController(0.15, 0, 0, 0.02);
+        rotPID = new PIDController(0.16, 0, 0, 0.02);
         rotPID.enableContinuousInput(-180, 180);
         rotPID.setSetpoint(180);
 
-        transPID = new PIDController(0.2, 0, 0, 0.02);
+        transPID = new PIDController(0.13, 0, 0, 0.02);
         transPID.setSetpoint(0);
 
         addRequirements(drive, vision);
@@ -49,7 +51,7 @@ public class CenterPoleCommand extends CommandBase
         double rot = rotPID.calculate(drive.getPose().getRotation().getDegrees());
         rot = Math.abs(rot) > maxRot ? Math.copySign(maxRot, rot) : rot;
 
-        if (vision.isTargetPresent())
+        if (vision.isTargetPresent() && !override.get())
         {
             double translation = transPID.calculate(vision.getHorizontalOffset());
             drive.drive(manualSpeed.get(), translation, rot, false);

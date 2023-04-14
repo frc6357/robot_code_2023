@@ -147,6 +147,7 @@ public class SK23DriveBinder implements CommandBinder
                 rotateGrid.and(robotCentric).whileTrue(
                     new CenterPoleCommand(
                         () -> kVelocityXPort.getFilteredAxis(),
+                        kVisionOverride.button::getAsBoolean,
                         drive,
                         limelight));
             }

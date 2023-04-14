@@ -151,113 +151,6 @@
               "_showGlyph": false
             }
           },
-          "5,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Setpoint (Meters per Second)",
-              "_title": "Setpoint (Meters per Second)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Actual Speed (Pulses per 100ms)",
-              "_title": "Actual Speed (Pulses per 100ms)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Actual Speed (Meters per Second)",
-              "_title": "Actual Speed (Meters per Second)",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Field",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand_field",
-              "_title": "PPSwerveControllerCommand_field",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Game/Game": "A2022_Rapid_React",
-              "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
-            }
-          },
-          "8,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand_xError",
-              "_title": "PPSwerveControllerCommand_xError",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand_yError",
-              "_title": "PPSwerveControllerCommand_yError",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand_rotationError",
-              "_title": "PPSwerveControllerCommand_rotationError",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Applied Output",
-              "_title": "Applied Output",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "2,1": {
             "size": [
               1,
@@ -271,9 +164,9 @@
               "_showGlyph": false
             }
           },
-          "5,1": {
+          "0,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -284,9 +177,9 @@
               "_showGlyph": false
             }
           },
-          "7,1": {
+          "2,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -310,28 +203,36 @@
               "_showGlyph": false
             }
           },
-          "5,2": {
+          "5,0": {
             "size": [
-              1,
-              1
+              5,
+              4
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand/yErrorMeters",
-              "_title": "PPSwerveControllerCommand/yErrorMeters",
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight",
+              "_title": "limelight",
               "_glyph": 148,
-              "_showGlyph": false
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
             }
           },
-          "6,2": {
+          "4,3": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/PPSwerveControllerCommand/rotationErrorDegrees",
-              "_title": "PPSwerveControllerCommand/rotationErrorDegrees",
+              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
+              "_title": "limelight_PipelineName",
               "_glyph": 148,
               "_showGlyph": false
             }
