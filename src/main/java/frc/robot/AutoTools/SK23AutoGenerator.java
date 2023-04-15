@@ -1,5 +1,20 @@
 package frc.robot.AutoTools;
 
+import static frc.robot.Constants.ArmConstants.ArmPosition.DipPosition;
+import static frc.robot.Constants.ArmConstants.ArmPosition.FloorPosition;
+import static frc.robot.Constants.ArmConstants.ArmPosition.HighPosition;
+import static frc.robot.Constants.ArmConstants.ArmPosition.MidPosition;
+import static frc.robot.Constants.ArmConstants.ArmPosition.ZeroPosition;
+import static frc.robot.Constants.AutoConstants.kPathConstraints;
+import static frc.robot.Constants.AutoConstants.kRotationPIDConstants;
+import static frc.robot.Constants.AutoConstants.kSplineDirectory;
+import static frc.robot.Constants.AutoConstants.kTranslationPIDConstants;
+import static frc.robot.Constants.DriveConstants.kDriveKinematics;
+import static frc.robot.Constants.IntakeConstants.kEjectConeSpeed;
+import static frc.robot.Constants.IntakeConstants.kEjectCubeSpeed;
+import static frc.robot.Constants.IntakeConstants.kIntakeConeSpeed;
+import static frc.robot.Constants.IntakeConstants.kIntakeCubeSpeed;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -15,17 +30,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ArmButtonCommand;
 import frc.robot.commands.AutoBalanceCommand;
+import frc.robot.commands.AutoExtendCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.SK23Arm;
 import frc.robot.subsystems.SK23Drive;
 import frc.robot.subsystems.SK23Intake;
 import frc.robot.utils.files.FileScanner;
-
-import static frc.robot.Constants.AutoConstants.*;
-import static frc.robot.Constants.IntakeConstants.*;
-import static frc.robot.Constants.ArmConstants.ArmPosition.*;
-import static frc.robot.Constants.DriveConstants.kDriveKinematics;
 
 /**
  * The class the creates all the autonomous commands for the 2023 Charged Up FRC game
@@ -104,7 +115,8 @@ public class SK23AutoGenerator
             eventMap.put("Eject Cube", new IntakeCommand(kEjectCubeSpeed, intake));
             eventMap.put("Stop Intake", new IntakeCommand(0, intake));
 
-            eventMap.put("Extend Intake", new InstantCommand(intake::extendIntake, intake).until(intake::isExtended));
+            eventMap.put("Extend Intake", new InstantCommand(intake::extendIntake, intake));
+            eventMap.put("Auto Extend", new AutoExtendCommand(intake));
             eventMap.put("Retract Intake", new InstantCommand(intake::retractIntake, intake));
         }
         else

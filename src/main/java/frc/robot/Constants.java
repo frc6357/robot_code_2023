@@ -87,6 +87,8 @@ public final class Constants
         public static final double kExtendAngle     = -90.0;
         public static final double kRetractAngle    = -10.0; 
         public static final double kSubstationAngle = -20.0;
+        public static final double kCubeAngle       = -80.0;
+
         public static final double kPassiveConeSpeed = 0.05;
 
         public static final double kAngleDeadband = 3; // ±Degrees
