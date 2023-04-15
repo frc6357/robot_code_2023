@@ -38,7 +38,7 @@ public class SK23Arm extends Arm
         PID.setIntegratorRange(kMinInteg, kMaxInteg);
         PID.setSetpoint(0.0);
 
-        accelLimit = new SlewRateLimiter(kPositiveAccelLimit, kNegativeAccelLimit, 0.0);
+        // accelLimit = new SlewRateLimiter(kPositiveAccelLimit, kNegativeAccelLimit, 0.0);
 
         motor = new CANSparkMax(kMainMotor.ID, MotorType.kBrushless);
         motor.restoreFactoryDefaults();
@@ -136,7 +136,7 @@ public class SK23Arm extends Arm
 
         // Calculates motor speed and puts it within operating range
         double speed = MathUtil.clamp(PID.calculate(current_angle), kArmMotorMinOutput, kArmMotorMaxOutput);
-        speed = accelLimit.calculate(speed);
+        // speed = accelLimit.calculate(speed);
         motor.set(speed); 
 
         SmartDashboard.putNumber("Current Angle", current_angle);

@@ -110,7 +110,7 @@ public class SK23IntakeBinder implements CommandBinder
             intake.or(eject).onFalse(new StateIntakeCommand(m_robotIntake::getGamePieceState, 0.0, kPassiveConeSpeed, m_robotIntake));
             
             // Sets the buttons with onTrue so that they will toggle extension and retraction of the intake
-            extendIntake.or(LowButton).or(MidButton).or(HighButton)
+            extendIntake.or(LowButton)//.or(MidButton).or(HighButton)
                 .onTrue(new InstantCommand(m_robotIntake::extendIntake, m_robotIntake));
             retractIntake.or(zeroPositionButtonOperator).or(zeroPositionButtonDriver)
                 .onTrue(new InstantCommand(m_robotIntake::retractIntake, m_robotIntake));

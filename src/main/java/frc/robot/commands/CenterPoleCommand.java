@@ -20,6 +20,9 @@ public class CenterPoleCommand extends CommandBase
     // In radians per second
     private double maxRot = 4;
 
+    // Meters per second
+    private double transDeadband = 0.005;
+
     public CenterPoleCommand(Supplier<Double> forwardSpeed, Supplier<Boolean> override, SK23Drive drive, SK23Vision vision)
     {
         this.drive = drive;
@@ -28,7 +31,7 @@ public class CenterPoleCommand extends CommandBase
         this.override = override;
         manualSpeed = forwardSpeed;
 
-        rotPID = new PIDController(0.16, 0, 0, 0.02);
+        rotPID = new PIDController(0.18, 0, 0, 0.02);
         rotPID.enableContinuousInput(-180, 180);
         rotPID.setSetpoint(180);
 
@@ -54,6 +57,7 @@ public class CenterPoleCommand extends CommandBase
         if (vision.isTargetPresent() && !override.get())
         {
             double translation = transPID.calculate(vision.getHorizontalOffset());
+            translation = Math.abs(translation) < transDeadband ? 0.0 : translation;
             drive.drive(manualSpeed.get(), translation, rot, false);
         }
         else

@@ -131,10 +131,10 @@ public final class Constants
         public static final double kMinInteg = 0.0;
         public static final double kMaxInteg = 0.15;
 
-        public static final double kArmMotorMaxOutput = 0.8;
-        public static final double kArmMotorMinOutput = -0.5;
+        public static final double kArmMotorMaxOutput = 1.0;
+        public static final double kArmMotorMinOutput = -0.7;
 
-        public static final double kPositiveAccelLimit = 1.0; // in %/sec
+        public static final double kPositiveAccelLimit = 3.25; // in %/sec
         public static final double kNegativeAccelLimit = -5.0; // in %/sec
 
         public static final int kArmCurrentLimit = 30;
