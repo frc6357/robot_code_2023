@@ -2,48 +2,19 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.834204475700618,
-        "y": 0.4954145411763051
+        "x": 1.7727498702860656,
+        "y": 0.47960506177422585
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6153660605932323,
-        "y": 0.4880723389919007
+        "x": 1.938595879817329,
+        "y": 0.47960506177422585
       },
-      "holonomicAngle": -180.0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
-      "stopEvent": {
-        "names": [
-          "High Arm",
-          "Extend Intake",
-          "Intake Cone"
-        ],
-        "executionBehavior": "sequential",
-        "waitBehavior": "deadline",
-        "waitTime": 1.5
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 1.8,
-        "y": 0.5
-      },
-      "prevControl": {
-        "x": 1.965846009531264,
-        "y": 0.5
-      },
-      "nextControl": {
-        "x": 1.965846009531264,
-        "y": 0.5
-      },
-      "holonomicAngle": 180.0,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": true,
       "stopEvent": {
         "names": [
           "Eject Cone"
@@ -80,16 +51,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.0487996271131435,
-        "y": 0.9201201475319621
+        "x": 6.979890540977664,
+        "y": 1.0163059642358603
       },
       "prevControl": {
-        "x": 4.613554322594756,
-        "y": 0.8972777407360372
+        "x": 4.544645236459276,
+        "y": 0.9934635574399353
       },
       "nextControl": {
-        "x": 4.613554322594756,
-        "y": 0.8972777407360372
+        "x": 4.544645236459276,
+        "y": 0.9934635574399353
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -107,15 +78,15 @@
     },
     {
       "anchorPoint": {
-        "x": 3.889042127042587,
+        "x": 3.99,
         "y": 0.7089502547060651
       },
       "prevControl": {
-        "x": 4.5765353937925966,
+        "x": 4.67749326675001,
         "y": 0.7417728243891945
       },
       "nextControl": {
-        "x": 3.3063568036858286,
+        "x": 3.407314676643242,
         "y": 0.6811314664295999
       },
       "holonomicAngle": 90.0,
@@ -159,12 +130,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.805651467205712,
-        "y": 1.0297229101402658
+        "x": 1.8070073746985102,
+        "y": 1.2218509907105293
       },
       "prevControl": {
-        "x": 2.055531081548274,
-        "y": 0.826711019741485
+        "x": 2.0568869890410726,
+        "y": 1.0188391003117485
       },
       "nextControl": null,
       "holonomicAngle": -180.0,
@@ -190,7 +161,8 @@
       "position": 1.05,
       "names": [
         "Low Arm",
-        "Intake Cube"
+        "Intake Cube",
+        "Retract Intake"
       ]
     },
     {
@@ -198,6 +170,12 @@
       "names": [
         "Stop Intake",
         "Retract Intake"
+      ]
+    },
+    {
+      "position": 2.2,
+      "names": [
+        "Extend Intake"
       ]
     }
   ]

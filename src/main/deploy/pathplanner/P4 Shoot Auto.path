@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.9326182242108072,
-        "y": 1.0391443005108238
+        "x": 1.7841690384235467,
+        "y": 0.45676672549926234
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8641032153859183,
-        "y": 0.593796743149042
+        "x": 2.5149957992223677,
+        "y": 0.5024433980491892
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,12 +17,11 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "High Arm",
           "Eject Cube"
         ],
-        "executionBehavior": "sequential",
+        "executionBehavior": "parallel",
         "waitBehavior": "deadline",
-        "waitTime": 2.5
+        "waitTime": 0.5
       }
     },
     {
@@ -247,12 +246,6 @@
       "position": 2.69818181818168,
       "names": [
         "Intake Cube"
-      ]
-    },
-    {
-      "position": 0.05,
-      "names": [
-        "Zero Arm"
       ]
     }
   ]
