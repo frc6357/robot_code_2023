@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.7727498702860656,
-        "y": 0.47960506177422585
+        "x": 1.802755376344086,
+        "y": 0.4852170381424104
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.938595879817329,
-        "y": 0.47960506177422585
+        "x": 2.0089080976773066,
+        "y": 0.9015199019981381
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -17,25 +17,27 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "High Arm",
+          "Extend Intake",
           "Eject Cone"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "deadline",
-        "waitTime": 0.5
+        "waitTime": 2.5
       }
     },
     {
       "anchorPoint": {
-        "x": 3.912985864166173,
-        "y": 0.7224925387350787
+        "x": 3.9418244027460276,
+        "y": 0.7894289486495644
       },
       "prevControl": {
-        "x": 1.7042067070245253,
-        "y": 0.8799419855784166
+        "x": 3.3446124730603306,
+        "y": 0.7844804379539947
       },
       "nextControl": {
-        "x": 4.459730298819685,
-        "y": 0.6835186972251516
+        "x": 5.270966948183896,
+        "y": 0.8004422519261709
       },
       "holonomicAngle": 90.0,
       "isReversal": false,
@@ -158,7 +160,7 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 1.05,
+      "position": 0.5,
       "names": [
         "Low Arm",
         "Intake Cube",
@@ -173,9 +175,15 @@
       ]
     },
     {
-      "position": 2.2,
+      "position": 1.4,
       "names": [
         "Extend Intake"
+      ]
+    },
+    {
+      "position": 2.2,
+      "names": [
+        "Retract Intake"
       ]
     }
   ]

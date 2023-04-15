@@ -86,6 +86,11 @@ public class SK23Intake extends SubsystemBase
         intakeExtender.resetEncoder(angle);
     }
 
+    public boolean atSetpoint()
+    {
+        return Math.abs(getCurrentAngle() - getTargetAngle()) < kAngleDeadband;
+    }
+
     /**
      * Extends the intake to allow for gamepiece pick up from the floor
      */
@@ -237,7 +242,7 @@ public class SK23Intake extends SubsystemBase
 
     public boolean isExtended()
     {
-        return intakeExtender.getCurrentAngle() == kExtendAngle;
+        return Math.abs(getCurrentAngle() - kExtendAngle) < kAngleDeadband;
     }
 
     @Override

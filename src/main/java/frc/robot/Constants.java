@@ -89,6 +89,7 @@ public final class Constants
         public static final double kSubstationAngle = -20.0;
         public static final double kPassiveConeSpeed = 0.05;
 
+        public static final double kAngleDeadband = 3; // ±Degrees
     }
 
     /** Constants that define characteristics for the arm */
