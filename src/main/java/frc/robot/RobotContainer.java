@@ -17,9 +17,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -46,7 +43,6 @@ public class RobotContainer
     private Optional<SK23Intake> intakeSubsystem = Optional.empty();
     private Optional<SK23Arm>    armSubsystem    = Optional.empty();
     private Optional<SK23Vision> visionSubsystem = Optional.empty();
-    private UsbCamera            driverCamera;
 
     // The list containing all the command binding classes
     private List<CommandBinder> buttonBinders = new ArrayList<CommandBinder>();
