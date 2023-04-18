@@ -1,19 +1,9 @@
 package frc.robot.AutoTools;
 
-import static frc.robot.Constants.ArmConstants.ArmPosition.DipPosition;
-import static frc.robot.Constants.ArmConstants.ArmPosition.FloorPosition;
-import static frc.robot.Constants.ArmConstants.ArmPosition.HighPosition;
-import static frc.robot.Constants.ArmConstants.ArmPosition.MidPosition;
-import static frc.robot.Constants.ArmConstants.ArmPosition.ZeroPosition;
-import static frc.robot.Constants.AutoConstants.kPathConstraints;
-import static frc.robot.Constants.AutoConstants.kRotationPIDConstants;
-import static frc.robot.Constants.AutoConstants.kSplineDirectory;
-import static frc.robot.Constants.AutoConstants.kTranslationPIDConstants;
-import static frc.robot.Constants.DriveConstants.kDriveKinematics;
-import static frc.robot.Constants.IntakeConstants.kEjectConeSpeed;
-import static frc.robot.Constants.IntakeConstants.kEjectCubeSpeed;
-import static frc.robot.Constants.IntakeConstants.kIntakeConeSpeed;
-import static frc.robot.Constants.IntakeConstants.kIntakeCubeSpeed;
+import static frc.robot.Constants.ArmConstants.ArmPosition.*;
+import static frc.robot.Constants.AutoConstants.*;
+import static frc.robot.Constants.DriveConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
 
 import java.io.File;
 import java.util.HashMap;
@@ -154,8 +144,19 @@ public class SK23AutoGenerator
         // Create the command if possible
         try
         {
-            final List<PathPlannerTrajectory> trajectory =
+            final List<PathPlannerTrajectory> trajectory;
+
+            if(autoName.contains("FAST"))
+            {
+                trajectory =
+                    PathPlanner.loadPathGroup(autoName, kFastConstraints);
+            }
+            else
+            {
+                trajectory =
                     PathPlanner.loadPathGroup(autoName, kPathConstraints);
+            }
+
             displayMethod.accept(autoName, autoBuilder.fullAuto(trajectory));
         }
         catch (Exception e)

@@ -257,6 +257,9 @@ public final class Constants
                 new PathConstraints(kMaxSpeedMetersPerSecond,
                     kMaxAccelerationMetersPerSecondSquared);
 
+        public static final PathConstraints kFastConstraints =
+            new PathConstraints(4.5, 3.5);
+
         // PID Constants
         public static final PIDConstants kTranslationPIDConstants = new PIDConstants(6, 0, 0);
         public static final PIDConstants kRotationPIDConstants    = new PIDConstants(1.75, 0, 0);
