@@ -57,7 +57,7 @@ public final class Constants
 
         public static final double kIntakeConeSpeed = 0.5;
         public static final double kEjectConeSpeed  = -1;
-        public static final double kIntakeCubeSpeed = -1;
+        public static final double kIntakeCubeSpeed = -0.7;
         public static final double kEjectCubeSpeed  = 0.4;
 
         // Current limit for the neo 550 motors for the intake

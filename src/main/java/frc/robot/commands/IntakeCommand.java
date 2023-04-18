@@ -40,16 +40,8 @@ public class IntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-
         intake.setInnerRollerSpeed(speed);
         intake.setOuterRollerSpeed(speed);
-
-    }
-
-    public void end(boolean interrupted)
-    {
-        intake.setInnerRollerSpeed(0.0);
-        intake.setOuterRollerSpeed(0.0);
     }
 
     // Returns true when the command should end.
