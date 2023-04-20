@@ -30,7 +30,7 @@ public class SK23IntakeBinder implements CommandBinder
     private final Trigger operatorIntake;
 
     private final Trigger extendIntake;
-    private final Trigger incrementIntakeDown;
+    //private final Trigger incrementIntakeDown;
      
     private final Trigger retractIntake;
     private final Trigger SubstationLeftIntake;
@@ -72,7 +72,7 @@ public class SK23IntakeBinder implements CommandBinder
         SubstationLeftIntake = kSubstationLeftIntake.button;
         SubstationRightIntake = kSubstationRightIntake.button;
 
-        incrementIntakeDown = kIncrementDown.button;
+        //incrementIntakeDown = kIncrementDown.button;
 
         zeroPositionButtonOperator = kZeroPositionOperator.button;
         zeroPositionButtonDriver = kZeroPositionDriver.button;
@@ -105,7 +105,7 @@ public class SK23IntakeBinder implements CommandBinder
             cubeModifier.onTrue(new InstantCommand(() -> {m_robotIntake.setGamePieceState(GamePieceEnum.Cube);}, m_robotIntake));
             
 
-            incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
+            //incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
 
             // Set intake speeds when the trigger is pressed
             driverIntake.or(operatorIntake)

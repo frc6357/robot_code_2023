@@ -86,7 +86,7 @@ public class Ports
         public static final SKTrigger kOperatorIntake = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
 
         // public static final SKTrigger kIncrementUp = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
-        public static final SKTrigger kIncrementDown = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
+        //public static final SKTrigger kIncrementDown = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
 
         public static final SKTrigger kExtendIntake  = new SKTrigger(kOperator, 180, POV); // Down POV Button
         public static final SKTrigger kRetractIntake = new SKTrigger(kOperator, 0, POV);   // Up POV Button
