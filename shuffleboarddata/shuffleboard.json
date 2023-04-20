@@ -307,9 +307,7 @@
               "Y-axis/Automatic bounds": true,
               "Y-axis/Upper bound": 1.0,
               "Y-axis/Lower bound": -1.0,
-              "Y-axis/Unit": "ul",
-              "Visible data/SmartDashboard/Intake Current Angle": true,
-              "Visible data/SmartDashboard/Intake Target Angle": true
+              "Y-axis/Unit": "ul"
             }
           }
         }
