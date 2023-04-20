@@ -24,8 +24,10 @@ public class SK23IntakeBinder implements CommandBinder
     private final Trigger coneModifier;
     private final Trigger cubeModifier;
 
-    private final Trigger intake;
-    private final Trigger eject;
+    private final Trigger driverIntake;
+    private final Trigger driverEject;
+
+    private final Trigger operatorIntake;
 
     private final Trigger extendIntake;
     private final Trigger incrementIntakeDown;
@@ -60,8 +62,10 @@ public class SK23IntakeBinder implements CommandBinder
         coneModifier = kConeState.button;
         cubeModifier = kCubeState.button;
 
-        intake = kIntake.button;
-        eject  = kEject.button;
+        driverIntake = kDriverIntake.button;
+        driverEject  = kDriverEject.button;
+
+        operatorIntake = kOperatorIntake.button;
 
         extendIntake  = kExtendIntake.button;
         retractIntake = kRetractIntake.button;
@@ -104,10 +108,14 @@ public class SK23IntakeBinder implements CommandBinder
             incrementIntakeDown.onTrue(new InstantCommand(m_robotIntake::incrementIntakeDown, m_robotIntake));
 
             // Set intake speeds when the trigger is pressed
-            intake.onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
-            eject.onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+            driverIntake.or(operatorIntake)
+            .onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kIntakeCubeSpeed, kIntakeConeSpeed, m_robotIntake));
+
+            driverEject.onTrue(new StateIntakeCommand(m_robotIntake::getGamePieceState, kEjectCubeSpeed, kEjectConeSpeed, m_robotIntake));
+
             // Turn off intake when trigger is released
-            intake.or(eject).onFalse(new StateIntakeCommand(m_robotIntake::getGamePieceState, 0.0, 0.0, m_robotIntake));
+            driverIntake.or(driverEject).or(operatorIntake)
+            .onFalse(new StateIntakeCommand(m_robotIntake::getGamePieceState, 0.0, 0.0, m_robotIntake));
             
             // Sets the buttons with onTrue so that they will toggle extension and retraction of the intake
             extendIntake.or(MidButton)//.or(HighButton)

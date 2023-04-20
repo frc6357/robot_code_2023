@@ -68,22 +68,22 @@ public class Ports
         public static final SKTrigger kSlowMode = new SKTrigger(kDriver, kLeftBumper.value, BUTTON);
 
         // Buttons for Intake
-        public static final SKTrigger kDriverIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
-        public static final SKTrigger kDriverEject = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
         
         public static final SKTrigger kVisionOverride = new SKTrigger(kDriver, kLeftStick.value, BUTTON);
-
-
+        
+        
         // Operator controller set to xbox controller
         public static final GenericHID kOperator = new FilteredXboxController(1).getHID();
-
+        
         // Modifiers
         public static final SKTrigger kConeState = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
         public static final SKTrigger kCubeState = new SKTrigger(kOperator, kLeftBumper.value, BUTTON);
-
+        
         // Buttons for intake
-        public static final SKTrigger kIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
-        public static final SKTrigger kEject  = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
+        public static final SKTrigger kDriverIntake = new SKTrigger(kDriver, kLeftTrigger.value, AXIS);
+        public static final SKTrigger kDriverEject  = new SKTrigger(kDriver, kRightTrigger.value, AXIS);
+
+        public static final SKTrigger kOperatorIntake = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
 
         // public static final SKTrigger kIncrementUp = new SKTrigger(kOperator, kRightBumper.value, BUTTON);
         public static final SKTrigger kIncrementDown = new SKTrigger(kOperator, kRightTrigger.value, AXIS);
