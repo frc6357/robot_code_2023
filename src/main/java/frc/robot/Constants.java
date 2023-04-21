@@ -91,7 +91,7 @@ public final class Constants
 
         public static final double kPassiveConeSpeed = 0.05;
 
-        public static final double kAngleDeadband = 3; // ±Degrees
+        public static final double kAngleDeadband = 1.5; // ±Degrees
     }
 
     /** Constants that define characteristics for the arm */
@@ -101,9 +101,9 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(90.0),
+            HighPosition(83.5),
             /** Set the angle to reach the middle cube node */
-            MidPosition(60.0),
+            MidPosition(62.0),
             /** Set the angle to reach the bottom cube node */
             FloorPosition(12.5),
             /** Set the angle to reach the bottom cube node */

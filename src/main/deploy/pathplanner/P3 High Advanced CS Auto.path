@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "High Arm",
+          "Mid Arm",
           "Eject Cube"
         ],
         "executionBehavior": "sequential",
