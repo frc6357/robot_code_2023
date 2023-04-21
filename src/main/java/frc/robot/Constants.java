@@ -101,7 +101,7 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(83.5),
+            HighPosition(84.5),
             /** Set the angle to reach the middle cube node */
             MidPosition(62.0),
             /** Set the angle to reach the bottom cube node */
