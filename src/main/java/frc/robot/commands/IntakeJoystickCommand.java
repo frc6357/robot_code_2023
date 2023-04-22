@@ -55,11 +55,6 @@ public class IntakeJoystickCommand extends CommandBase
          // Sets the new angle to the current angle plusor minus the constant change
         double setpoint = intake.getTargetAngle() + angleChange;
 
-        if(!override.get())
-        {
-            setpoint = MathUtil.clamp(setpoint, kMinAngle, kMaxAngle);
-        }
-
         intake.setTargetAngle(setpoint);
     }
 

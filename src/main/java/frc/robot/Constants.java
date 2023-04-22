@@ -103,7 +103,7 @@ public final class Constants
             /** Set the angle to reach the top cube node */
             HighPosition(84.5),
             /** Set the angle to reach the middle cube node */
-            MidPosition(62.0),
+            MidPosition(65.5),
             /** Set the angle to reach the bottom cube node */
             FloorPosition(12.5),
             /** Set the angle to reach the bottom cube node */
