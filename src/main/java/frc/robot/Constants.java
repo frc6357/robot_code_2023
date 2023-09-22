@@ -84,9 +84,9 @@ public final class Constants
 
         //Positive angle moves upward and Negative angle moves downward
         public static final double kStartAngle      = -42.5;
-        public static final double kExtendAngle     = -90.0;
+        public static final double kExtendAngle     = -102.0;
         public static final double kRetractAngle    = -10.0; 
-        public static final double kSubstationAngle = -20.0;
+        public static final double kSubstationAngle = -100.0;
         public static final double kCubeAngle       = -80.0;
 
         public static final double kPassiveConeSpeed = 0.05;
@@ -101,7 +101,7 @@ public final class Constants
         public static enum ArmPosition
         {
             /** Set the angle to reach the top cube node */
-            HighPosition(82),
+            HighPosition(90),
             /** Set the angle to reach the middle cube node */
             MidPosition(62),
             /** Set the angle to reach the bottom cube node */
